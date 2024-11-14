@@ -1,0 +1,6 @@
+@PrimaryPixels_HostAddress = http://localhost:5160
+
+GET {{PrimaryPixels_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -11,8 +11,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Data\" />
+      <Folder Include="Services\" />
       <Folder Include="UMLs\" />
-      <Folder Include="Views\" />
     </ItemGroup>
 
 </Project>

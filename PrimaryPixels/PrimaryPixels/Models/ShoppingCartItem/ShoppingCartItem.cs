@@ -1,0 +1,12 @@
+namespace PrimaryPixels.Models.ShoppingCartItem;
+
+public class ShoppingCartItem
+{
+    public int Id { get; init; }
+    public int UserId { get; init; }
+    public int ProductId { get; init; }
+    public Product Product { get; init; }
+    public int Quantity { get; init; }
+    public int UnitPrice { get; }
+    public int TotalPrice => UnitPrice * Quantity;
+}

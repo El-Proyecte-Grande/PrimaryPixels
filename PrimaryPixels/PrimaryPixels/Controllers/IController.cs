@@ -4,11 +4,11 @@ namespace PrimaryPixels.Controllers
 {
     public interface IController<T>
     {
-        IActionResult GetAll();
-        IActionResult GetById(int id);
-        IActionResult Add(T entity);
-        IActionResult Update(T entity);
-        IActionResult Delete(int id);
+        Task<IActionResult> GetAll();
+        Task<IActionResult> GetById(int id);
+        Task<IActionResult> Add(T entity);
+        Task<IActionResult> Update(T entity);
+        Task<IActionResult> Delete(int id);
 
     }
 }

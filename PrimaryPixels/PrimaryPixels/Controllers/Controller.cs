@@ -3,8 +3,8 @@ using PrimaryPixels.Services.Repositories;
 namespace PrimaryPixels.Controllers;
 
 
+[Route("api/[controller]")]
 [ApiController]
-[Route("[controller]")]
 public abstract class Controller<T> : ControllerBase, IController<T>
 {
     protected IRepository<T> _repository;
@@ -14,14 +14,14 @@ public abstract class Controller<T> : ControllerBase, IController<T>
         _logger = logger;
         _repository = repository;
     }
-    [HttpPost]
+    [HttpPost("")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public virtual IActionResult Add([FromBody] T entity)
+    public virtual async Task<IActionResult> Add([FromBody] T entity)
     {
         try
         {
-            int? idOfAddedEntity = _repository.Add(entity);
+            int idOfAddedEntity = await _repository.Add(entity);
             _logger.LogInformation($"{nameof(T)} with id {idOfAddedEntity} successfully added!");
             return Ok(idOfAddedEntity);
         }
@@ -31,16 +31,16 @@ public abstract class Controller<T> : ControllerBase, IController<T>
             return BadRequest();
         }
     }
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public virtual IActionResult Delete(int id)
+    public virtual async Task<IActionResult> Delete(int id)
     {
         try
         {
-            _repository.DeleteById(id);
+            var deletedEntityId = await _repository.DeleteById(id);
             _logger.LogInformation($"{nameof(T)} successfully deleted!");
-            return Ok();
+            return Ok(deletedEntityId);
         }
         catch (Exception ex)
         {
@@ -52,11 +52,11 @@ public abstract class Controller<T> : ControllerBase, IController<T>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<object>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public virtual IActionResult GetAll()
+    public virtual async Task<IActionResult> GetAll()
     {
         try
         {
-            IEnumerable<T> entities = _repository.GetAll();
+            IEnumerable<T> entities = await _repository.GetAll();
             _logger.LogInformation($"{nameof(T)}s successfully retrieved!");
             return Ok(entities);
         }
@@ -67,14 +67,14 @@ public abstract class Controller<T> : ControllerBase, IController<T>
         }
         
     }
-    [HttpGet]
+    [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(object))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public virtual IActionResult GetById(int id)
+    public virtual async Task<IActionResult> GetById(int id)
     {
         try
         {
-            T retrievedEntity = _repository.GetById(id);
+            T retrievedEntity = await _repository.GetById(id);
             _logger.LogInformation($"{nameof(T)} with id {id} successfully retrieved!");
             return Ok(retrievedEntity);
         }
@@ -87,11 +87,11 @@ public abstract class Controller<T> : ControllerBase, IController<T>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public virtual IActionResult Update([FromBody] T entity)
+    public virtual async Task<IActionResult> Update([FromBody] T entity)
     {
         try
         {
-            int? idOfUpdatedEntity = _repository.Update(entity);
+            int idOfUpdatedEntity = await _repository.Update(entity);
             _logger.LogInformation($"{nameof(T)} with id {idOfUpdatedEntity} successfully updated!");
             return Ok(idOfUpdatedEntity);
         }

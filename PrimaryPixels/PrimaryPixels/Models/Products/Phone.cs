@@ -1,3 +1,5 @@
+using PrimaryPixels.Models.Products;
+
 namespace PrimaryPixels.Models;
 
 public class Phone : Device

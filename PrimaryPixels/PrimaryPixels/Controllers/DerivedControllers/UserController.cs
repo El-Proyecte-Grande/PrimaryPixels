@@ -1,4 +1,4 @@
-using PrimaryPixels.Models;
+using PrimaryPixels.Models.User;
 using PrimaryPixels.Services.Repositories;
 
 namespace PrimaryPixels.Controllers.DerivedClasses;

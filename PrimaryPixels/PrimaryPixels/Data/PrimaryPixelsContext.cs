@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using PrimaryPixels.Models;
 using PrimaryPixels.Models.Order;
+using PrimaryPixels.Models.Products;
 using PrimaryPixels.Models.ShoppingCartItem;
+using PrimaryPixels.Models.Users;
 
 namespace PrimaryPixels.Data;
 

@@ -1,3 +1,4 @@
+using PrimaryPixels.Models.Users;
 namespace PrimaryPixels.Models.Order;
 
 public class Order

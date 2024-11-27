@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using PrimaryPixels.Data;
 using PrimaryPixels.Models.Users;
-using PrimaryPixels.Repositories;
+using PrimaryPixels.Models.Products;
 using PrimaryPixels.Services.Repositories;
+using PrimaryPixels.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("Default");
@@ -13,6 +14,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
+builder.Services.AddScoped<IRepository<Headphone>, ProductRepository<Headphone>>();
+builder.Services.AddScoped<IRepository<Phone>, ProductRepository<Phone>>();
+builder.Services.AddScoped<IRepository<Computer>, ProductRepository<Computer>>();
 
 builder.Services.AddDbContext<PrimaryPixelsContext>(options =>
 {

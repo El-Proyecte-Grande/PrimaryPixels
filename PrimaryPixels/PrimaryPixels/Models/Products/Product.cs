@@ -1,6 +1,6 @@
 namespace PrimaryPixels.Models.Products;
 
-public abstract class Product
+public class Product
 {
     public int Id { get; init; }
     public int Price { get; init; }
@@ -8,4 +8,5 @@ public abstract class Product
     public string Name { get; init; }
     public int Sold { get; init; }
     public int TotalSold { get; init; }
+
 }

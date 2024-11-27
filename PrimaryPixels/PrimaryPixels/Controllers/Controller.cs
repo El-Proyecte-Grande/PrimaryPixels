@@ -50,19 +50,19 @@ public abstract class Controller<T> : ControllerBase, IController<T>
        
     }
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<object>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(object[]))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public virtual async Task<IActionResult> GetAll()
     {
         try
         {
-            IEnumerable<T> entities = await _repository.GetAll();
+            T[] entities = (T[])await _repository.GetAll();
             _logger.LogInformation($"{nameof(T)}s successfully retrieved!");
             return Ok(entities);
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error during retrieving {nameof(T)}s !");
+            _logger.LogError($"Error during retrieving {nameof(T)}s  {ex.Message}!");
             return NotFound();
         }
         

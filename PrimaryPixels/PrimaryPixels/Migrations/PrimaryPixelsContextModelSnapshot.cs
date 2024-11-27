@@ -46,8 +46,6 @@ namespace PrimaryPixels.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Orders");
                 });
 
@@ -218,17 +216,6 @@ namespace PrimaryPixels.Migrations
                         .HasColumnName("CardIndependency");
 
                     b.HasDiscriminator().HasValue("Phone");
-                });
-
-            modelBuilder.Entity("PrimaryPixels.Models.Order.Order", b =>
-                {
-                    b.HasOne("PrimaryPixels.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PrimaryPixels.Models.Order.OrderDetails", b =>

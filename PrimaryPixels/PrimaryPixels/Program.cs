@@ -15,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IRepository<Order>, OrderRepository>();
+builder.Services.AddScoped<IRepository<OrderDetails>, OrderDetailsRepository>();
 
 builder.Services.AddDbContext<PrimaryPixelsContext>(options =>
 {

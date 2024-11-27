@@ -7,7 +7,7 @@ namespace PrimaryPixels.Services.Repositories;
 
 public class OrderRepository : Repository<Order>
 {
-    private PrimaryPixelsContext _context;
+    private readonly PrimaryPixelsContext _context;
     public OrderRepository(PrimaryPixelsContext context)
     {
         _context = context;

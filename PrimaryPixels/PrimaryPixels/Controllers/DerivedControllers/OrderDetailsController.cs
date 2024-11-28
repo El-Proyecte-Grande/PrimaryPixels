@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using PrimaryPixels.Models.Order;
-using PrimaryPixels.Repositories;
 using PrimaryPixels.Services.Repositories;
 
 namespace PrimaryPixels.Controllers.DerivedClasses;

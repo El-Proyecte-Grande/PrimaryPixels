@@ -40,7 +40,7 @@ namespace PrimaryPixels.Services.Repositories
         public override async Task<int> DeleteById(int id)
         {
             var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
-            if (product == null) throw new KeyNotFoundException($"No user found with ID {id}.");
+            if (product == null) throw new KeyNotFoundException($"No product found with ID {id}.");
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             return id;

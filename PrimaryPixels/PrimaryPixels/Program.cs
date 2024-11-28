@@ -5,6 +5,7 @@ using PrimaryPixels.Models.Products;
 using PrimaryPixels.Models.Order;
 using PrimaryPixels.Services.Repositories;
 using PrimaryPixels.Models;
+using PrimaryPixels.Models.ShoppingCartItem;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("Default");
@@ -20,6 +21,7 @@ builder.Services.AddScoped<IRepository<Phone>, ProductRepository<Phone>>();
 builder.Services.AddScoped<IRepository<Computer>, ProductRepository<Computer>>();
 builder.Services.AddScoped<IRepository<Order>, OrderRepository>();
 builder.Services.AddScoped<IRepository<OrderDetails>, OrderDetailsRepository>();
+builder.Services.AddScoped<IRepository<ShoppingCartItem>, ShoppingCartItemRepository>();
 
 builder.Services.AddDbContext<PrimaryPixelsContext>(options =>
 {

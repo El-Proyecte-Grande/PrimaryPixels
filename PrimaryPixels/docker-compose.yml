@@ -1,0 +1,13 @@
+services:
+  frontend:
+    build:
+      context: ./Frontend/vite-project
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+  backend:
+    build:
+      context: ./PrimaryPixels
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80

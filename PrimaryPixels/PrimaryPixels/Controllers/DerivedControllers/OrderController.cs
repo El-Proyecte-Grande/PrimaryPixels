@@ -1,7 +1,7 @@
 using PrimaryPixels.Models.Order;
 using PrimaryPixels.Services.Repositories;
 
-namespace PrimaryPixels.Controllers.DerivedClasses;
+namespace PrimaryPixels.Controllers.DerivedControllers;
 
 public class OrderController : Controller<Order>
 {

@@ -1,4 +1,4 @@
-namespace PrimaryPixels.Models;
+namespace PrimaryPixels.Models.Products;
 
 public class Computer : Device
 {

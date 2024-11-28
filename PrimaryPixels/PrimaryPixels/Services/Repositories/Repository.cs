@@ -1,6 +1,4 @@
-using PrimaryPixels.Services.Repositories;
-
-namespace PrimaryPixels.Repositories;
+namespace PrimaryPixels.Services.Repositories;
 
 public abstract class Repository<T> : IRepository<T>
 {

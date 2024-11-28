@@ -1,4 +1,4 @@
-namespace PrimaryPixels.Models;
+namespace PrimaryPixels.Models.Products;
 
 public abstract class Product
 {
@@ -8,4 +8,5 @@ public abstract class Product
     public string Name { get; init; }
     public int Sold { get; init; }
     public int TotalSold { get; init; }
+
 }

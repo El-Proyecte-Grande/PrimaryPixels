@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PrimaryPixels.Data;
-using PrimaryPixels.Models;
-using PrimaryPixels.Repositories;
+using PrimaryPixels.Models.Users;
 
 namespace PrimaryPixels.Services.Repositories;
 

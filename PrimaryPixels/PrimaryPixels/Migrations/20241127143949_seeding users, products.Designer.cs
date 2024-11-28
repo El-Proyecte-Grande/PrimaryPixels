@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrimaryPixels.Data;
 
@@ -11,9 +12,11 @@ using PrimaryPixels.Data;
 namespace PrimaryPixels.Migrations
 {
     [DbContext(typeof(PrimaryPixelsContext))]
-    partial class PrimaryPixelsContextModelSnapshot : ModelSnapshot
+    [Migration("20241127143949_seeding users, products")]
+    partial class seedingusersproducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,25 +49,9 @@ namespace PrimaryPixels.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.HasIndex("UserId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "Kis Mihály street 6",
-                            City = "Túrkeve",
-                            OrderDate = new DateOnly(2024, 11, 26),
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "Charles street 14",
-                            City = "London",
-                            OrderDate = new DateOnly(2024, 10, 1),
-                            UserId = 2
-                        });
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("PrimaryPixels.Models.Order.OrderDetails", b =>
@@ -94,48 +81,6 @@ namespace PrimaryPixels.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("OrderDetails");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            OrderId = 1,
-                            ProductId = 1,
-                            Quantity = 3,
-                            UnitPrice = 50000
-                        },
-                        new
-                        {
-                            Id = 2,
-                            OrderId = 1,
-                            ProductId = 3,
-                            Quantity = 5,
-                            UnitPrice = 750000
-                        },
-                        new
-                        {
-                            Id = 3,
-                            OrderId = 2,
-                            ProductId = 1,
-                            Quantity = 1,
-                            UnitPrice = 154000
-                        },
-                        new
-                        {
-                            Id = 4,
-                            OrderId = 2,
-                            ProductId = 5,
-                            Quantity = 3,
-                            UnitPrice = 1000000
-                        },
-                        new
-                        {
-                            Id = 5,
-                            OrderId = 2,
-                            ProductId = 6,
-                            Quantity = 1,
-                            UnitPrice = 50000
-                        });
                 });
 
             modelBuilder.Entity("PrimaryPixels.Models.Product", b =>
@@ -160,6 +105,9 @@ namespace PrimaryPixels.Migrations
                         .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
+
+                    b.Property<int>("Sold")
+                        .HasColumnType("int");
 
                     b.Property<int>("TotalSold")
                         .HasColumnType("int");
@@ -195,36 +143,6 @@ namespace PrimaryPixels.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ShoppingCartItems");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ProductId = 4,
-                            Quantity = 2,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ProductId = 2,
-                            Quantity = 4,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ProductId = 2,
-                            Quantity = 1,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ProductId = 3,
-                            Quantity = 2,
-                            UserId = 2
-                        });
                 });
 
             modelBuilder.Entity("PrimaryPixels.Models.User", b =>
@@ -312,26 +230,9 @@ namespace PrimaryPixels.Migrations
                             Availability = true,
                             Name = "Ultra pro max Headphone 2000",
                             Price = 500,
+                            Sold = 0,
                             TotalSold = 0,
                             Wireless = false
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Availability = true,
-                            Name = "Ultra pro max Headphone 5000",
-                            Price = 1000,
-                            TotalSold = 0,
-                            Wireless = false
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Availability = true,
-                            Name = "Ultra pro max Headphone 1000",
-                            Price = 200,
-                            TotalSold = 0,
-                            Wireless = true
                         });
                 });
 
@@ -352,22 +253,11 @@ namespace PrimaryPixels.Migrations
                             Availability = true,
                             Name = "Gaming PC 3510",
                             Price = 100000,
+                            Sold = 0,
                             TotalSold = 0,
                             Cpu = "I3-6100",
                             InternalMemory = 512,
                             Ram = 8,
-                            DvdPlayer = false
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Availability = true,
-                            Name = "Gaming PC 5000",
-                            Price = 5000000,
-                            TotalSold = 0,
-                            Cpu = "I5-8100",
-                            InternalMemory = 1024,
-                            Ram = 16,
                             DvdPlayer = false
                         });
                 });
@@ -385,40 +275,28 @@ namespace PrimaryPixels.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 6,
+                            Id = 3,
                             Availability = true,
                             Name = "Redmi A24",
                             Price = 100000,
+                            Sold = 0,
                             TotalSold = 0,
                             Cpu = "Dimensity 9400",
                             InternalMemory = 128,
                             Ram = 4,
                             CardIndependency = true
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Availability = true,
-                            Name = "iPhone 19",
-                            Price = 5000000,
-                            TotalSold = 0,
-                            Cpu = "Dimensity 11000",
-                            InternalMemory = 512,
-                            Ram = 16,
-                            CardIndependency = false
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Availability = true,
-                            Name = "Redmi A29",
-                            Price = 600000,
-                            TotalSold = 0,
-                            Cpu = "Dimensity 9800",
-                            InternalMemory = 256,
-                            Ram = 8,
-                            CardIndependency = true
                         });
+                });
+
+            modelBuilder.Entity("PrimaryPixels.Models.Order.Order", b =>
+                {
+                    b.HasOne("PrimaryPixels.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PrimaryPixels.Models.Order.OrderDetails", b =>

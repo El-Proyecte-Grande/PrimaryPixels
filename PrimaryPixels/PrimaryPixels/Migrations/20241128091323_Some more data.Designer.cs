@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrimaryPixels.Data;
 
@@ -11,9 +12,11 @@ using PrimaryPixels.Data;
 namespace PrimaryPixels.Migrations
 {
     [DbContext(typeof(PrimaryPixelsContext))]
-    partial class PrimaryPixelsContextModelSnapshot : ModelSnapshot
+    [Migration("20241128091323_Some more data")]
+    partial class Somemoredata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,6 +48,8 @@ namespace PrimaryPixels.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
 
@@ -419,6 +424,17 @@ namespace PrimaryPixels.Migrations
                             Ram = 8,
                             CardIndependency = true
                         });
+                });
+
+            modelBuilder.Entity("PrimaryPixels.Models.Order.Order", b =>
+                {
+                    b.HasOne("PrimaryPixels.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PrimaryPixels.Models.Order.OrderDetails", b =>

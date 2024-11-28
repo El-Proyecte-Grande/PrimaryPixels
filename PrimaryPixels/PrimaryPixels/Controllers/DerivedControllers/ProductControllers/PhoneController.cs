@@ -1,4 +1,4 @@
-﻿using PrimaryPixels.Models;
+﻿using PrimaryPixels.Models.Products;
 using PrimaryPixels.Services.Repositories;
 
 namespace PrimaryPixels.Controllers.DerivedControllers.ProductControllers

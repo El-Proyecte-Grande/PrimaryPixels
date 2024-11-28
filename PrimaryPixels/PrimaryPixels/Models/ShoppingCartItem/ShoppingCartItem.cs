@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using PrimaryPixels.Models.Products;
 
 namespace PrimaryPixels.Models.ShoppingCartItem;

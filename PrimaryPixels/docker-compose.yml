@@ -9,5 +9,14 @@ services:
     build:
       context: ./PrimaryPixels
       dockerfile: Dockerfile
+    environment:
+      - CONNECTIONSTRINGS__DEFAULT=Server=db;User Id=sa;Encrypt=false;
     ports:
-      - 8080:80
+      - 44319:8080
+  db:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=pwd
+    ports:
+      - 1433:1433

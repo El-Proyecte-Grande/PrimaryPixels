@@ -1,7 +1,7 @@
 using PrimaryPixels.Models.Users;
 using PrimaryPixels.Services.Repositories;
 
-namespace PrimaryPixels.Controllers.DerivedClasses;
+namespace PrimaryPixels.Controllers.DerivedControllers;
 
 public class UserController : Controller<User>
 {

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PrimaryPixels.Data;
 using PrimaryPixels.Models.Users;
 using PrimaryPixels.Models.Products;
+using PrimaryPixels.Models.Order;
 using PrimaryPixels.Services.Repositories;
 using PrimaryPixels.Models;
 
@@ -17,6 +18,8 @@ builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IRepository<Headphone>, ProductRepository<Headphone>>();
 builder.Services.AddScoped<IRepository<Phone>, ProductRepository<Phone>>();
 builder.Services.AddScoped<IRepository<Computer>, ProductRepository<Computer>>();
+builder.Services.AddScoped<IRepository<Order>, OrderRepository>();
+builder.Services.AddScoped<IRepository<OrderDetails>, OrderDetailsRepository>();
 
 builder.Services.AddDbContext<PrimaryPixelsContext>(options =>
 {

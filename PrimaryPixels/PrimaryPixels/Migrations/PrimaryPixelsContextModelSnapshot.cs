@@ -89,10 +89,6 @@ namespace PrimaryPixels.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
                     b.ToTable("OrderDetails");
 
                     b.HasData(
@@ -138,7 +134,7 @@ namespace PrimaryPixels.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PrimaryPixels.Models.Product", b =>
+            modelBuilder.Entity("PrimaryPixels.Models.Products.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -192,8 +188,6 @@ namespace PrimaryPixels.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
-
                     b.ToTable("ShoppingCartItems");
 
                     b.HasData(
@@ -227,7 +221,7 @@ namespace PrimaryPixels.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PrimaryPixels.Models.User", b =>
+            modelBuilder.Entity("PrimaryPixels.Models.Users.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -275,9 +269,9 @@ namespace PrimaryPixels.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PrimaryPixels.Models.Device", b =>
+            modelBuilder.Entity("PrimaryPixels.Models.Products.Device", b =>
                 {
-                    b.HasBaseType("PrimaryPixels.Models.Product");
+                    b.HasBaseType("PrimaryPixels.Models.Products.Product");
 
                     b.Property<string>("Cpu")
                         .IsRequired()
@@ -295,9 +289,9 @@ namespace PrimaryPixels.Migrations
                     b.HasDiscriminator().HasValue("Device");
                 });
 
-            modelBuilder.Entity("PrimaryPixels.Models.Headphone", b =>
+            modelBuilder.Entity("PrimaryPixels.Models.Products.Headphone", b =>
                 {
-                    b.HasBaseType("PrimaryPixels.Models.Product");
+                    b.HasBaseType("PrimaryPixels.Models.Products.Product");
 
                     b.Property<bool>("Wireless")
                         .HasColumnType("bit")
@@ -335,9 +329,9 @@ namespace PrimaryPixels.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PrimaryPixels.Models.Computer", b =>
+            modelBuilder.Entity("PrimaryPixels.Models.Products.Computer", b =>
                 {
-                    b.HasBaseType("PrimaryPixels.Models.Device");
+                    b.HasBaseType("PrimaryPixels.Models.Products.Device");
 
                     b.Property<bool>("DvdPlayer")
                         .HasColumnType("bit")
@@ -372,9 +366,9 @@ namespace PrimaryPixels.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PrimaryPixels.Models.Phone", b =>
+            modelBuilder.Entity("PrimaryPixels.Models.Products.Phone", b =>
                 {
-                    b.HasBaseType("PrimaryPixels.Models.Device");
+                    b.HasBaseType("PrimaryPixels.Models.Products.Device");
 
                     b.Property<bool>("CardIndependency")
                         .HasColumnType("bit")
@@ -419,36 +413,6 @@ namespace PrimaryPixels.Migrations
                             Ram = 8,
                             CardIndependency = true
                         });
-                });
-
-            modelBuilder.Entity("PrimaryPixels.Models.Order.OrderDetails", b =>
-                {
-                    b.HasOne("PrimaryPixels.Models.Order.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PrimaryPixels.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("PrimaryPixels.Models.ShoppingCartItem.ShoppingCartItem", b =>
-                {
-                    b.HasOne("PrimaryPixels.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

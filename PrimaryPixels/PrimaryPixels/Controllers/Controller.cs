@@ -22,12 +22,12 @@ public abstract class Controller<T> : ControllerBase, IController<T>
         try
         {
             int idOfAddedEntity = await _repository.Add(entity);
-            _logger.LogInformation($"{nameof(T)} with id {idOfAddedEntity} successfully added!");
+            _logger.LogInformation($"{typeof(T).Name} with id {idOfAddedEntity} successfully added!");
             return Ok(idOfAddedEntity);
         }
         catch (Exception ex) 
         {
-            _logger.LogError($"Error during adding new {nameof(T)}!");
+            _logger.LogError(ex, ex.Message);
             return BadRequest();
         }
     }
@@ -39,12 +39,12 @@ public abstract class Controller<T> : ControllerBase, IController<T>
         try
         {
             var deletedEntityId = await _repository.DeleteById(id);
-            _logger.LogInformation($"{nameof(T)} successfully deleted!");
+            _logger.LogInformation($"{typeof(T).Name} successfully deleted!");
             return Ok(deletedEntityId);
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error during deleting {nameof(T)}!");
+            _logger.LogError(ex, ex.Message);
             return NotFound();
         }
        
@@ -57,12 +57,12 @@ public abstract class Controller<T> : ControllerBase, IController<T>
         try
         {
             T[] entities = (T[])await _repository.GetAll();
-            _logger.LogInformation($"{nameof(T)}s successfully retrieved!");
+            _logger.LogInformation($"{typeof(T).Name}s successfully retrieved!");
             return Ok(entities);
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error during retrieving {nameof(T)}s  {ex.Message}!");
+            _logger.LogError(ex, ex.Message);
             return NotFound();
         }
         
@@ -75,12 +75,12 @@ public abstract class Controller<T> : ControllerBase, IController<T>
         try
         {
             T retrievedEntity = await _repository.GetById(id);
-            _logger.LogInformation($"{nameof(T)} with id {id} successfully retrieved!");
+            _logger.LogInformation($"{typeof(T).Name} with id {id} successfully retrieved!");
             return Ok(retrievedEntity);
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error during retrieving {nameof(T)}!");
+            _logger.LogError(ex, ex.Message);
             return NotFound();
         }
     }
@@ -92,12 +92,12 @@ public abstract class Controller<T> : ControllerBase, IController<T>
         try
         {
             int idOfUpdatedEntity = await _repository.Update(entity);
-            _logger.LogInformation($"{nameof(T)} with id {idOfUpdatedEntity} successfully updated!");
+            _logger.LogInformation($"{typeof(T).Name} with id {idOfUpdatedEntity} successfully updated!");
             return Ok(idOfUpdatedEntity);
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error during updating {nameof(T)}!");
+            _logger.LogError(ex, ex.Message);
             return BadRequest();
         }
     }

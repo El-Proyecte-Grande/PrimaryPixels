@@ -79,33 +79,33 @@ public class PrimaryPixelsContext : DbContext
             );
         });
 
-        modelBuilder.Entity<Order>(entity =>
-        {
-            entity.HasData(
-                new Order{Address = "Kis Mihály street 6", City = "Túrkeve", UserId = 1, OrderDate = new DateOnly(2024,11,26), Id = 1},
-                new Order{Address = "Charles street 14", City = "London", UserId = 2, OrderDate = new DateOnly(2024,10,1), Id = 2}
-            );
-        });
+        // modelBuilder.Entity<Order>(entity =>
+        // {
+        //     entity.HasData(
+        //         new Order{Address = "Kis Mihály street 6", City = "Túrkeve", UserId = 1, OrderDate = new DateOnly(2024,11,26), Id = 1},
+        //         new Order{Address = "Charles street 14", City = "London", UserId = 2, OrderDate = new DateOnly(2024,10,1), Id = 2}
+        //     );
+        // });
 
-        modelBuilder.Entity<OrderDetails>(entity =>
-        {
-            entity.HasData(
-                new OrderDetails{Id = 1, OrderId = 1, ProductId = 1, Quantity = 3, UnitPrice = 50000},
-                new OrderDetails{Id = 2, OrderId = 1, ProductId = 3, Quantity = 5, UnitPrice = 750000},
-                new OrderDetails{Id = 3, OrderId = 2, ProductId = 1, Quantity = 1, UnitPrice = 154000},
-                new OrderDetails{Id = 4, OrderId = 2, ProductId = 5, Quantity = 3, UnitPrice = 1000000},
-                new OrderDetails{Id = 5, OrderId = 2, ProductId = 6, Quantity = 1, UnitPrice = 50000}
-            );
-        });
-
-        modelBuilder.Entity<ShoppingCartItem>(entity =>
-        {
-            entity.HasData(
-                new ShoppingCartItem() { Id = 1, ProductId = 4, Quantity = 2, UserId = 3 },
-                new ShoppingCartItem() { Id = 2, ProductId = 2, Quantity = 4, UserId = 1 },
-                new ShoppingCartItem() { Id = 3, ProductId = 2, Quantity = 1, UserId = 2 },
-                new ShoppingCartItem() { Id = 4, ProductId = 3, Quantity = 2, UserId = 2 }
-            );
-        });
+        // modelBuilder.Entity<OrderDetails>(entity =>
+        // {
+        //     entity.HasData(
+        //         new OrderDetails{Id = 1, OrderId = 1, ProductId = 1, Quantity = 3, UnitPrice = 50000},
+        //         new OrderDetails{Id = 2, OrderId = 1, ProductId = 3, Quantity = 5, UnitPrice = 750000},
+        //         new OrderDetails{Id = 3, OrderId = 2, ProductId = 1, Quantity = 1, UnitPrice = 154000},
+        //         new OrderDetails{Id = 4, OrderId = 2, ProductId = 5, Quantity = 3, UnitPrice = 1000000},
+        //         new OrderDetails{Id = 5, OrderId = 2, ProductId = 6, Quantity = 1, UnitPrice = 50000}
+        //     );
+        // });
+        //
+        // modelBuilder.Entity<ShoppingCartItem>(entity =>
+        // {
+        //     entity.HasData(
+        //         new ShoppingCartItem() { Id = 1, ProductId = 4, Quantity = 2, UserId = 3 },
+        //         new ShoppingCartItem() { Id = 2, ProductId = 2, Quantity = 4, UserId = 1 },
+        //         new ShoppingCartItem() { Id = 3, ProductId = 2, Quantity = 1, UserId = 2 },
+        //         new ShoppingCartItem() { Id = 4, ProductId = 3, Quantity = 2, UserId = 2 }
+        //     );
+        // });
     }
 }

@@ -47,24 +47,6 @@ namespace PrimaryPixels.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Orders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "Kis Mihály street 6",
-                            City = "Túrkeve",
-                            OrderDate = new DateOnly(2024, 11, 26),
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "Charles street 14",
-                            City = "London",
-                            OrderDate = new DateOnly(2024, 10, 1),
-                            UserId = 2
-                        });
                 });
 
             modelBuilder.Entity("PrimaryPixels.Models.Order.OrderDetails", b =>
@@ -90,48 +72,6 @@ namespace PrimaryPixels.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OrderDetails");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            OrderId = 1,
-                            ProductId = 1,
-                            Quantity = 3,
-                            UnitPrice = 50000
-                        },
-                        new
-                        {
-                            Id = 2,
-                            OrderId = 1,
-                            ProductId = 3,
-                            Quantity = 5,
-                            UnitPrice = 750000
-                        },
-                        new
-                        {
-                            Id = 3,
-                            OrderId = 2,
-                            ProductId = 1,
-                            Quantity = 1,
-                            UnitPrice = 154000
-                        },
-                        new
-                        {
-                            Id = 4,
-                            OrderId = 2,
-                            ProductId = 5,
-                            Quantity = 3,
-                            UnitPrice = 1000000
-                        },
-                        new
-                        {
-                            Id = 5,
-                            OrderId = 2,
-                            ProductId = 6,
-                            Quantity = 1,
-                            UnitPrice = 50000
-                        });
                 });
 
             modelBuilder.Entity("PrimaryPixels.Models.Products.Product", b =>
@@ -183,42 +123,17 @@ namespace PrimaryPixels.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int>("UnitPrice")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShoppingCartItems");
+                    b.HasIndex("ProductId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ProductId = 4,
-                            Quantity = 2,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ProductId = 2,
-                            Quantity = 4,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ProductId = 2,
-                            Quantity = 1,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ProductId = 3,
-                            Quantity = 2,
-                            UserId = 2
-                        });
+                    b.ToTable("ShoppingCartItems");
                 });
 
             modelBuilder.Entity("PrimaryPixels.Models.Users.User", b =>
@@ -413,6 +328,17 @@ namespace PrimaryPixels.Migrations
                             Ram = 8,
                             CardIndependency = true
                         });
+                });
+
+            modelBuilder.Entity("PrimaryPixels.Models.ShoppingCartItem.ShoppingCartItem", b =>
+                {
+                    b.HasOne("PrimaryPixels.Models.Products.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

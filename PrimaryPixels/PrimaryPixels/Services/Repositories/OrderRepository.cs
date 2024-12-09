@@ -13,7 +13,7 @@ public class OrderRepository : Repository<Order>
     }
     public override async  Task<IEnumerable<Order>> GetAll()
     {
-        return await _context.Orders.ToListAsync();
+        return await _context.Orders.ToArrayAsync();
     }
 
     public override async Task<Order> GetById(int id)

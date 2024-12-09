@@ -1,0 +1,21 @@
+services:
+  frontend:
+    build:
+      context: Frontend/vite-project
+    ports:
+      - 5000:5000
+  
+  backend:
+    build:
+      context: PrimaryPixels
+    env_file:
+      - .env
+    ports:
+      - 8000:8080
+  
+  db:
+    image: mcr.microsoft.com/mssql/server
+    env_file:
+      - .env
+    ports:
+      - 1434:1433

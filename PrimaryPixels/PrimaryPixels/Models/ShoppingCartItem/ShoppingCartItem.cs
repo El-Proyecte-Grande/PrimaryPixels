@@ -10,6 +10,6 @@ public class ShoppingCartItem
     public int ProductId { get; init; }
     public Product Product { get; init; }
     public int Quantity { get; init; }
-    public int UnitPrice { get; }
+    public int UnitPrice { get; init; }
     public int TotalPrice => UnitPrice * Quantity;
 }

@@ -14,7 +14,7 @@ public class OrderDetailsRepository : Repository<OrderDetails>
     
     public override async Task<IEnumerable<OrderDetails>> GetAll()
     {
-        return await _context.OrderDetails.ToListAsync();
+        return await _context.OrderDetails.ToArrayAsync();
     }
 
     public override async  Task<OrderDetails> GetById(int id)

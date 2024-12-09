@@ -14,7 +14,7 @@ public class UserRepository : Repository<User>
     }
     public override async Task<IEnumerable<User>> GetAll()
     {
-        return await _context.Users.ToListAsync();
+        return await _context.Users.ToArrayAsync();
     }
 
     public override async Task<User> GetById(int id)

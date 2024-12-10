@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimaryPixels.Services.Repositories;
 namespace PrimaryPixels.Controllers;
@@ -14,7 +15,7 @@ public abstract class Controller<T> : ControllerBase, IController<T>
         _logger = logger;
         _repository = repository;
     }
-    [HttpPost("")]
+    [HttpPost(""), Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public virtual async Task<IActionResult> Add([FromBody] T entity)
@@ -31,7 +32,7 @@ public abstract class Controller<T> : ControllerBase, IController<T>
             return BadRequest();
         }
     }
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}"), Authorize(Roles = "Admin") ]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public virtual async Task<IActionResult> Delete(int id)
@@ -84,7 +85,7 @@ public abstract class Controller<T> : ControllerBase, IController<T>
             return NotFound();
         }
     }
-    [HttpPut]
+    [HttpPut, Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public virtual async Task<IActionResult> Update([FromBody] T entity)

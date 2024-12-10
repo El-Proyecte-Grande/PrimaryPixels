@@ -138,5 +138,6 @@ void AddIdentity()
             options.Password.RequireUppercase = true;
             options.Password.RequireLowercase = true;
         })
+        .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<UsersContext>();
 }

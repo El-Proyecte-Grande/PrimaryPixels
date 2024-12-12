@@ -85,6 +85,10 @@ namespace PrimaryPixels.Migrations
                     b.Property<bool>("Availability")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -219,28 +223,11 @@ namespace PrimaryPixels.Migrations
                         {
                             Id = 1,
                             Availability = true,
+                            Image = "https://cdn.lifehack.org/wp-content/uploads/2014/12/28.jpg",
                             Name = "Ultra pro max Headphone 2000",
                             Price = 500,
                             TotalSold = 0,
                             Wireless = false
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Availability = true,
-                            Name = "Ultra pro max Headphone 5000",
-                            Price = 1000,
-                            TotalSold = 0,
-                            Wireless = false
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Availability = true,
-                            Name = "Ultra pro max Headphone 1000",
-                            Price = 200,
-                            TotalSold = 0,
-                            Wireless = true
                         });
                 });
 
@@ -259,6 +246,7 @@ namespace PrimaryPixels.Migrations
                         {
                             Id = 2,
                             Availability = true,
+                            Image = "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_98587778/mobile_786_587_png/X-X-GAMER-I3228-Gamer-PC-%28Core-i5-16GB-480-GB-SSD---2-TB-HDD-RX6750XT-12GB-NoOS%29",
                             Name = "Gaming PC 3510",
                             Price = 100000,
                             TotalSold = 0,
@@ -271,6 +259,7 @@ namespace PrimaryPixels.Migrations
                         {
                             Id = 3,
                             Availability = true,
+                            Image = "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_143744896/mobile_786_587_png/SHARKGAMING-RGBeast-R900-SGRGBR900-33-4090-Gamer-PC-%28Ryzen9-32GB-2x1024-GB-SSD-Win11H%29",
                             Name = "Gaming PC 5000",
                             Price = 5000000,
                             TotalSold = 0,
@@ -296,6 +285,7 @@ namespace PrimaryPixels.Migrations
                         {
                             Id = 6,
                             Availability = true,
+                            Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSELHPTLjLUf8sBWPzXg7bTDdG1nClBF5Kc4A&s",
                             Name = "Redmi A24",
                             Price = 100000,
                             TotalSold = 0,
@@ -308,6 +298,7 @@ namespace PrimaryPixels.Migrations
                         {
                             Id = 7,
                             Availability = true,
+                            Image = "https://www.tecnosell.com/media/catalog/product/cache/60c31028333b516fd0f8945d994bb7aa/b/l/blu1_2_7_1.jpg",
                             Name = "iPhone 19",
                             Price = 5000000,
                             TotalSold = 0,
@@ -320,6 +311,7 @@ namespace PrimaryPixels.Migrations
                         {
                             Id = 8,
                             Availability = true,
+                            Image = "https://cdn.tmobile.com/content/dam/t-mobile/en-p/cell-phones/apple/Apple-iPhone-15-Plus/Pink/Apple-iPhone-15-Plus-Pink-thumbnail.png",
                             Name = "Redmi A29",
                             Price = 600000,
                             TotalSold = 0,

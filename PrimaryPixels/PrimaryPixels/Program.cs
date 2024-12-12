@@ -25,6 +25,7 @@ ConfigureSwagger();
 AddDbContexts();
 AddAuthentication();
 AddIdentity();
+AddCors();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
@@ -41,6 +42,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.UseCors("AllowFrontend");
 app.Run();
 
 
@@ -146,4 +148,17 @@ void AddIdentity()
         })
         .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<UsersContext>();
+}
+
+void AddCors()
+{
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowFrontend",
+            builder => builder
+                .WithOrigins("http://localhost:5000")
+                .AllowAnyHeader()
+                .AllowAnyMethod());
+    });
+
 }

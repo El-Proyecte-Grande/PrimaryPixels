@@ -9,7 +9,9 @@ export default function ProductPage() {
 
     useEffect(() => {
         async function fetchProduct() {
-            console.log("FETCHING")
+            const response = await fetch("http://localhost:8000/api/Phone/3");
+            const data = await response.json();
+            console.log(data);
         }
         fetchProduct();
     }, [])

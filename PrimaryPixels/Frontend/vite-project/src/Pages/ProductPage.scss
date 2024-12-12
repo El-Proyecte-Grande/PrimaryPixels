@@ -1,0 +1,95 @@
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.main-product {
+    display: flex;
+    flex-direction: row;
+    column-gap: 0.5rem;
+    width: 100%;
+    height: 100%;
+}
+
+.right-section {
+    width: 50%;
+}
+
+.left-section {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.product-image-div {
+    width: 80%;
+    height: 60%;
+    border: solid, 1px, black;
+    margin-left: 1.5rem;
+    margin-top: 1.5rem;
+
+}
+
+.product-order-infos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 80%;
+    margin-left: 1.5rem;
+    justify-content: space-between;
+}
+
+.price {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.add-to-cart-button {
+    align-items: center;
+    background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+    border: 0;
+    border-radius: 6px;
+    box-shadow: rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, rgba(58, 65, 111, .5) 0 -3px 0 inset;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: "JetBrains Mono", monospace;
+    height: 48px;
+    padding-left: 16px;
+    padding-right: 16px;
+    transition: box-shadow .15s, transform .15s;
+    font-size: 18px;
+}
+
+.add-to-cart-button:hover {
+    box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+    transform: translateY(-2px);
+}
+
+.add-to-cart-button:active {
+    box-shadow: #3c4fe0 0 3px 7px inset;
+    transform: translateY(2px);
+}
+
+.right-section {
+    padding-left: 3rem;
+}
+
+.product-name {
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.property {
+    font-size: 1.5rem;
+}
+
+.product-image {
+    height: 100%;
+    width: 100%;
+}

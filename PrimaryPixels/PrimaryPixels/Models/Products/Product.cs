@@ -7,5 +7,6 @@ public abstract class Product
     public bool Availability { get; init; }
     public string Name { get; init; }
     public int TotalSold { get; init; }
+    public string Image {get; init;}
 
 }

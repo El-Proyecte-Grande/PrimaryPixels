@@ -8,6 +8,7 @@ const StyledNav = styled.nav`
     display: flex;
     border-radius: 8px;
     border: 2px solid black;
+    background-color: rgba(161,161,161,0.7);
 `;
 
 const StyledButton = styled.button`
@@ -20,21 +21,14 @@ const StyledButton = styled.button`
 
 function Navbar(){
     return(
-        <>
-            <StyledNav>
-                <img id="logo" src="../../../public/primary-pixels-logo.png"/>
-                <p id="input-message">Search: </p>
-                <input type="search" id="searchbar"/>
-                <StyledButton>Login</StyledButton>
-                <StyledButton>Register</StyledButton>
-            </StyledNav>
-            
-        </>
+        <StyledNav>
+            <img id="logo" src="../../../public/primary-pixels-logo.png"/>
+            <p id="input-message">Search: </p>
+            <input type="search" id="searchbar"/>
+            <StyledButton>Login</StyledButton>
+            <StyledButton>Register</StyledButton>
+        </StyledNav>
     );
 };
-
-
-
-
 
 export default Navbar;

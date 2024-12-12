@@ -31,10 +31,10 @@ export default function ProductPage() {
             </div>
             <div className="right-section">
                 <div className="product-name-div">
-                    <p> NAME </p>
+                    <p className="product-name"> UltraGIGMEGA GAMER PC 3000 </p>
                 </div>
                 <div className="product-details-div">
-                    <p > CPU: i3-6100 </p>
+                    <p className="property"> CPU: i3-6100 </p>
                     <p className="property"> RAM: 8GB </p>
                 </div>
             </div>

@@ -16,7 +16,6 @@ body,
 
 .right-section {
     width: 50%;
-    border-left: solid black 1px;
 }
 
 .left-section {
@@ -75,4 +74,17 @@ body,
 .add-to-cart-button:active {
     box-shadow: #3c4fe0 0 3px 7px inset;
     transform: translateY(2px);
+}
+
+.right-section {
+    padding-left: 3rem;
+}
+
+.product-name {
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.property {
+    font-size: 1.5rem;
 }

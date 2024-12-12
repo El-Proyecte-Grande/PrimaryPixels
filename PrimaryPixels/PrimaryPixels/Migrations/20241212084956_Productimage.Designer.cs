@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrimaryPixels.Data;
 
@@ -11,9 +12,11 @@ using PrimaryPixels.Data;
 namespace PrimaryPixels.Migrations
 {
     [DbContext(typeof(PrimaryPixelsContext))]
-    partial class PrimaryPixelsContextModelSnapshot : ModelSnapshot
+    [Migration("20241212084956_Productimage")]
+    partial class Productimage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,6 +130,9 @@ namespace PrimaryPixels.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int>("UnitPrice")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -135,36 +141,6 @@ namespace PrimaryPixels.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ShoppingCartItems");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ProductId = 4,
-                            Quantity = 2,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ProductId = 2,
-                            Quantity = 4,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ProductId = 2,
-                            Quantity = 1,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ProductId = 3,
-                            Quantity = 2,
-                            UserId = 2
-                        });
                 });
 
             modelBuilder.Entity("PrimaryPixels.Models.Users.User", b =>

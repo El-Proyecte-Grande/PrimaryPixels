@@ -14,7 +14,7 @@ using PrimaryPixels.Models.ShoppingCartItem;
 using PrimaryPixels.Services.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("Default");
+var connectionString = builder.Configuration["ConnectionStrings:Default"];
 var validIssuer = builder.Configuration["TokenValidation:ValidIssuer"];
 var validAudience = builder.Configuration["TokenValidation:ValidAudience"];
 var issuerSigningKey = builder.Configuration["TokenValidation:IssuerSigningKey"];
@@ -25,6 +25,7 @@ ConfigureSwagger();
 AddDbContexts();
 AddAuthentication();
 AddIdentity();
+AddCors();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
@@ -41,6 +42,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.UseCors("AllowFrontend");
 app.Run();
 
 
@@ -56,6 +58,7 @@ void AddServices()
     builder.Services.AddScoped<IRepository<Order>, OrderRepository>();
     builder.Services.AddScoped<IRepository<OrderDetails>, OrderDetailsRepository>();
     builder.Services.AddScoped<IRepository<ShoppingCartItem>, ShoppingCartItemRepository>();
+    builder.Services.AddScoped<IProductRepository, ProductsRepository>();
     builder.Services.AddScoped<IAuthService, AuthService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddScoped<AuthenticationSeeder>();
@@ -146,4 +149,17 @@ void AddIdentity()
         })
         .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<UsersContext>();
+}
+
+void AddCors()
+{
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowFrontend",
+            builder => builder
+                .WithOrigins("http://localhost:5000")
+                .AllowAnyHeader()
+                .AllowAnyMethod());
+    });
+
 }

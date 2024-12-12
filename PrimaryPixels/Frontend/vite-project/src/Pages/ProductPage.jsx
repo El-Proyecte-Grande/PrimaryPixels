@@ -9,7 +9,7 @@ export default function ProductPage() {
 
     useEffect(() => {
         async function fetchProduct() {
-            const response = await fetch("http://localhost:8000/api/Phone/3");
+            const response = await fetch("https://localhost:44319/api/Phone/3");
             const data = await response.json();
             console.log(data);
         }

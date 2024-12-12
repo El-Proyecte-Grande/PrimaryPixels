@@ -58,6 +58,7 @@ void AddServices()
     builder.Services.AddScoped<IRepository<Order>, OrderRepository>();
     builder.Services.AddScoped<IRepository<OrderDetails>, OrderDetailsRepository>();
     builder.Services.AddScoped<IRepository<ShoppingCartItem>, ShoppingCartItemRepository>();
+    builder.Services.AddScoped<IProductRepository, ProductsRepository>();
     builder.Services.AddScoped<IAuthService, AuthService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddScoped<AuthenticationSeeder>();

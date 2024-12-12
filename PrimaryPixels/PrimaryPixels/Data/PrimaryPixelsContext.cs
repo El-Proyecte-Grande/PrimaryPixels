@@ -86,7 +86,7 @@ public class PrimaryPixelsContext : DbContext
         //         new Order{Address = "Charles street 14", City = "London", UserId = 2, OrderDate = new DateOnly(2024,10,1), Id = 2}
         //     );
         // });
-
+        //
         // modelBuilder.Entity<OrderDetails>(entity =>
         // {
         //     entity.HasData(
@@ -97,15 +97,16 @@ public class PrimaryPixelsContext : DbContext
         //         new OrderDetails{Id = 5, OrderId = 2, ProductId = 6, Quantity = 1, UnitPrice = 50000}
         //     );
         // });
-        //
-        // modelBuilder.Entity<ShoppingCartItem>(entity =>
-        // {
-        //     entity.HasData(
-        //         new ShoppingCartItem() { Id = 1, ProductId = 4, Quantity = 2, UserId = 3 },
-        //         new ShoppingCartItem() { Id = 2, ProductId = 2, Quantity = 4, UserId = 1 },
-        //         new ShoppingCartItem() { Id = 3, ProductId = 2, Quantity = 1, UserId = 2 },
-        //         new ShoppingCartItem() { Id = 4, ProductId = 3, Quantity = 2, UserId = 2 }
-        //     );
-        // });
+        
+        modelBuilder.Entity<ShoppingCartItem>
+        (entity =>
+        {
+            entity.HasData(
+                new ShoppingCartItem() { Id = 1, ProductId = 4, Quantity = 2, UserId = 3 },
+                new ShoppingCartItem() { Id = 2, ProductId = 2, Quantity = 4, UserId = 1 },
+                new ShoppingCartItem() { Id = 3, ProductId = 2, Quantity = 1, UserId = 2 },
+                new ShoppingCartItem() { Id = 4, ProductId = 3, Quantity = 2, UserId = 2 }
+            );
+        });
     }
 }

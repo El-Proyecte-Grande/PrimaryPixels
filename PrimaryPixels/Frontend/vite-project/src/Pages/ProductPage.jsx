@@ -11,7 +11,7 @@ export default function ProductPage() {
         async function fetchProduct() {
             const response = await fetch(`https://localhost:44319/api/Product/${id}`);
             const data = await response.json();
-            console.log(data);
+            setProduct(data)
         }
         fetchProduct();
     }, [])
@@ -20,11 +20,11 @@ export default function ProductPage() {
         <div className="main-product">
             <div className="left-section">
                 <div className="product-image-div">
-                    <img alt="image"></img>
+                    <img className="product-image" alt="image" src={product.image}></img>
                 </div>
                 <div className="product-order-infos">
                     <div className="product-price">
-                        <p className="price"> 10.999 HUF </p>
+                        <p className="price"> {product.price} € </p>
                     </div>
                     <div className="add-to-cart-div">
                         <button className="add-to-cart-button"> ADD TO CART </button>
@@ -33,11 +33,20 @@ export default function ProductPage() {
             </div>
             <div className="right-section">
                 <div className="product-name-div">
-                    <p className="product-name"> UltraGIGMEGA GAMER PC 3000 </p>
+                    <p className="product-name"> {product.name} </p>
                 </div>
                 <div className="product-details-div">
-                    <p className="property"> CPU: i3-6100 </p>
-                    <p className="property"> RAM: 8GB </p>
+                    {Object.entries(product).map(([key, value]) => (
+                        <>
+                            {key != "image" && key != "totalSold" && key != "name" && key != "id" && key != "price" && (
+                                <p className="property" key={key}>
+                                    {key.toUpperCase()}: {value.toString()}
+                                </p>
+                            )}
+                        </>
+                    )
+                    )}
+
                 </div>
             </div>
         </div>

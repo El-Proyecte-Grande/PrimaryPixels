@@ -14,7 +14,7 @@ using PrimaryPixels.Models.ShoppingCartItem;
 using PrimaryPixels.Services.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("Default");
+var connectionString = builder.Configuration["ConnectionStrings:Default"];
 var validIssuer = builder.Configuration["TokenValidation:ValidIssuer"];
 var validAudience = builder.Configuration["TokenValidation:ValidAudience"];
 var issuerSigningKey = builder.Configuration["TokenValidation:IssuerSigningKey"];

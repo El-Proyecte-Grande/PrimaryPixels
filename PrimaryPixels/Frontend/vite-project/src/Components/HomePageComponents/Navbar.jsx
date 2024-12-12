@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import './Navbar.css';
 
@@ -20,6 +21,7 @@ const StyledButton = styled.button`
 
 
 function Navbar(){
+
     return(
         <StyledNav>
             <img id="logo" src="../../../public/primary-pixels-logo.png"/>

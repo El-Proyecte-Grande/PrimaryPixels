@@ -16,6 +16,10 @@ export default function ProductPage() {
         fetchProduct();
     }, [])
 
+    async function AddToCart() {
+        const response = await fetch(``);
+    }
+
     return (
         <div className="main-product">
             <div className="left-section">
@@ -27,7 +31,7 @@ export default function ProductPage() {
                         <p className="price"> {product.price} € </p>
                     </div>
                     <div className="add-to-cart-div">
-                        <button className="add-to-cart-button"> ADD TO CART </button>
+                        <button className="add-to-cart-button" onClick={(e) => AddToCart()}> ADD TO CART </button>
                     </div>
                 </div>
             </div>

@@ -68,14 +68,7 @@ public class PrimaryPixelsContext : DbContext
                 );
         });
 
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasData(
-                new User { Id = 1, Username = "Joe88", Password = "Joe123", Email = "joe@gmail.com" },
-                new User { Id = 2, Username = "Charles11", Password = "charlie10", Email = "charles@gmail.com" },
-                new User { Id = 3, Username = "Maximus", Password = "maximusminimus", Email = "maxiking@gmail.com" }
-            );
-        });
+       
 
         // modelBuilder.Entity<Order>(entity =>
         // {
@@ -96,15 +89,6 @@ public class PrimaryPixelsContext : DbContext
         //     );
         // });
         
-        modelBuilder.Entity<ShoppingCartItem>
-        (entity =>
-        {
-            entity.HasData(
-                new ShoppingCartItem() { Id = 1, ProductId = 4, Quantity = 2, UserId = 3 },
-                new ShoppingCartItem() { Id = 2, ProductId = 2, Quantity = 4, UserId = 1 },
-                new ShoppingCartItem() { Id = 3, ProductId = 2, Quantity = 1, UserId = 2 },
-                new ShoppingCartItem() { Id = 4, ProductId = 3, Quantity = 2, UserId = 2 }
-            );
-        });
+       
     }
 }

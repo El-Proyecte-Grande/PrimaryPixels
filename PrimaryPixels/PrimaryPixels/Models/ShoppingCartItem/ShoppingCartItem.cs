@@ -6,7 +6,7 @@ namespace PrimaryPixels.Models.ShoppingCartItem;
 public class ShoppingCartItem
 {
     public int Id { get; init; }
-    public int UserId { get; init; }
+    public string UserId { get; init; }
     public int ProductId { get; init; }
     public Product Product { get; init; } = null!;
     public int Quantity { get; init; }

@@ -11,7 +11,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers
             
         }
         [HttpGet("/api/ShoppingCartItem/user/{userId}")]
-        public async Task<IActionResult> GetProductForOrder(int userId)
+        public async Task<IActionResult> GetProductForOrder(string userId)
         {
             try
             {

@@ -45,7 +45,7 @@ namespace PrimaryPixels.Services.Repositories
             return item.Id;
         }
 
-        public async Task<IEnumerable<ShoppingCartItem>> GetByUserId(int id)
+        public async Task<IEnumerable<ShoppingCartItem>> GetByUserId(string id)
         {
             var cartItems = await _context.ShoppingCartItems
                 .Include(item => item.Product)

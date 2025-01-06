@@ -15,7 +15,7 @@ public abstract class Controller<T> : ControllerBase, IController<T>
         _logger = logger;
         _repository = repository;
     }
-    [HttpPost(""), Authorize(Roles = "Admin")]
+    [HttpPost(""), Authorize]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public virtual async Task<IActionResult> Add([FromBody] T entity)
@@ -32,7 +32,7 @@ public abstract class Controller<T> : ControllerBase, IController<T>
             return BadRequest();
         }
     }
-    [HttpDelete("{id}"), Authorize(Roles = "Admin") ]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public virtual async Task<IActionResult> Delete(int id)

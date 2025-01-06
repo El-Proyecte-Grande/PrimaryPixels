@@ -31,7 +31,7 @@ body,
     border: solid, 1px, black;
     margin-left: 1.5rem;
     margin-top: 1.5rem;
-
+    background-color: rgba($color: #757171, $alpha: 0.4);
 }
 
 .product-order-infos {
@@ -92,4 +92,10 @@ body,
 .product-image {
     height: 100%;
     width: 100%;
+}
+
+.product-details-div {
+    background-color: rgba($color: #757171, $alpha: 0.4);
+    color: black;
+    font-weight: bold;
 }

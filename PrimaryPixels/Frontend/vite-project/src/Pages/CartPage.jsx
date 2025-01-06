@@ -9,14 +9,18 @@ export default function CartPage() {
 
     useEffect(() => {
         async function getProducts() {
-            const respone = await fetch(`http://localhost:44319/api/ShoppingCartItems/${userId}`);
+            const response = await fetch(`https://localhost:44319/api/ShoppingCartItem/user/${userId}`);
             if (response.ok) {
-                const data = response.json();
+                const data = await response.json();
                 setProductsInCart(data);
             }
         }
         getProducts();
     }, [])
+
+    useEffect(() => {
+        console.log(productsInCart);
+    })
 
     return (
         <div className="page-div">
@@ -29,33 +33,25 @@ export default function CartPage() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td> IPHONE 24 </td>
-                        <td> 4 </td>
-                        <td> 1399000 </td>
-                        <td ><button className="add-button"> + </button></td>
-                        <td><button className="delete-button"> - </button></td>
-                    </tr>
-                    <tr>
-                        <td> IPHONE 24 </td>
-                        <td> 4 </td>
-                        <td> 1399000 </td>
-                        <td ><button className="add-button"> + </button></td>
-                        <td><button className="delete-button"> - </button></td>
-                    </tr>
+                    {productsInCart.map(x => <tr>
+                        <td> {x.product.name} </td>
+                        <td> {x.quantity} </td>
+                        <td> {x.totalPrice} </td>
+                        <td> <button className="increase-button"> + </button> </td>
+                        <td> <button className="decrease-button"> - </button> </td>
+                    </tr>)}
                 </tbody>
             </table>
             <div className="right-section">
                 <form className="for-div">
-                    <input class="fname" type="text" name="name" placeholder="Name" />
+                    <input className="fname" type="text" name="name" placeholder="Name" />
                     <input type="text" name="name" placeholder="City" />
                     <input type="text" name="name" placeholder="Postcode" />
                     <input type="text" name="name" placeholder="Address" />
                     <button type="submit" href="/">ORDER</button>
                 </form>
                 <div className="infos-div">
-                    <p className="price"> Total Price: 500 €</p>
-                    <button className="order-button"> ORDER </button>
+                    <p className="price"> Total Price: {productsInCart.reduce((sum, product) => sum + product.totalPrice, 0)} €</p>
                 </div>
             </div>
         </div >

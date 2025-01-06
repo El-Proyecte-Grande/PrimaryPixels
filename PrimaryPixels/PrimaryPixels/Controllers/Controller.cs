@@ -32,7 +32,7 @@ public abstract class Controller<T> : ControllerBase, IController<T>
             return BadRequest();
         }
     }
-    [HttpDelete("{id}"), Authorize(Roles = "Admin") ]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public virtual async Task<IActionResult> Delete(int id)

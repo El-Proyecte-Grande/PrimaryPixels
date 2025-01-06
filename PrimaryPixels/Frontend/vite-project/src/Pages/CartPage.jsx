@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom";
+import './CartPage.scss';
 export default function CartPage() {
 
     const { userId } = useParams();
@@ -18,26 +19,47 @@ export default function CartPage() {
     }, [])
 
     return (
-        <div>
-            <div className="left-section">
-
-            </div>
+        <div className="page-div">
+            <table className="left-section">
+                <thead>
+                    <tr>
+                        <th> NAME </th>
+                        <th> QUANTITY </th>
+                        <th> PRICE </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> IPHONE 24 </td>
+                        <td> 4 </td>
+                        <td> 1399000 </td>
+                        <td ><button className="add-button"> + </button></td>
+                        <td><button className="delete-button"> - </button></td>
+                    </tr>
+                    <tr>
+                        <td> IPHONE 24 </td>
+                        <td> 4 </td>
+                        <td> 1399000 </td>
+                        <td ><button className="add-button"> + </button></td>
+                        <td><button className="delete-button"> - </button></td>
+                    </tr>
+                </tbody>
+            </table>
             <div className="right-section">
-                <div className="form-div">
-                    <label for="name"> Name </label>
-                    <input id="name" onChange={e => setOrderInfo(prev => ({ ...prev, name: e.target.value }))} />
-                    <label for="city"> City </label>
-                    <input id="city" onChange={e => setOrderInfo(prev => ({ ...prev, city: e.target.value }))} />
-                    <label for="postcode"> Postcode </label>
-                    <input id="postcode" onChange={e => setOrderInfo(prev => ({ ...prev, postcode: e.target.value }))} />
-                    <label for="street"> Street </label>
-                    <input id="street" onChange={e => setOrderInfo(prev => ({ ...prev, street: e.target.value }))} />
-                </div>
+                <form className="for-div">
+                    <input class="fname" type="text" name="name" placeholder="Name" />
+                    <input type="text" name="name" placeholder="City" />
+                    <input type="text" name="name" placeholder="Postcode" />
+                    <input type="text" name="name" placeholder="Address" />
+                    <button type="submit" href="/">ORDER</button>
+                </form>
                 <div className="infos-div">
                     <p className="price"> Total Price: 500 €</p>
                     <button className="order-button"> ORDER </button>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
+
+

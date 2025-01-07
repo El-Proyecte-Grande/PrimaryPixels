@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PrimaryPixels.Data;
-using PrimaryPixels.Models.Users;
 using PrimaryPixels.Models.Products;
 using PrimaryPixels.Models.Order;
 using PrimaryPixels.Services.Repositories;
@@ -51,7 +50,6 @@ void AddServices()
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-    builder.Services.AddScoped<IRepository<User>, UserRepository>();
     builder.Services.AddScoped<IRepository<Headphone>, ProductRepository<Headphone>>();
     builder.Services.AddScoped<IRepository<Phone>, ProductRepository<Phone>>();
     builder.Services.AddScoped<IRepository<Computer>, ProductRepository<Computer>>();

@@ -3,7 +3,6 @@ using PrimaryPixels.Models;
 using PrimaryPixels.Models.Order;
 using PrimaryPixels.Models.Products;
 using PrimaryPixels.Models.ShoppingCartItem;
-using PrimaryPixels.Models.Users;
 
 namespace PrimaryPixels.Data;
 
@@ -12,7 +11,6 @@ public class PrimaryPixelsContext : DbContext
     public PrimaryPixelsContext(DbContextOptions<PrimaryPixelsContext> options) : base(options)
     {
     }
-    public DbSet<User> Users { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderDetails> OrderDetails { get; set; }
@@ -68,15 +66,7 @@ public class PrimaryPixelsContext : DbContext
                 );
         });
 
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasData(
-                new User { Id = 1, Username = "Joe88", Password = "Joe123", Email = "joe@gmail.com" },
-                new User { Id = 2, Username = "Charles11", Password = "charlie10", Email = "charles@gmail.com" },
-                new User { Id = 3, Username = "Maximus", Password = "maximusminimus", Email = "maxiking@gmail.com" }
-            );
-        });
-
+       
         // modelBuilder.Entity<Order>(entity =>
         // {
         //     entity.HasData(

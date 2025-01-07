@@ -1,23 +1,101 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PrimaryPixels.Models.ShoppingCartItem;
 using PrimaryPixels.Services.Repositories;
 
 namespace PrimaryPixels.Controllers.DerivedControllers
 {
-    public class ShoppingCartItemController : Controller<ShoppingCartItem>
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ShoppingCartItemController : ControllerBase, IController<ShoppingCartItem>
     {
-        public ShoppingCartItemController(ILogger<Controller<ShoppingCartItem>> logger, IRepository<ShoppingCartItem> repository) : base(logger, repository)
+        protected IRepository<ShoppingCartItem> _repository;
+        protected ILogger<ShoppingCartItemController> _logger;
+        public ShoppingCartItemController(ILogger<ShoppingCartItemController> logger, IRepository<ShoppingCartItem> repository)
         {
-            
+            _logger = logger;
+            _repository = repository;
         }
-        [HttpGet("/api/ShoppingCartItem/user/{userId}")]
-        public async Task<IActionResult> GetProductForOrder(string userId)
+        [HttpPost(""), Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Add([FromBody] ShoppingCartItem entity)
         {
             try
             {
-                ShoppingCartItemRepository repository = _repository as ShoppingCartItemRepository;
-                var cartProducts = await repository.GetByUserId(userId);
-                return Ok(cartProducts);
+                int idOfAddedEntity = await _repository.Add(entity);
+                _logger.LogInformation($"{typeof(ShoppingCartItem).Name} with id {idOfAddedEntity} successfully added!");
+                return Ok(idOfAddedEntity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return BadRequest();
+            }
+        }
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var deletedEntityId = await _repository.DeleteById(id);
+                _logger.LogInformation($"{typeof(ShoppingCartItem).Name} successfully deleted!");
+                return Ok(deletedEntityId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return NotFound();
+            }
+
+        }
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShoppingCartItem[]))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                ShoppingCartItem[] entities = (ShoppingCartItem[])await _repository.GetAll();
+                _logger.LogInformation($"{typeof(ShoppingCartItem).Name}s successfully retrieved!");
+                return Ok(entities);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return NotFound();
+            }
+
+        }
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShoppingCartItem))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                ShoppingCartItem retrievedEntity = await _repository.GetById(id);
+                _logger.LogInformation($"{typeof(ShoppingCartItem).Name} with id {id} successfully retrieved!");
+                return Ok(retrievedEntity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return NotFound();
+            }
+        }
+        [HttpPut, Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Update([FromBody] ShoppingCartItem entity)
+        {
+            try
+            {
+                int idOfUpdatedEntity = await _repository.Update(entity);
+                _logger.LogInformation($"{typeof(ShoppingCartItem).Name} with id {idOfUpdatedEntity} successfully updated!");
+                return Ok(idOfUpdatedEntity);
             }
             catch (Exception ex)
             {

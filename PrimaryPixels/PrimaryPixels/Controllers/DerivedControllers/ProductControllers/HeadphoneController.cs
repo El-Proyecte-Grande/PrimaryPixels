@@ -11,7 +11,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers.ProductControllers
     {
         protected IRepository<Headphone> _repository;
         protected ILogger<HeadphoneController> _logger;
-        protected HeadphoneController(ILogger<HeadphoneController> logger, IRepository<Headphone> repository)
+        public HeadphoneController(ILogger<HeadphoneController> logger, IRepository<Headphone> repository)
         {
             _logger = logger;
             _repository = repository;

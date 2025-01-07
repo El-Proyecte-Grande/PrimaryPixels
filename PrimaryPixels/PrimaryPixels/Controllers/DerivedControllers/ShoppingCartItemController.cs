@@ -11,7 +11,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers
     {
         protected IRepository<ShoppingCartItem> _repository;
         protected ILogger<ShoppingCartItemController> _logger;
-        protected ShoppingCartItemController(ILogger<ShoppingCartItemController> logger, IRepository<ShoppingCartItem> repository)
+        public ShoppingCartItemController(ILogger<ShoppingCartItemController> logger, IRepository<ShoppingCartItem> repository)
         {
             _logger = logger;
             _repository = repository;

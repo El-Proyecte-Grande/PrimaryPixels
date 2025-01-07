@@ -11,7 +11,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers.ProductControllers
     {
         protected IRepository<Phone> _repository;
         protected ILogger<PhoneController> _logger;
-        protected PhoneController(ILogger<PhoneController> logger, IRepository<Phone> repository)
+        public PhoneController(ILogger<PhoneController> logger, IRepository<Phone> repository)
         {
             _logger = logger;
             _repository = repository;

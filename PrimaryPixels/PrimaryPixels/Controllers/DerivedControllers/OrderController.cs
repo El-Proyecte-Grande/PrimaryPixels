@@ -11,7 +11,7 @@ public class OrderController : ControllerBase, IController<Order>
 {
     protected IRepository<Order> _repository;
     protected ILogger<OrderController> _logger;
-    protected OrderController(ILogger<OrderController> logger, IRepository<Order> repository)
+    public OrderController(ILogger<OrderController> logger, IRepository<Order> repository)
     {
         _logger = logger;
         _repository = repository;

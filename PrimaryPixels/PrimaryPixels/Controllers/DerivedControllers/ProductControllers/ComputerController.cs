@@ -10,7 +10,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers.ProductControllers
     {
         protected IRepository<Computer> _repository;
         protected ILogger<ComputerController> _logger;
-        protected ComputerController(ILogger<ComputerController> logger, IRepository<Computer> repository)
+        public ComputerController(ILogger<ComputerController> logger, IRepository<Computer> repository)
         {
             _logger = logger;
             _repository = repository;

@@ -24,7 +24,7 @@ function Navbar(){
 
     return(
         <StyledNav>
-            <img id="logo" src="../../../public/primary-pixels-logo.png"/>
+            <img id="logo" src="/primary-pixels-logo.png"/>
             <p id="input-message">Search: </p>
             <input type="search" id="searchbar"/>
             <StyledButton>Login</StyledButton>

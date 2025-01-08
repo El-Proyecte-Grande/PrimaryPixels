@@ -43,12 +43,12 @@ function FilterOptionsDiv({ products, setProducts }){
         return <Loading></Loading>;
     }
     return (
-        <>
+        <div id='filter-buttons'>
             <button key='Popular' type='button' className='filterButton' onClick={(event) => filterChanger(event, setFilter)}>Popular</button>
             <button key='Phone' type='button' className='filterButton' onClick={(event) => filterChanger(event, setFilter)}>Phone</button>
             <button key='Headphone' type='button' className='filterButton' onClick={(event) => filterChanger(event, setFilter)}>Headphone</button>
             <button key='Computer' type='button' className='filterButton' onClick={(event) => filterChanger(event, setFilter)}>Computer</button>
-        </>
+        </div>
     );
 };
 

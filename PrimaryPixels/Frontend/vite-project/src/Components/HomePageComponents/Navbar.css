@@ -1,6 +1,7 @@
 #logo {
-    width: 10vw;
+    width: 8vw;
     height: 12vh;
+    border-radius: 50%;
 }
 #searchbar {
     margin-top: 4vh;
@@ -12,5 +13,5 @@
     font-size: 0.9em;
 }
 #input-message{
-    margin-left: 3vw;
+    margin-left: 2.8vw;
 }

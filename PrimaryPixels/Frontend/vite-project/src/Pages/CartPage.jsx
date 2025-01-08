@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import './CartPage.scss';
+import api from "../Axios/api";
 export default function CartPage() {
 
     const { userId } = useParams();
-    const [orderInfo, setOrderInfo] = useState({ name: "", city: "", postcode: "", address: "" });
+    const [orderInfo, setOrderInfo] = useState({ firstName: "", lastName: "", city: "", postcode: "", address: "", orderProducts: [] });
     const [productsInCart, setProductsInCart] = useState([]);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
         document.body.style.background = "linear-gradient(315deg, rgba(60, 132, 206, 1) 38%, rgba(48, 238, 226, 1) 68%)";
     })
-
 
 
     useEffect(() => {
@@ -24,6 +25,7 @@ export default function CartPage() {
         }
         getProducts();
     }, [])
+
 
     // Edit quantity of a shoppingCartItem or delete when quantity = 0;
     async function editQuantity(num, productId, quantity) {
@@ -49,9 +51,31 @@ export default function CartPage() {
             )
         )
     }
+
+
+    // when the user clicks on the "ORDER" button
     async function submitOrder(e) {
         e.preventDefault();
-        
+        const updatedOrderInfo = {
+            ...orderInfo,
+            orderProducts: productsInCart.map(p => ({
+                productId: p.productId,
+                quantity: p.quantity,
+            })),
+        };
+        const response = await api.post("https://localhost:44319/api/order",
+            JSON.stringify(updatedOrderInfo),
+            {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })
+        if (response.status !== 200) {
+            console.error("Failed to submit order");
+            return;
+        }
+        console.log("Order submitted successfully!");
+        navigate("/");
     }
 
 
@@ -78,8 +102,10 @@ export default function CartPage() {
             </table>
             <div className="right-section">
                 <form className="form-div" onSubmit={(e) => submitOrder(e)}>
-                    <input className="order-input" type="text" placeholder="Name"
-                        onChange={e => setOrderInfo(prev => ({ ...prev, name: e.target.value }))} />
+                    <input className="order-input" type="text" placeholder="First Name"
+                        onChange={e => setOrderInfo(prev => ({ ...prev, firstName: e.target.value }))} />
+                    <input className="order-input" type="text" placeholder="Last Name"
+                        onChange={e => setOrderInfo(prev => ({ ...prev, lastName: e.target.value }))} />
                     <input className="order-input" type="text" placeholder="City"
                         onChange={e => setOrderInfo(prev => ({ ...prev, city: e.target.value }))} />
                     <input className="order-input" type="text" placeholder="Postcode"

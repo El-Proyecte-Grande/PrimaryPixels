@@ -26,7 +26,7 @@ public class OrderDetailsRepository : Repository<OrderDetails>
 
     public override async  Task<int> Add(OrderDetails entity)
     {
-        _context.OrderDetails.Add(entity);
+        await _context.OrderDetails.AddAsync(entity);
         await _context.SaveChangesAsync();
         return entity.Id;
     }

@@ -4,8 +4,9 @@ import './CartPage.scss';
 export default function CartPage() {
 
     const { userId } = useParams();
-    const [orderInfo, setOrderInfo] = useState({});
+    const [orderInfo, setOrderInfo] = useState({ name: "", city: "", postcode: "", address: "" });
     const [productsInCart, setProductsInCart] = useState([]);
+
 
     useEffect(() => {
         document.body.style.background = "linear-gradient(315deg, rgba(60, 132, 206, 1) 38%, rgba(48, 238, 226, 1) 68%)";
@@ -25,7 +26,7 @@ export default function CartPage() {
     }, [])
 
     // Edit quantity of a shoppingCartItem or delete when quantity = 0;
-    async function editQuantity(num, productId, quantity, deleteId) {
+    async function editQuantity(num, productId, quantity) {
 
         // delete if quantity will be 0
         if (quantity + num == 0) {
@@ -47,9 +48,11 @@ export default function CartPage() {
                     : product
             )
         )
-
     }
-
+    async function submitOrder(e) {
+        e.preventDefault();
+        
+    }
 
 
 
@@ -74,11 +77,15 @@ export default function CartPage() {
                 </tbody>
             </table>
             <div className="right-section">
-                <form className="form-div">
-                    <input className="order-input" type="text" name="name" placeholder="Name" />
-                    <input className="order-input" type="text" name="name" placeholder="City" />
-                    <input className="order-input" type="text" name="name" placeholder="Postcode" />
-                    <input className="order-input" type="text" name="name" placeholder="Address" />
+                <form className="form-div" onSubmit={(e) => submitOrder(e)}>
+                    <input className="order-input" type="text" placeholder="Name"
+                        onChange={e => setOrderInfo(prev => ({ ...prev, name: e.target.value }))} />
+                    <input className="order-input" type="text" placeholder="City"
+                        onChange={e => setOrderInfo(prev => ({ ...prev, city: e.target.value }))} />
+                    <input className="order-input" type="text" placeholder="Postcode"
+                        onChange={e => setOrderInfo(prev => ({ ...prev, postcode: e.target.value }))} />
+                    <input className="order-input" type="text" placeholder="Address"
+                        onChange={e => setOrderInfo(prev => ({ ...prev, address: e.target.value }))} />
                     <button type="submit" className="order-button" href="/">ORDER</button>
                 </form>
                 <div className="infos-div">

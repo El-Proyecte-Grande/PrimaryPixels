@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import './CartPage.scss';
 import api from "../Axios/api";
 export default function CartPage() {
@@ -14,7 +15,16 @@ export default function CartPage() {
         document.body.style.background = "linear-gradient(315deg, rgba(60, 132, 206, 1) 38%, rgba(48, 238, 226, 1) 68%)";
     })
 
+    // If we are not logged in or if we want to search for other user's cart, it redirect us to the home page.
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        const decodedToken = jwtDecode(token);
+        if (token == null || decodedToken.sub !== userId) {
+            navigate('/');
+        }
+    }, [navigate])
 
+    // Get cart's products
     useEffect(() => {
         async function getProducts() {
             const response = await fetch(`https://localhost:44319/api/ShoppingCartItem/user/${userId}`);

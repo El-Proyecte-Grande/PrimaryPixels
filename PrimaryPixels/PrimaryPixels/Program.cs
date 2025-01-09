@@ -1,4 +1,5 @@
 using System.Text;
+using dotenv.net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,11 @@ using PrimaryPixels.Models.ShoppingCartItem;
 using PrimaryPixels.Services.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration["ConnectionStrings:Default"];
+
+DotEnv.Load();
+builder.Configuration.AddEnvironmentVariables();
+
+var connectionString = builder.Configuration["ConnectionString"];
 var validIssuer = builder.Configuration["TokenValidation:ValidIssuer"];
 var validAudience = builder.Configuration["TokenValidation:ValidAudience"];
 var issuerSigningKey = builder.Configuration["TokenValidation:IssuerSigningKey"];
@@ -27,6 +32,7 @@ AddIdentity();
 AddCors();
 
 var app = builder.Build();
+Migration();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -160,4 +166,16 @@ void AddCors()
                 .AllowAnyMethod());
     });
 
+}
+
+void Migration()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        Console.WriteLine("----------------------------" + connectionString);
+        var primaryDb = scope.ServiceProvider.GetRequiredService<PrimaryPixelsContext>();
+        var usersDb = scope.ServiceProvider.GetRequiredService<UsersContext>();
+        primaryDb.Database.Migrate();
+        usersDb.Database.Migrate();
+    }
 }

@@ -1,17 +1,32 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
+import { useLocation } from "react-router-dom";
 import { styled } from 'styled-components';
 import Navbar from "../Components/HomePageComponents/Navbar";
 import ProductsDiv from "../Components/HomePageComponents/ProductsDiv";
 import FilterOptionsDiv from "../Components/HomePageComponents/FilterOptionsDiv";
 import './HomePage.css';
 
+//const authenticationStatus = localStorage.getItem("token") === null ? false : true;
+
 function HomePage(){
-const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(() => (
+        
+        localStorage.getItem("token") === null ? false : true
+    ));
+
+    const location = useLocation();
+    
+    console.log(location.token); 
+    useEffect(() => {
+        setIsLoggedIn(localStorage.getItem("token") === null ? false : true);
+
+    }, [location.token]);
 
     return (
         <>
-            <Navbar></Navbar>
+            <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}></Navbar>
             <div id='container'>
                 <FilterOptionsDiv products={products} setProducts={setProducts}></FilterOptionsDiv>
                 <ProductsDiv products={products} setProducts={setProducts}></ProductsDiv>

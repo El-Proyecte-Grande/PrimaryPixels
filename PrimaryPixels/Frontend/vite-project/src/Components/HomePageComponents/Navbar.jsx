@@ -19,17 +19,18 @@ const StyledButton = styled.button`
     background-color: #26a5a4;
 `;
 
-const navigate = useNavigate();
 
-function Navbar(){
+function Navbar({isLoggedIn, setIsLoggedIn}){
+    const navigate = useNavigate();
 
     return(
         <StyledNav>
             <img id="logo" src="/primary-pixels-logo.png"/>
             <p id="input-message">Search: </p>
             <input type="search" id="searchbar"/>
-            <StyledButton onClick={() => navigate("/login")}>Login</StyledButton>
-            <StyledButton>Register</StyledButton>
+            {isLoggedIn ? <StyledButton>Cart</StyledButton> : ""}
+            <StyledButton onClick={() => {!isLoggedIn ? navigate("/login"):  localStorage.removeItem("token"); setIsLoggedIn(false)}}>{!isLoggedIn ? "Login" : "Logout"}</StyledButton>
+            {!isLoggedIn ? <StyledButton>Register</StyledButton> : ""}
         </StyledNav>
     );
 };

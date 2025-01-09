@@ -1,4 +1,4 @@
 #products-container{
-    height: inherit;
-    margin-top: 0vh;
+    height: 86%;
+    border: 2px solid transparent;
 }

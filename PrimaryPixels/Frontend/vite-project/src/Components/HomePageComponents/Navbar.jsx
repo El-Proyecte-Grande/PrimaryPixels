@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 import './Navbar.css';
 
 const StyledNav = styled.nav`
-    width: 99.5vw;
+    width: 99.7%;
     height: 12vh;
     font-size: 1.2em;
     display: flex;

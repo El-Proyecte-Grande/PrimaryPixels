@@ -5,11 +5,11 @@
     margin-top: 4vh;
 }
 #filter-buttons{
-    margin-top: 10vh;
     width: 26vw;
-    height: 88%;
+    height: 60%;
     border-color: black;
     border-style: solid;
     border-width: 2px;
     font-size: 1em;
+    margin-top: 10vh;
 }

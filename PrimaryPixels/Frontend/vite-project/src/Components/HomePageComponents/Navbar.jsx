@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import './Navbar.css';
+import { useNavigate } from 'react-router-dom';
 
 const StyledNav = styled.nav`
     width: 99.7%;
@@ -18,7 +19,7 @@ const StyledButton = styled.button`
     background-color: #26a5a4;
 `;
 
-
+const navigate = useNavigate();
 
 function Navbar(){
 
@@ -27,7 +28,7 @@ function Navbar(){
             <img id="logo" src="/primary-pixels-logo.png"/>
             <p id="input-message">Search: </p>
             <input type="search" id="searchbar"/>
-            <StyledButton>Login</StyledButton>
+            <StyledButton onClick={() => navigate("/login")}>Login</StyledButton>
             <StyledButton>Register</StyledButton>
         </StyledNav>
     );

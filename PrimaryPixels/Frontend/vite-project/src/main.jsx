@@ -5,11 +5,16 @@ import './index.css'
 import HomePage from "./Pages/HomePage"
 import CartPage from "./Pages/CartPage"
 import ProductPage from "./Pages/ProductPage"
+import LoginPage from "./Pages/LoginPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />
+  },
+  {
+    path: "/login",
+    element: <LoginPage />
   },
   {
     path: "/product/:id",

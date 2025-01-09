@@ -1,38 +1,50 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimaryPixels.Models.Order;
+using PrimaryPixels.Models.Products;
+using PrimaryPixels.Services;
 using PrimaryPixels.Services.Repositories;
 
 namespace PrimaryPixels.Controllers.DerivedControllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class OrderController : ControllerBase, IController<Order>
+public class OrderController : ControllerBase
 {
     protected IRepository<Order> _repository;
     protected ILogger<OrderController> _logger;
-    public OrderController(ILogger<OrderController> logger, IRepository<Order> repository)
+    protected IOrderService _orderService;
+  
+    public OrderController(ILogger<OrderController> logger, IRepository<Order> repository, IOrderService orderService)
     {
         _logger = logger;
         _repository = repository;
+        _orderService = orderService;
     }
     [HttpPost(""), Authorize]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Add([FromBody] Order entity)
+    public async Task<IActionResult> Add([FromBody] OrderDTO entity)
     {
         try
         {
-            int idOfAddedEntity = await _repository.Add(entity);
-            _logger.LogInformation($"{typeof(Order).Name} with id {idOfAddedEntity} successfully added!");
-            return Ok(idOfAddedEntity);
+            // Get the userId from claims
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("UserId not found.");
+            }
+            int orderId = await _orderService.CreateOrder(entity, userId);
+            return Ok(orderId);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return BadRequest();
+            return BadRequest(ex.Message);
         }
     }
+    
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

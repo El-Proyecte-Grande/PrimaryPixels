@@ -12,8 +12,6 @@ namespace PrimaryPixels.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Users");
 
             migrationBuilder.AlterColumn<string>(
                 name: "UserId",
@@ -35,30 +33,7 @@ namespace PrimaryPixels.Migrations
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)");
 
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "Email", "Password", "Username" },
-                values: new object[,]
-                {
-                    { 1, "joe@gmail.com", "Joe123", "Joe88" },
-                    { 2, "charles@gmail.com", "charlie10", "Charles11" },
-                    { 3, "maxiking@gmail.com", "maximusminimus", "Maximus" }
-                });
+            
         }
     }
 }

@@ -32,20 +32,6 @@ namespace PrimaryPixels.Migrations
                 keyColumn: "Id",
                 keyValue: 4);
 
-            migrationBuilder.DeleteData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: 1);
-
-            migrationBuilder.DeleteData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: 2);
-
-            migrationBuilder.DeleteData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: 3);
 
             migrationBuilder.AlterColumn<string>(
                 name: "UserId",
@@ -78,15 +64,7 @@ namespace PrimaryPixels.Migrations
                     { 4, 3, 2, 2 }
                 });
 
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "Email", "Password", "Username" },
-                values: new object[,]
-                {
-                    { 1, "joe@gmail.com", "Joe123", "Joe88" },
-                    { 2, "charles@gmail.com", "charlie10", "Charles11" },
-                    { 3, "maxiking@gmail.com", "maximusminimus", "Maximus" }
-                });
+           
         }
     }
 }

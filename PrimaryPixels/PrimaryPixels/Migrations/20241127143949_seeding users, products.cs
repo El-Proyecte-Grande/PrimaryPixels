@@ -27,15 +27,6 @@ namespace PrimaryPixels.Migrations
                 columns: new[] { "Id", "Availability", "CardIndependency", "Cpu", "InternalMemory", "Name", "Price", "ProductType", "Ram", "Sold", "TotalSold" },
                 values: new object[] { 3, true, true, "Dimensity 9400", 128, "Redmi A24", 100000, "Phone", 4, 0, 0 });
 
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "Email", "Password", "Username" },
-                values: new object[,]
-                {
-                    { 1, "joe@gmail.com", "Joe123", "Joe88" },
-                    { 2, "charles@gmail.com", "charlie10", "Charles11" },
-                    { 3, "maxiking@gmail.com", "maximusminimus", "Maximus" }
-                });
         }
 
         /// <inheritdoc />
@@ -56,20 +47,6 @@ namespace PrimaryPixels.Migrations
                 keyColumn: "Id",
                 keyValue: 3);
 
-            migrationBuilder.DeleteData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: 1);
-
-            migrationBuilder.DeleteData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: 2);
-
-            migrationBuilder.DeleteData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: 3);
         }
     }
 }

@@ -12,7 +12,7 @@ const [products, setProducts] = useState([]);
     return (
         <>
             <Navbar></Navbar>
-            <div id='products-container'>
+            <div id='container'>
                 <FilterOptionsDiv products={products} setProducts={setProducts}></FilterOptionsDiv>
                 <ProductsDiv products={products} setProducts={setProducts}></ProductsDiv>
             </div>

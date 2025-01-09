@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import './Navbar.css';
+import { useNavigate } from 'react-router-dom';
 
 const StyledNav = styled.nav`
     width: 99.7%;
@@ -21,16 +22,18 @@ const StyledButton = styled.button`
 
 
 
-function Navbar() {
+function Navbar({isLoggedIn, setIsLoggedIn}){
+    const navigate = useNavigate();
 
     return (
         <StyledNav>
-            <img id="logo" src="/primary-pixels-logo.png" />
-            <input type="search" id="searchbar" />
-            <div className='auth-buttons'>
-                <StyledButton>Login</StyledButton>
-                <StyledButton>Register</StyledButton>
-            </div>
+            <img id="logo" src="/primary-pixels-logo.png"/>
+            <input type="search" id="searchbar"/>
+       <div className='auth-buttons'>
+            {isLoggedIn ? <StyledButton>Cart</StyledButton> : ""}
+            <StyledButton onClick={() => {!isLoggedIn ? navigate("/login"):  localStorage.removeItem("token"); setIsLoggedIn(false)}}>{!isLoggedIn ? "Login" : "Logout"}</StyledButton>
+            {!isLoggedIn ? <StyledButton>Register</StyledButton> : ""}
+      </div>
         </StyledNav>
     );
 };

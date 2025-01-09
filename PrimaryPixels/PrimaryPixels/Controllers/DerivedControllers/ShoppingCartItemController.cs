@@ -103,5 +103,21 @@ namespace PrimaryPixels.Controllers.DerivedControllers
                 return BadRequest();
             }
         }
+        
+        [HttpGet("/api/ShoppingCartItem/user/{userId}")]
+                public async Task<IActionResult> GetProductForOrder(string userId)
+                {
+                    try
+                    {
+                        ShoppingCartItemRepository repository = _repository as ShoppingCartItemRepository;
+                        var cartProducts = await repository.GetByUserId(userId);
+                        return Ok(cartProducts);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, ex.Message);
+                        return BadRequest();
+                    }
+                }
     }
 }

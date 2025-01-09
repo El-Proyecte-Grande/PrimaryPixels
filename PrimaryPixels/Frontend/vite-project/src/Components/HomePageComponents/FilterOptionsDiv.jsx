@@ -1,16 +1,16 @@
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import Loading from '../LoadingComponent/Loading';
 import './FilterOptionsDiv.css';
 
 
 
-const fetchProducts =  async (filter) => {
+const fetchProducts = async (filter) => {
     try {
-        const response = await fetch(`https://localhost:7029/api/${filter === "Popular" ? "Product" : filter}`);
-        if(!response.ok) throw new Error("Products were not found or error during accessing the data!")
+        const response = await fetch(`https://localhost:44319/api/${filter === "Popular" ? "Product" : filter}`);
+        if (!response.ok) throw new Error("Products were not found or error during accessing the data!")
         const data = await response.json();
         return data;
-        
+
     } catch (error) {
         console.error(error);
         alert(error.message);
@@ -23,23 +23,23 @@ const filterChanger = (event, setFilter) => {
 }
 
 
-function FilterOptionsDiv({ products, setProducts }){
+function FilterOptionsDiv({ products, setProducts }) {
     const [loading, setLoading] = useState(false);
     const [filter, setFilter] = useState("Product");
 
     useEffect(() => {
         setLoading(true);
         fetchProducts(filter).
-        then(data => {
-            if(data.length === 0){
-                alert("No products were found!!");
-            }
-            setProducts(data);
-            setLoading(false);
-        });
+            then(data => {
+                if (data.length === 0) {
+                    alert("No products were found!!");
+                }
+                setProducts(data);
+                setLoading(false);
+            });
     }, [filter]);
 
-    if(loading){
+    if (loading) {
         return <Loading></Loading>;
     }
     return (

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrimaryPixels.Data;
 
@@ -11,9 +12,11 @@ using PrimaryPixels.Data;
 namespace PrimaryPixels.Migrations
 {
     [DbContext(typeof(PrimaryPixelsContext))]
-    partial class PrimaryPixelsContextModelSnapshot : ModelSnapshot
+    [Migration("20241212135015_AddShoppingcartItems")]
+    partial class AddShoppingcartItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,23 +41,11 @@ namespace PrimaryPixels.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateOnly>("OrderDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("Price")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -97,10 +88,6 @@ namespace PrimaryPixels.Migrations
                     b.Property<bool>("Availability")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -139,15 +126,99 @@ namespace PrimaryPixels.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UnitPrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
                     b.ToTable("ShoppingCartItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ProductId = 4,
+                            Quantity = 2,
+                            UnitPrice = 0,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ProductId = 2,
+                            Quantity = 4,
+                            UnitPrice = 0,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ProductId = 2,
+                            Quantity = 1,
+                            UnitPrice = 0,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ProductId = 3,
+                            Quantity = 2,
+                            UnitPrice = 0,
+                            UserId = 2
+                        });
+                });
+
+            modelBuilder.Entity("PrimaryPixels.Models.Users.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "joe@gmail.com",
+                            Password = "Joe123",
+                            Username = "Joe88"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "charles@gmail.com",
+                            Password = "charlie10",
+                            Username = "Charles11"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Email = "maxiking@gmail.com",
+                            Password = "maximusminimus",
+                            Username = "Maximus"
+                        });
                 });
 
             modelBuilder.Entity("PrimaryPixels.Models.Products.Device", b =>
@@ -185,11 +256,28 @@ namespace PrimaryPixels.Migrations
                         {
                             Id = 1,
                             Availability = true,
-                            Image = "https://cdn.lifehack.org/wp-content/uploads/2014/12/28.jpg",
                             Name = "Ultra pro max Headphone 2000",
                             Price = 500,
                             TotalSold = 0,
                             Wireless = false
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Availability = true,
+                            Name = "Ultra pro max Headphone 5000",
+                            Price = 1000,
+                            TotalSold = 0,
+                            Wireless = false
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Availability = true,
+                            Name = "Ultra pro max Headphone 1000",
+                            Price = 200,
+                            TotalSold = 0,
+                            Wireless = true
                         });
                 });
 
@@ -208,7 +296,6 @@ namespace PrimaryPixels.Migrations
                         {
                             Id = 2,
                             Availability = true,
-                            Image = "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_98587778/mobile_786_587_png/X-X-GAMER-I3228-Gamer-PC-%28Core-i5-16GB-480-GB-SSD---2-TB-HDD-RX6750XT-12GB-NoOS%29",
                             Name = "Gaming PC 3510",
                             Price = 100000,
                             TotalSold = 0,
@@ -221,7 +308,6 @@ namespace PrimaryPixels.Migrations
                         {
                             Id = 3,
                             Availability = true,
-                            Image = "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_143744896/mobile_786_587_png/SHARKGAMING-RGBeast-R900-SGRGBR900-33-4090-Gamer-PC-%28Ryzen9-32GB-2x1024-GB-SSD-Win11H%29",
                             Name = "Gaming PC 5000",
                             Price = 5000000,
                             TotalSold = 0,
@@ -247,7 +333,6 @@ namespace PrimaryPixels.Migrations
                         {
                             Id = 6,
                             Availability = true,
-                            Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSELHPTLjLUf8sBWPzXg7bTDdG1nClBF5Kc4A&s",
                             Name = "Redmi A24",
                             Price = 100000,
                             TotalSold = 0,
@@ -260,7 +345,6 @@ namespace PrimaryPixels.Migrations
                         {
                             Id = 7,
                             Availability = true,
-                            Image = "https://www.tecnosell.com/media/catalog/product/cache/60c31028333b516fd0f8945d994bb7aa/b/l/blu1_2_7_1.jpg",
                             Name = "iPhone 19",
                             Price = 5000000,
                             TotalSold = 0,
@@ -273,7 +357,6 @@ namespace PrimaryPixels.Migrations
                         {
                             Id = 8,
                             Availability = true,
-                            Image = "https://cdn.tmobile.com/content/dam/t-mobile/en-p/cell-phones/apple/Apple-iPhone-15-Plus/Pink/Apple-iPhone-15-Plus-Pink-thumbnail.png",
                             Name = "Redmi A29",
                             Price = 600000,
                             TotalSold = 0,

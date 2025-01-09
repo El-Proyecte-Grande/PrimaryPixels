@@ -10,6 +10,7 @@ using PrimaryPixels.Models.Order;
 using PrimaryPixels.Services.Repositories;
 using PrimaryPixels.Models;
 using PrimaryPixels.Models.ShoppingCartItem;
+using PrimaryPixels.Services;
 using PrimaryPixels.Services.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,6 +58,7 @@ void AddServices()
     builder.Services.AddScoped<IRepository<OrderDetails>, OrderDetailsRepository>();
     builder.Services.AddScoped<IRepository<ShoppingCartItem>, ShoppingCartItemRepository>();
     builder.Services.AddScoped<IProductRepository, ProductsRepository>();
+    builder.Services.AddScoped<IOrderService, OrderService>();
     builder.Services.AddScoped<IAuthService, AuthService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddScoped<AuthenticationSeeder>();

@@ -1,15 +1,17 @@
-.filterButton{
+.filterButton {
     display: block;
-    background-color: rgb(167, 228, 15);
+    background-color: white;
     width: inherit;
-    margin-top: 4vh;
+    margin-top: 2vh;
 }
-#filter-buttons{
+
+#filter-buttons {
     width: 26vw;
-    height: 60%;
-    border-color: black;
-    border-style: solid;
+    height: 100%;
     border-width: 2px;
     font-size: 1em;
-    margin-top: 10vh;
+    background-color: rgb(227, 231, 225);
+    padding-top: 5rem;
+    position: fixed;
+    z-index: 10;
 }

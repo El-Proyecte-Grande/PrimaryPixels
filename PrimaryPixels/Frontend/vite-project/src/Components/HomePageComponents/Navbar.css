@@ -1,17 +1,22 @@
 #logo {
-    width: 8vw;
-    height: 12vh;
     border-radius: 50%;
+    height: 4rem;
+    padding-left: 1rem;
 }
+
 #searchbar {
-    margin-top: 4vh;
     margin-left: 5vw;
     margin-right: 10vw;
-    margin-bottom: auto;
     height: 50%;
     width: 30%;
     font-size: 0.9em;
 }
-#input-message{
+
+#input-message {
     margin-left: 2.8vw;
+}
+
+.auth-buttons {
+    position: absolute;
+    right: 3rem;
 }

@@ -8,27 +8,29 @@ const StyledNav = styled.nav`
     font-size: 1.2em;
     display: flex;
     border-radius: 8px;
-    border: 2px solid black;
-    background-color: rgba(161,161,161,0.7);
+    background-color: rgb(227, 231, 225);
+    align-items:center;
+    position: fixed;
+    z-index:20;
 `;
 
 const StyledButton = styled.button`
     margin-left: 3vw;
-    margin-right: 5vw;
-    background-color: #26a5a4;
+    background-color:rgb(255, 255, 255);
 `;
 
 
 
-function Navbar(){
+function Navbar() {
 
-    return(
+    return (
         <StyledNav>
-            <img id="logo" src="/primary-pixels-logo.png"/>
-            <p id="input-message">Search: </p>
-            <input type="search" id="searchbar"/>
-            <StyledButton>Login</StyledButton>
-            <StyledButton>Register</StyledButton>
+            <img id="logo" src="/primary-pixels-logo.png" />
+            <input type="search" id="searchbar" />
+            <div className='auth-buttons'>
+                <StyledButton>Login</StyledButton>
+                <StyledButton>Register</StyledButton>
+            </div>
         </StyledNav>
     );
 };

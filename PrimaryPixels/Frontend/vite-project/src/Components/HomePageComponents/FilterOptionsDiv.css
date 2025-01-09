@@ -1,7 +1,9 @@
 .filterButton {
     display: block;
     background-color: white;
-    width: inherit;
+    width: 80%;
+    margin-left: 1rem;
+    margin-right: 1rem;
     margin-top: 2vh;
 }
 

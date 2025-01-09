@@ -27,17 +27,17 @@ const getUserId = () => {
     return decodedToken.sub;
 };
 
-function Navbar({isLoggedIn, setIsLoggedIn}){
-    
+function Navbar({ isLoggedIn, setIsLoggedIn }) {
+    const navigate = useNavigate();
     return (
         <StyledNav>
-            <img id="logo" src="/primary-pixels-logo.png"/>
-            <input type="search" id="searchbar"/>
-       <div className='auth-buttons'>
-            {isLoggedIn ? <StyledButton onClick={() => navigate(`/cart/${getUserId()}`)}>Cart</StyledButton> : ""}
-            <StyledButton onClick={() => {!isLoggedIn ? navigate("/login"):  localStorage.removeItem("token"); setIsLoggedIn(false)}}>{!isLoggedIn ? "Login" : "Logout"}</StyledButton>
-            {!isLoggedIn ? <StyledButton>Register</StyledButton> : ""}
-      </div>
+            <img id="logo" src="/primary-pixels-logo.png" />
+            <input type="search" id="searchbar" />
+            <div className='auth-buttons'>
+                {isLoggedIn ? <StyledButton onClick={() => navigate(`/cart/${getUserId()}`)}>Cart</StyledButton> : ""}
+                <StyledButton onClick={() => { !isLoggedIn ? navigate("/login") : localStorage.removeItem("token"); setIsLoggedIn(false) }}>{!isLoggedIn ? "Login" : "Logout"}</StyledButton>
+                {!isLoggedIn ? <StyledButton>Register</StyledButton> : ""}
+            </div>
         </StyledNav>
     );
 };

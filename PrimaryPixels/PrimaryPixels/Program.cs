@@ -23,10 +23,6 @@ var validIssuer = builder.Configuration["ValidIssuer"];
 var validAudience = builder.Configuration["ValidAudience"];
 var issuerSigningKey = builder.Configuration["JwtSecretKey"];
 // Add services to the container.
-Console.WriteLine(connectionString);
-Console.WriteLine(validAudience);
-Console.WriteLine(validIssuer);
-Console.WriteLine(issuerSigningKey);
 
 AddServices();
 ConfigureSwagger();

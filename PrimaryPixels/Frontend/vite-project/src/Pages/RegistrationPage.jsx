@@ -1,4 +1,4 @@
-import './RegistrationPage.scss';
+import './AuthPage.scss';
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { api } from "../Axios/api";

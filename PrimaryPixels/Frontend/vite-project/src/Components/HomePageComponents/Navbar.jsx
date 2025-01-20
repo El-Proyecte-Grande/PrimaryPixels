@@ -36,7 +36,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
             <div className='auth-buttons'>
                 {isLoggedIn ? <StyledButton onClick={() => navigate(`/cart/${getUserId()}`)}>Cart</StyledButton> : ""}
                 <StyledButton onClick={() => { !isLoggedIn ? navigate("/login") : localStorage.removeItem("token"); setIsLoggedIn(false) }}>{!isLoggedIn ? "Login" : "Logout"}</StyledButton>
-                {!isLoggedIn ? <StyledButton>Register</StyledButton> : ""}
+                {!isLoggedIn ? <StyledButton onClick={() => navigate("/register")}>Register</StyledButton> : ""}
             </div>
         </StyledNav>
     );

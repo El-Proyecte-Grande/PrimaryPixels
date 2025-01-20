@@ -1,7 +1,7 @@
 import './LoginPage.css';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import {api} from "../Axios/api"
+import { api } from "../Axios/api"
 
 const getUserData = (email, password) => {
     if (email === "" || password === "") throw new Error("The email and/or password that you have to provide is/are missing!");
@@ -10,7 +10,7 @@ const getUserData = (email, password) => {
 
 const authenticate = async (email, password, navigate) => {
     try {
-        const response = await api.post("/Auth/Login", getUserData(email, password), {
+        const response = await api.post("/Auth/login", getUserData(email, password), {
             headers: { "Content-Type": "application/json" }
         });
         if (response.status !== 200) {

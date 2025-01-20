@@ -1,6 +1,7 @@
 import { useState, useEffect, } from "react";
 import { useParams } from "react-router-dom"
-import './productPage.scss';
+import { api } from "../Axios/api"
+import './ProductPage.scss'
 
 export default function ProductPage() {
 
@@ -9,8 +10,8 @@ export default function ProductPage() {
 
     useEffect(() => {
         async function fetchProduct() {
-            const response = await fetch(`https://localhost:44319/api/Product/${id}`);
-            const data = await response.json();
+            const response = await api.get(`/api/Product/${id}`)
+            const data = await response.data
             setProduct(data)
         }
         fetchProduct();

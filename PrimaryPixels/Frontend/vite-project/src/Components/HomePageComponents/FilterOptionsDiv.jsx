@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
 import Loading from '../LoadingComponent/Loading';
 import './FilterOptionsDiv.css';
+import {api} from "../../Axios/api.js"
 
 
 
 const fetchProducts = async (filter) => {
     try {
-        const response = await fetch(`https://localhost:44319/api/${filter === "Popular" ? "Product" : filter}`);
-        if (!response.ok) throw new Error("Products were not found or error during accessing the data!")
-        const data = await response.json();
-        return data;
-
+        const response = await api.get(`/api/${filter === "Popular" ? "Product" : filter}`);
+        if (response.status !== 200) {
+            throw new Error("Products were not found or error during accessing the data!");
+        }
+        return response.data;
     } catch (error) {
         console.error(error);
         alert(error.message);
+        return [];
     }
 }
 
@@ -29,14 +31,13 @@ function FilterOptionsDiv({ products, setProducts }) {
 
     useEffect(() => {
         setLoading(true);
-        fetchProducts(filter).
-            then(data => {
-                if (data.length === 0) {
-                    alert("No products were found!!");
-                }
-                setProducts(data);
-                setLoading(false);
-            });
+        fetchProducts(filter).then(data => {
+            if (data.length === 0) {
+                alert("No products were found!!");
+            }
+            setProducts(data);
+            setLoading(false);
+        });
     }, [filter]);
 
     if (loading) {

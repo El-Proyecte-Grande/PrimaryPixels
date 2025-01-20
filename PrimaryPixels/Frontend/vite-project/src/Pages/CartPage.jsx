@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import './CartPage.scss';
-import api from "../Axios/api";
+import { apiWithAuth } from "../Axios/api";
 export default function CartPage() {
 
     const { userId } = useParams();
@@ -26,9 +26,9 @@ export default function CartPage() {
     // Get cart's products
     useEffect(() => {
         async function getProducts() {
-            const response = await fetch(`https://localhost:44319/api/ShoppingCartItem/user/${userId}`);
-            if (response.ok) {
-                const data = await response.json();
+            const response = await apiWithAuth.get(`/api/ShoppingCartItem/user/${userId}`);
+            if (response.status == 200) {
+                const data = response.data;
                 setProductsInCart(data);
             }
         }
@@ -41,9 +41,7 @@ export default function CartPage() {
 
         // delete if quantity will be 0
         if (quantity + num == 0) {
-            const response = await fetch(`https://localhost:44319/api/ShoppingCartItem/${productId}`, {
-                method: "DELETE"
-            })
+            const response = await apiWithAuth.delete(`/api/ShoppingCartItem/${productId}`)
             if (response.ok) {
                 // if user deleted a product, should refresh immediately
                 setProductsInCart(prev => prev.filter(product => product.id !== productId));
@@ -76,7 +74,7 @@ export default function CartPage() {
                 quantity: p.quantity,
             })),
         };
-        const response = await api.post("https://localhost:44319/api/order",
+        const response = await apiWithAuth.post("/api/order",
             JSON.stringify(updatedOrderInfo),
             {
                 headers: {

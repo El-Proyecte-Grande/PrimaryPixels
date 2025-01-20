@@ -1,10 +1,12 @@
 import axios from 'axios';
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
-const api = axios.create({
-    baseURL: 'https://localhost:44319'
+// for sending request with token in headers
+const apiWithAuth = axios.create({
+    baseURL
 });
 
-api.interceptors.request.use((config) => {
+apiWithAuth.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -14,6 +16,10 @@ api.interceptors.request.use((config) => {
     return Promise.reject(error);
 });
 
-export default api;
 
+// for sending request without token in headers (login, register, basic datas etc..)
+const api = axios.create({
+    baseURL
+});
 
+export { api, apiWithAuth };

@@ -1,4 +1,5 @@
 using System.Text;
+using dotenv.net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,13 @@ using PrimaryPixels.Services;
 using PrimaryPixels.Services.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration["ConnectionStrings:Default"];
-var validIssuer = builder.Configuration["TokenValidation:ValidIssuer"];
-var validAudience = builder.Configuration["TokenValidation:ValidAudience"];
-var issuerSigningKey = builder.Configuration["TokenValidation:IssuerSigningKey"];
+DotEnv.Load();
+builder.Configuration.AddEnvironmentVariables();
+
+var connectionString = builder.Configuration["ConnectionString"];
+var validIssuer = builder.Configuration["ValidIssuer"];
+var validAudience = builder.Configuration["ValidAudience"];
+var issuerSigningKey = builder.Configuration["JwtSecretKey"];
 // Add services to the container.
 
 AddServices();

@@ -8,14 +8,21 @@ namespace PrimaryPixels.Data;
 
 public class PrimaryPixelsContext : DbContext
 {
-    public PrimaryPixelsContext(DbContextOptions<PrimaryPixelsContext> options) : base(options)
+    private IConfiguration _configuration;
+    public PrimaryPixelsContext(DbContextOptions<PrimaryPixelsContext> options, IConfiguration configuration) : base(options)
     {
+        _configuration = configuration;
     }
     public DbSet<Product> Products { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderDetails> OrderDetails { get; set; }
     public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
-    
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer(_configuration["ConnectionString"]);
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Product>(entity =>

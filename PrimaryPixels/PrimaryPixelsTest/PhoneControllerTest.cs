@@ -58,5 +58,51 @@ namespace PrimaryPixelsTest
             var okObject = result as OkObjectResult;
             Assert.That(okObject?.Value, Is.EqualTo(_phone.Id));
         }
+
+        [Test]
+        public async Task DeleteMethodFailsIfRepositoryThrowsException()
+        {
+            _repositoryMock.Setup(x => x.DeleteById(_phone.Id)).ThrowsAsync(new Exception());
+
+            var result = await _phoneController.Delete(_phone.Id);
+
+            Assert.That(result, Is.InstanceOf<NotFoundResult>());
+        }
+
+        [Test]
+        public async Task DeleteMethodReturnsTheIdOfTheDeletedEntityIfEverythingIsOk()
+        {
+            _repositoryMock.Setup(x => x.DeleteById(_phone.Id)).ReturnsAsync(_phone.Id);
+
+            var result = await _phoneController.Delete(_phone.Id);
+
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var okObject = result as OkObjectResult;
+            Assert.That(okObject?.Value, Is.EqualTo(_phone.Id));
+        }
+
+        [Test]
+        public async Task GetAllMethodFailsIfRepositoryThrowsException()
+        {
+            _repositoryMock.Setup(x => x.GetAll()).ThrowsAsync(new Exception());
+
+            var result = await _phoneController.GetAll();
+
+            Assert.That(result, Is.InstanceOf<NotFoundResult>());
+        }
+
+        [Test]
+        public async Task GetAllMethodReturnsAllPhoneEntitiesIfEverythingIsOk()
+        {
+            var phones = new Phone[] { _phone, _phone };
+            _repositoryMock.Setup(x => x.GetAll()).ReturnsAsync(phones);
+
+            var result = await _phoneController.GetAll();
+
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var okObject = result as OkObjectResult;
+            Assert.That(okObject?.Value, Is.EqualTo(phones));
+        }
+
     }
 }

@@ -17,9 +17,8 @@ export default function AdminPage() {
         const token = localStorage.getItem("token");
         if (token == null) navigate("/")
         const decodedToken = jwtDecode(token);
-        console.log(decodedToken);
         if (decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] != "Admin") {
-            // navigate('/');
+            navigate('/');
         }
     }, [])
 
@@ -72,11 +71,11 @@ export default function AdminPage() {
                             </div>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name"> DVD Player </label>
-                                <input type="checkbox" className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, dvdPlayer: e.target.value }))} />
+                                <input type="checkbox" className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, dvdPlayer: e.target.checked }))} />
                             </div>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name" > Availability </label>
-                                <input type="checkbox" className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, availability: e.target.value }))} />
+                                <input type="checkbox" className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, availability: e.target.checked }))} />
                             </div>
                         </>
 
@@ -84,58 +83,58 @@ export default function AdminPage() {
                         <>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name"> Name </label>
-                                <input className="product-input" />
+                                <input className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, name: e.target.value }))} />
                             </div>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name"> Image </label>
-                                <input className="product-input" />
+                                <input className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, image: e.target.value }))} />
                             </div>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name"> Price </label>
-                                <input className="product-input" />
+                                <input className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, price: e.target.value }))} />
                             </div>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name"> RAM </label>
-                                <input className="product-input" />
+                                <input className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, ram: e.target.value }))} />
                             </div>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name"> CPU </label>
-                                <input className="product-input" />
+                                <input className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, cpu: e.target.value }))} />
                             </div>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name"> Internal Memory </label>
-                                <input className="product-input" />
+                                <input className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, internalMemory: e.target.value }))} />
                             </div>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name"> Card Independency </label>
-                                <input type="checkbox" className="product-input" />
+                                <input type="checkbox" className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, cardIndependency: e.target.checked }))} />
                             </div>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name"> Availability </label>
-                                <input type="checkbox" className="product-input" />
+                                <input type="checkbox" className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, availability: e.target.checked }))} />
                             </div>
                         </>
                     ) : current === "Headphone" ? (
                         <>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name"> Name </label>
-                                <input className="product-input" />
+                                <input className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, name: e.target.value }))} />
                             </div>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name"> Image </label>
-                                <input className="product-input" />
+                                <input className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, image: e.target.value }))} />
                             </div>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name"> Price </label>
-                                <input className="product-input" />
+                                <input className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, price: e.target.value }))} />
                             </div>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name"> Wireless </label>
-                                <input type="checkbox" className="product-input" />
+                                <input type="checkbox" className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, wireless: e.target.checked }))} />
                             </div>
                             <div className="form-element">
                                 <label className="product-label" htmlFor="name"> Availability </label>
-                                <input type="checkbox" className="product-input" />
+                                <input type="checkbox" className="product-input" onChange={(e) => setProduct(prev => ({ ...prev, availability: e.target.checked }))} />
                             </div>
                         </>
                     ) : (

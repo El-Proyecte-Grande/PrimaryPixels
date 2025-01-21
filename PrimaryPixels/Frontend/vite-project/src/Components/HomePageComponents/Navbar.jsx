@@ -45,7 +45,7 @@ function Navbar() {
 
     return (
         <StyledNav>
-            <img id="logo" src="/primary-pixels-logo.png" />
+            <img id="logo" src="/primary-pixels-logo.png" onClick={(e) => navigate("/")} />
             <input type="search" id="searchbar" />
             <div className='auth-buttons'>
                 {isLoggedIn ? <StyledButton onClick={() => navigate(`/cart/${getUserId()}`)}>Cart</StyledButton> : ""}

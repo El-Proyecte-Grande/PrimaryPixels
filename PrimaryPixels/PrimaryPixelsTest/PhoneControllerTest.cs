@@ -104,5 +104,48 @@ namespace PrimaryPixelsTest
             Assert.That(okObject?.Value, Is.EqualTo(phones));
         }
 
+        [Test]
+        public async Task GetByIdMethodFailsIfRepositoryThrowsException()
+        {
+            _repositoryMock.Setup(x => x.GetById(_phone.Id)).ThrowsAsync(new Exception());
+
+            var result = await _phoneController.GetById(_phone.Id);
+
+            Assert.That(result, Is.InstanceOf<NotFoundResult>());
+        }
+
+        [Test]
+        public async Task GetByIdMethodReturnsTheRetrievedEntityIfEverythingIsOk()
+        {
+            _repositoryMock.Setup(x => x.GetById(_phone.Id)).ReturnsAsync(_phone);
+
+            var result = await _phoneController.GetById(_phone.Id);
+
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var okObject = result as OkObjectResult;
+            Assert.That(okObject?.Value, Is.EqualTo(_phone));
+        }
+
+        [Test]
+        public async Task UpdateMethodFailsIfRepositoryThrowsException()
+        {
+            _repositoryMock.Setup(x => x.Update(_phone)).ThrowsAsync(new Exception());
+
+            var result = await _phoneController.Update(_phone);
+
+            Assert.That(result, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task UpdateMethodReturnsTheIdOfTheUpdatedEntityIfEverythingIsOk()
+        {
+            _repositoryMock.Setup(x => x.Update(_phone)).ReturnsAsync(_phone.Id);
+
+            var result = await _phoneController.Update(_phone);
+
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var okObject = result as OkObjectResult;
+            Assert.That(okObject?.Value, Is.EqualTo(_phone.Id));
+        }
     }
 }

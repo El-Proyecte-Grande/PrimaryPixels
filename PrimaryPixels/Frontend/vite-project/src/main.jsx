@@ -8,6 +8,7 @@ import ProductPage from "./Pages/ProductPage"
 import LoginPage from "./Pages/LoginPage";
 import OrderedPage from "./Pages/OrderedPage"
 import RegistrationPage from "./Pages/RegistrationPage";
+import AdminPage from "./Pages/AdminPage";
 
 
 const router = createBrowserRouter([
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
     path: "/order/success/:orderId",
     element: <OrderedPage />
   },
+  {
+    path: "/admin",
+    element: <AdminPage />
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

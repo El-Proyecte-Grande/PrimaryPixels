@@ -1,5 +1,5 @@
 
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { styled } from 'styled-components';
 import Navbar from "../Components/HomePageComponents/Navbar";
@@ -9,16 +9,15 @@ import './HomePage.css';
 
 //const authenticationStatus = localStorage.getItem("token") === null ? false : true;
 
-function HomePage(){
+function HomePage() {
     const [products, setProducts] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(() => (
-        
+
         localStorage.getItem("token") === null ? false : true
     ));
 
     const location = useLocation();
-    
-    console.log(location.token); 
+
     useEffect(() => {
         setIsLoggedIn(localStorage.getItem("token") === null ? false : true);
 

@@ -7,14 +7,10 @@ using Moq;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using PrimaryPixels.Controllers.DerivedControllers;
-using Microsoft.AspNetCore.Identity;
 using PrimaryPixels.Models.Order;
-using PrimaryPixels.Controllers.DerivedControllers.ProductControllers;
-using PrimaryPixels.Models.Products;
 using PrimaryPixels.Services.Repositories;
 using PrimaryPixels.Services;
 using Microsoft.AspNetCore.Http;
-using PrimaryPixels.Controllers;
 using System.Security.Claims;
 
 namespace PrimaryPixelsTest

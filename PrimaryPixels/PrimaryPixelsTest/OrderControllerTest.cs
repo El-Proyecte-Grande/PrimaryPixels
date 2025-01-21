@@ -112,5 +112,95 @@ namespace PrimaryPixelsTest
             var okResult = result as OkObjectResult;
             Assert.That(okResult.Value, Is.EqualTo(_order.Id));
         }
+
+        [Test]
+        public async Task DeleteMethodFailsIfRepositoryThrowsException()
+        {
+            _repositoryMock.Setup(x => x.DeleteById(_order.Id)).ThrowsAsync(new Exception());
+
+            var result = await _orderController.Delete(_order.Id);
+
+            Assert.That(result, Is.InstanceOf<NotFoundResult>());
+        }
+
+        [Test]
+        public async Task DeleteMethodReturnsIdOfDeletedEntityIfEverythingIsOk()
+        {
+            _repositoryMock.Setup(x => x.DeleteById(_order.Id)).ReturnsAsync(_order.Id);
+
+            var result = await _orderController.Delete(_order.Id);
+
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var okResult = result as OkObjectResult;
+            Assert.That(okResult.Value, Is.EqualTo(_order.Id));
+        }
+
+        [Test]
+        public async Task GetAllMethodFailsIfRepositoryThrowsException()
+        {
+            _repositoryMock.Setup(x => x.GetAll()).ThrowsAsync(new Exception());
+
+            var result = await _orderController.GetAll();
+
+            Assert.That(result, Is.InstanceOf<NotFoundResult>());
+        }
+
+        [Test]
+        public async Task GetAllMethodReturnsAllOrderEntitiesIfEverythingIsOk()
+        {
+            var orders = new Order[] { _order, _order };
+            _repositoryMock.Setup(x => x.GetAll()).ReturnsAsync(orders);
+
+            var result = await _orderController.GetAll();
+
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var okResult = result as OkObjectResult;
+            Assert.That(okResult.Value, Is.EqualTo(orders));
+        }
+
+        [Test]
+        public async Task GetByIdMethodFailsIfRepositoryThrowsException()
+        {
+            _repositoryMock.Setup(x => x.GetById(_order.Id)).ThrowsAsync(new Exception());
+
+            var result = await _orderController.GetById(_order.Id);
+
+            Assert.That(result, Is.InstanceOf<NotFoundResult>());
+        }
+
+        [Test]
+        public async Task GetByIdMethodReturnsRetrievedEntityIfEverythingIsOk()
+        {
+            _repositoryMock.Setup(x => x.GetById(_order.Id)).ReturnsAsync(_order);
+
+            var result = await _orderController.GetById(_order.Id);
+
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var okResult = result as OkObjectResult;
+            Assert.That(okResult.Value, Is.EqualTo(_order));
+        }
+
+        [Test]
+        public async Task UpdateMethodFailsIfRepositoryThrowsException()
+        {
+            _repositoryMock.Setup(x => x.Update(_order)).ThrowsAsync(new Exception());
+
+            var result = await _orderController.Update(_order);
+
+            Assert.That(result, Is.InstanceOf<BadRequestResult>());
+        }
+
+        [Test]
+        public async Task UpdateMethodReturnsIdOfUpdatedEntityIfEverythingIsOk()
+        {
+            _repositoryMock.Setup(x => x.Update(_order)).ReturnsAsync(_order.Id);
+
+            var result = await _orderController.Update(_order);
+
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var okResult = result as OkObjectResult;
+            Assert.That(okResult.Value, Is.EqualTo(_order.Id));
+        }
+
     }
 }

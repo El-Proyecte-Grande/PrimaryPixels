@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
+import { useLocation } from "react-router-dom";
 
 const StyledNav = styled.nav`
     width: 99.7%;
@@ -27,8 +28,21 @@ const getUserId = () => {
     return decodedToken.sub;
 };
 
-function Navbar({ isLoggedIn, setIsLoggedIn }) {
+function Navbar() {
     const navigate = useNavigate();
+
+    const [isLoggedIn, setIsLoggedIn] = useState(() => (
+
+        localStorage.getItem("token") === null ? false : true
+    ));
+
+    const location = useLocation();
+
+    useEffect(() => {
+        setIsLoggedIn(localStorage.getItem("token") === null ? false : true);
+
+    }, [location.token]);
+
     return (
         <StyledNav>
             <img id="logo" src="/primary-pixels-logo.png" />

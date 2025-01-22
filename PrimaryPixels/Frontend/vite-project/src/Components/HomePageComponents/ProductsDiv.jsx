@@ -16,7 +16,9 @@ function ProductsDiv({ products }) {
                         <p className="product-info"> {product.name} </p>
                         <div className='finance'>
                             <p className="product-info"> {product.price} HUF</p>
-                            <button className='add-to-cart-button'> ADD </button>
+                            <div>
+                                <button className='add-to-cart-button'> ADD </button>
+                            </div>
                         </div>
                     </div>
 

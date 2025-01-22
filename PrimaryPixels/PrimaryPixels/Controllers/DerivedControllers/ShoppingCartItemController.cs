@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimaryPixels.Models.ShoppingCartItem;
 using PrimaryPixels.Services.Repositories;
@@ -23,8 +24,16 @@ namespace PrimaryPixels.Controllers.DerivedControllers
         {
             try
             {
+                // Get the user ID from claims.
+                var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                            if (string.IsNullOrEmpty(userId))
+                            {
+                                return BadRequest("UserId not found.");
+                            }
+                // create the real shoppingCartItem instance.
                 ShoppingCartItem shoppingCartItem = new()
-                    { ProductId = entity.ProductId, UserId = entity.UserId, Quantity = 1 };
+                    { ProductId = entity.ProductId, UserId = userId, Quantity = 1 };
+                // try to add the new shopping cart item to the DB
                 int idOfAddedEntity = await _repository.Add(shoppingCartItem);
                 _logger.LogInformation($"{typeof(ShoppingCartItem).Name} with id {idOfAddedEntity} successfully added!");
                 return Ok(idOfAddedEntity);

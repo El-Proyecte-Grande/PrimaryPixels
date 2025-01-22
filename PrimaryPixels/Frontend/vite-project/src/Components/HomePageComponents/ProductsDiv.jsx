@@ -1,6 +1,7 @@
 import './ProductsDiv.css';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
+import { apiWithAuth } from "../../Axios/api"
 
 
 
@@ -13,8 +14,15 @@ function ProductsDiv({ products }) {
 
         const token = localStorage.getItem("token");
         const decodedToken = jwtDecode(token);
-        console.log(decodedToken.sub);
-        console.log(productId)
+        const response = await apiWithAuth.post("/api/ShoppingCartItem",
+            JSON.stringify({ userId: decodedToken.sub, productId: productId }),
+            {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }
+        )
+        console.log(response.status)
     }
 
     return (

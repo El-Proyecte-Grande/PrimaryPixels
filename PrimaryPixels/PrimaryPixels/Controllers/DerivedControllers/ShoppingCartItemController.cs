@@ -7,7 +7,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ShoppingCartItemController : ControllerBase, IController<ShoppingCartItem>
+    public class ShoppingCartItemController : ControllerBase
     {
         protected IRepository<ShoppingCartItem> _repository;
         protected ILogger<ShoppingCartItemController> _logger;
@@ -19,11 +19,13 @@ namespace PrimaryPixels.Controllers.DerivedControllers
         [HttpPost(""), Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Add([FromBody] ShoppingCartItem entity)
+        public async Task<IActionResult> Add([FromBody] ShoppingCartItemDTO entity)
         {
             try
             {
-                int idOfAddedEntity = await _repository.Add(entity);
+                ShoppingCartItem shoppingCartItem = new()
+                    { ProductId = entity.ProductId, UserId = entity.UserId, Quantity = 1 };
+                int idOfAddedEntity = await _repository.Add(shoppingCartItem);
                 _logger.LogInformation($"{typeof(ShoppingCartItem).Name} with id {idOfAddedEntity} successfully added!");
                 return Ok(idOfAddedEntity);
             }

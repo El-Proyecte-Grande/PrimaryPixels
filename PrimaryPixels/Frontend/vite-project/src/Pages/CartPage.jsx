@@ -44,7 +44,7 @@ export default function CartPage() {
         // delete if quantity will be 0
         if (quantity + num == 0) {
             const response = await apiWithAuth.delete(`/api/ShoppingCartItem/${productId}`)
-            if (response.ok) {
+            if (response.status == 200) {
                 // if user deleted a product, should refresh immediately
                 setProductsInCart(prev => prev.filter(product => product.id !== productId));
             }

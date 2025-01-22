@@ -13,9 +13,9 @@ function ProductsDiv({ products }) {
     async function addToCart(productId) {
 
         const token = localStorage.getItem("token");
-        const decodedToken = jwtDecode(token);
+        if (token == null) return;
         const response = await apiWithAuth.post("/api/ShoppingCartItem",
-            JSON.stringify({ userId: decodedToken.sub, productId: productId }),
+            JSON.stringify({ productId: productId }),
             {
                 headers: {
                     "Content-Type": "application/json"

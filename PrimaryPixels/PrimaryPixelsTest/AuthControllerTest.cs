@@ -91,8 +91,69 @@ namespace PrimaryPixelsTest
 
         }
 
+        [Test]
+        public async Task AuthenticateMethodFailsIfRequestIsNotValid()
+        {
+            var invalidAuthRequest = new AuthRequest("random@random.com", "");
+            _authController.ModelState.AddModelError("Password", "Password field is missing!");
 
-        
+            var result = await _authController.Authenticate(invalidAuthRequest);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Result, Is.InstanceOf<BadRequestObjectResult>());
+                var badRequestResult = result.Result as BadRequestObjectResult;
+                Assert.That(badRequestResult, Is.Not.Null);
+                Assert.That(badRequestResult?.Value, Is.InstanceOf<SerializableError>());
+
+                var errors = badRequestResult?.Value as SerializableError;
+                Assert.That(errors?.ContainsKey("Password"), Is.True);
+                Assert.That(((string[])errors["Password"])[0], Is.EqualTo("Password field is missing!"));
+            });
+        }
+
+        [Test]
+        public async Task AuthenticateMethodFailsIfAuthenticationIsNotSuccessful()
+        {
+            var authRequest = new AuthRequest("random@random.com", "test");
+            var notSuccessfulAuthResult = new AuthResult(false, "Joe", authRequest.Email, "");
+            notSuccessfulAuthResult.ErrorMessages.Add("Bad credentials", "Invalid password");
+            _authController.ModelState.Clear();
+            _authServiceMock.Setup(x => x.LoginAsync(authRequest.Email, authRequest.Password)).ReturnsAsync(notSuccessfulAuthResult);
+
+            var result = await _authController.Authenticate(authRequest);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Result, Is.InstanceOf<BadRequestObjectResult>());
+                var badRequestResult = result.Result as BadRequestObjectResult;
+                Assert.That(badRequestResult, Is.Not.Null);
+                Assert.That(badRequestResult?.Value, Is.InstanceOf<SerializableError>());
+                var errors = badRequestResult?.Value as SerializableError;
+                Assert.That(errors?.ContainsKey("Bad credentials"), Is.True);
+                Assert.That(((string[])errors["Bad credentials"])[0], Is.EqualTo("Invalid password"));
+            });
+        }
+
+        [Test]
+        public async Task AuthenticateMethodReturnsAuthResponseIfEverythingIsOk()
+        {
+            var authRequest = new AuthRequest("random@random.com", "password");
+            var successfulAuthResult = new AuthResult(true, "Joe", authRequest.Email, "token");
+            var authResponse = new AuthResponse(successfulAuthResult.Email, successfulAuthResult.Username, successfulAuthResult.Token);
+            _authController.ModelState.Clear();
+            _authServiceMock.Setup(x => x.LoginAsync(authRequest.Email, authRequest.Password)).ReturnsAsync(successfulAuthResult);
+
+            var result = await _authController.Authenticate(authRequest);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Result, Is.InstanceOf<OkObjectResult>());
+                var okResult = result.Result as OkObjectResult;
+                Assert.That(okResult?.Value, Is.EqualTo(authResponse));
+            });
+
+        }
 
     }
 }

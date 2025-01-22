@@ -61,14 +61,14 @@ public class AuthService : IAuthService
     
     private static AuthResult InvalidEmail(string email)
     {
-        var result = new AuthResult(false, email, "", "");
+        var result = new AuthResult(false, "", email, "");
         result.ErrorMessages.Add("Bad credentials", "Invalid email");
         return result;
     }
 
     private static AuthResult InvalidPassword(string email, string userName)
     {
-        var result = new AuthResult(false, email, userName, "");
+        var result = new AuthResult(false, userName, email, "");
         result.ErrorMessages.Add("Bad credentials", "Invalid password");
         return result;
     }

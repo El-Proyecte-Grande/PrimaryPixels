@@ -6,15 +6,16 @@
     gap: 1rem;
     margin-left: 26vw;
     margin-top: 12vh;
+    background-color: rgb(235, 227, 227);
+    overflow-y: auto;
 }
+
 
 .product {
     display: flex;
     flex-direction: column;
-    width: 20rem;
     max-width: 16rem;
     height: 30rem;
-    background-color: gray;
     padding: 2px;
     cursor: pointer;
 }
@@ -26,10 +27,6 @@
     font-size: 1.5rem;
 }
 
-.product-image {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
 
 .finance {
     display: flex;

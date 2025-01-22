@@ -10,10 +10,6 @@ export default function CartPage() {
     const [productsInCart, setProductsInCart] = useState([]);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        document.body.style.background = "rgb(255, 255, 255)";
-    })
-
     // If we are not logged in or if we want to search for other user's cart, it redirect us to the home page.
     useEffect(() => {
         const token = localStorage.getItem("token");

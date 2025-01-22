@@ -19,11 +19,11 @@ public class AuthService : IAuthService
 
         if (!result.Succeeded)
         {
-            return FailedRegistration(result, email, username);
+            return FailedRegistration(result, username, email);
         }
 
         await _userManager.AddToRoleAsync(user, role);
-        return new AuthResult(true, email, username, "");
+        return new AuthResult(true, username, email, "");
     }
 
     public async Task<AuthResult> LoginAsync(string email, string password)

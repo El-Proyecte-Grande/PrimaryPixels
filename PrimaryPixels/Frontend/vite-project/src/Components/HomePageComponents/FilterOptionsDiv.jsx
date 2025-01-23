@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import Loading from '../LoadingComponent/Loading';
 import './FilterOptionsDiv.css';
-import {api} from "../../Axios/api.js"
+import { api } from "../../Axios/api.js"
 
 
 
 const fetchProducts = async (filter) => {
     try {
-        const response = await api.get(`/api/${filter === "Popular" ? "Product" : filter}`);
+        const response = await api.get(`/api/${filter === "Popular" ? "Product/Popular" : filter}`);
         if (response.status !== 200) {
             throw new Error("Products were not found or error during accessing the data!");
         }

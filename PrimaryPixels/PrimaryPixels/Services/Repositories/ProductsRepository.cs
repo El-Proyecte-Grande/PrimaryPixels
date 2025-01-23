@@ -23,4 +23,10 @@ public class ProductsRepository : IProductRepository
         if(product == null) throw new KeyNotFoundException();
         return product;
     }
+
+    public async Task<IEnumerable<Product>> GetPopular(){
+        var products = await _context.Products.OrderByDescending(o => o.TotalSold).Take(9).ToListAsync();
+        if(products.ToArray().Length == 0) throw new KeyNotFoundException();
+        return products;
+    }
 }

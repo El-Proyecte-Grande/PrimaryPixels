@@ -47,6 +47,23 @@ public class ProductController : ControllerBase
                 return NotFound();
             }
         }       
+
+        [HttpGet("Popular")]
+          [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(object))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public virtual async Task<IActionResult> GetPopulars()
+        {
+            try
+            {
+                IEnumerable<Product> products = await _repository.GetPopular();
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return NotFound();
+            }
+        }
 }
     
     

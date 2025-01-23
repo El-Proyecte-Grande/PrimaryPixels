@@ -20,7 +20,10 @@ public class PrimaryPixelsContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(_configuration["ConnectionString"]);
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer(_configuration["ConnectionString"]);
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

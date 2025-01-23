@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimaryPixels", "PrimaryPixels\PrimaryPixels.csproj", "{74246DD1-8D13-41C6-B537-C5BBBE39499A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimaryPixelsTest", "PrimaryPixelsTest\PrimaryPixelsTest.csproj", "{2CF1D9D6-2A56-4D4C-98B1-DC8DFBDC29E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimaryPixelsIntegrationTest", "PrimaryPixelsIntegrationTest\PrimaryPixelsIntegrationTest.csproj", "{BE8013CD-6B6F-4A51-BB57-6F25B6C3D65C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{2CF1D9D6-2A56-4D4C-98B1-DC8DFBDC29E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CF1D9D6-2A56-4D4C-98B1-DC8DFBDC29E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CF1D9D6-2A56-4D4C-98B1-DC8DFBDC29E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE8013CD-6B6F-4A51-BB57-6F25B6C3D65C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE8013CD-6B6F-4A51-BB57-6F25B6C3D65C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE8013CD-6B6F-4A51-BB57-6F25B6C3D65C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE8013CD-6B6F-4A51-BB57-6F25B6C3D65C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -115,4 +115,26 @@ public class OrderController : ControllerBase
             return BadRequest();
         }
     }
+
+    [HttpGet("/api/Order/User")]
+                public async Task<IActionResult> GetOrdersByUserId()
+                {
+                    try
+                    {
+                        // Get the userId from claims
+                        var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                        if (string.IsNullOrEmpty(userId))
+                        {
+                            return BadRequest("UserId not found.");
+                        }
+                        // Get every orderDetails related to this user
+                        var orderDetails = await _orderService.GetOrdersByUserId(userId);
+                        return Ok(orderDetails);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, ex.Message);
+                        return BadRequest();
+                    }
+                }
 }

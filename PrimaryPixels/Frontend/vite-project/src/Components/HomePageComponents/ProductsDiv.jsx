@@ -22,8 +22,8 @@ function ProductsDiv({ products }) {
                 },
             }
         )
-        console.log(response.status)
     }
+
 
     return (
         <div id="products-container">
@@ -33,7 +33,7 @@ function ProductsDiv({ products }) {
                     <div className="product-infos">
                         <p className="product-info"> {product.name} </p>
                         <div className='finance'>
-                            <p className="product-info"> {product.price} HUF</p>
+                            <p className="product-info"> {formatHUF(product.price)}</p>
                             <div>
                                 <button onClick={() => addToCart(product.id)} className='add-to-cart-button'> ADD </button>
                             </div>
@@ -47,3 +47,9 @@ function ProductsDiv({ products }) {
 };
 
 export default ProductsDiv;
+
+function formatHUF(amount) {
+    const amountStr = amount.toString();
+    const formattedAmount = amountStr.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `${formattedAmount} HUF`;
+}

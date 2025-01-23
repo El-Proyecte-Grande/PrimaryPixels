@@ -9,7 +9,7 @@ import LoginPage from "./Pages/LoginPage";
 import OrderedPage from "./Pages/OrderedPage"
 import RegistrationPage from "./Pages/RegistrationPage";
 import AdminPage from "./Pages/AdminPage";
-
+import ProfilePage from "./Pages/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <AdminPage />
+  },
+  {
+    path: "/profile/:userId",
+    element: <ProfilePage />
   }
 ]);
 

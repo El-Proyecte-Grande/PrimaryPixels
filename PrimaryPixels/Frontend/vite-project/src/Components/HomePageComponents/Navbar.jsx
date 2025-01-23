@@ -68,6 +68,7 @@ function Navbar() {
                 {isLoggedIn ? <StyledButton onClick={() => navigate(`/cart/${getUserId()}`)}>Cart</StyledButton> : ""}
                 <StyledButton onClick={() => { !isLoggedIn ? navigate("/login") : localStorage.removeItem("token"); setIsLoggedIn(false) }}>{!isLoggedIn ? "Login" : "Logout"}</StyledButton>
                 {!isLoggedIn ? <StyledButton onClick={() => navigate("/register")}>Register</StyledButton> : ""}
+                {isLoggedIn && <img src="../../../public/user.png" className='profile-logo' onClick={() => navigate(`/profile/${getUserId()}`)} />}
             </div>
         </StyledNav>
     );

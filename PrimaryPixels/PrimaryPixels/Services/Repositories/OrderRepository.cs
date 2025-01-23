@@ -4,7 +4,7 @@ using PrimaryPixels.Models.Order;
 
 namespace PrimaryPixels.Services.Repositories;
 
-public class OrderRepository : Repository<Order>
+public class OrderRepository : Repository<Order>, IOrderRepository
 {
     private readonly PrimaryPixelsContext _context;
     public OrderRepository(PrimaryPixelsContext context)
@@ -45,4 +45,10 @@ public class OrderRepository : Repository<Order>
         await _context.SaveChangesAsync();
         return id;
     }
+
+    public async Task<IEnumerable<Order>> GetOrdersByUserId(string userId)
+    {
+        return await _context.Orders.Where(o => o.UserId == userId).ToListAsync();
+    }
+
 }

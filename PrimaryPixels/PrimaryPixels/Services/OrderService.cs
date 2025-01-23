@@ -5,14 +5,14 @@ namespace PrimaryPixels.Services;
 
 public class OrderService : IOrderService
 {
-    protected IRepository<Order> _orderRepository;
+    protected IOrderRepository _orderRepository;
     protected IProductRepository _productRepository;
-    protected IRepository<OrderDetails> _orderDetailsResRepository;
-    public OrderService(IRepository<Order> repository, IProductRepository productRepository, IRepository<OrderDetails> orderDetailsResRepository)
+    protected IOrderDetailsRepository _orderDetailsRepository;
+    public OrderService(IOrderRepository repository, IProductRepository productRepository, IOrderDetailsRepository orderDetailsResRepository)
     {
         _orderRepository = repository;
         _productRepository = productRepository;
-        _orderDetailsResRepository = orderDetailsResRepository;
+        _orderDetailsRepository = orderDetailsResRepository;
     }
 
     public async Task<int> CreateOrder(OrderDTO orderDto, string userId)
@@ -33,7 +33,7 @@ public class OrderService : IOrderService
         await foreach (var orderDetail in orderDetails)
         {
             orderDetail.OrderId = orderId;
-            await _orderDetailsResRepository.Add(orderDetail);
+            await _orderDetailsRepository.Add(orderDetail);
         }
         return orderId;
     }
@@ -64,6 +64,9 @@ public class OrderService : IOrderService
         }
         return price;
     }
-   
+
+    public async Task<IEnumerable<Order>> GetOrdersByUserId(string id){
+        return await _orderRepository.GetOrdersByUserId(id);
+    }
     
 } 

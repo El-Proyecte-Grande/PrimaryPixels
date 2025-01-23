@@ -46,4 +46,7 @@
 .add-to-cart-button {
     position: relative;
     bottom: 0.5rem;
+    height: 4rem;
+    width: 4rem;
+    padding: 0px;
 }

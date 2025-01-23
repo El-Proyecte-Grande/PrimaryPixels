@@ -62,7 +62,7 @@ export default function ProductPage() {
                     </div>
                     <div className="product-order-infos">
                         <div className="product-price">
-                            <p className="price"> {product.price} € </p>
+                            {product.price && <p className="price"> {formatHUF(product.price)} </p>}
                         </div>
                         <div className="add-to-cart-div">
                             <button className="add-to-cart-buttonn" onClick={(e) => AddToCart()}> ADD TO CART </button>
@@ -73,4 +73,10 @@ export default function ProductPage() {
         </>
 
     )
+}
+
+function formatHUF(amount) {
+    const amountStr = amount.toString();
+    const formattedAmount = amountStr.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `${formattedAmount} HUF`;
 }

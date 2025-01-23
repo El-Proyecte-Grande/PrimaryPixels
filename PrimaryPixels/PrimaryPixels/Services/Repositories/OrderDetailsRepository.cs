@@ -4,7 +4,7 @@ using PrimaryPixels.Models.Order;
 
 namespace PrimaryPixels.Services.Repositories;
 
-public class OrderDetailsRepository : Repository<OrderDetails>
+public class OrderDetailsRepository : Repository<OrderDetails>, IOrderDetailsRepository
 {
     private readonly PrimaryPixelsContext _context;
     public OrderDetailsRepository(PrimaryPixelsContext context)

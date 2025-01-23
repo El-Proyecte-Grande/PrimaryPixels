@@ -10,10 +10,8 @@ import './HomePage.css';
 function HomePage() {
     const [products, setProducts] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(() => (
-
         localStorage.getItem("token") === null ? false : true
     ));
-
     const location = useLocation();
 
     console.log(location.token);
@@ -24,7 +22,7 @@ function HomePage() {
 
     return (
         <>
-            <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}></Navbar>
+            <Navbar></Navbar>
             <div id='container'>
                 <FilterOptionsDiv products={products} setProducts={setProducts}></FilterOptionsDiv>
                 <ProductsDiv products={products} setProducts={setProducts}></ProductsDiv>

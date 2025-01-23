@@ -10,7 +10,6 @@ export default function CartPage() {
     const [orderInfo, setOrderInfo] = useState({ firstName: "", lastName: "", city: "", postcode: "", address: "", orderProducts: [] });
     const [productsInCart, setProductsInCart] = useState([]);
     const navigate = useNavigate();
-
     const [isLoggedIn, setIsLoggedIn] = useState(() => (
 
         localStorage.getItem("token") === null ? false : true

@@ -14,79 +14,85 @@ using PrimaryPixels.Models.ShoppingCartItem;
 using PrimaryPixels.Services;
 using PrimaryPixels.Services.Authentication;
 
-var builder = WebApplication.CreateBuilder(args);
-DotEnv.Load();
-builder.Configuration.AddEnvironmentVariables();
-
-var connectionString = builder.Configuration["ConnectionString"];
-var validIssuer = builder.Configuration["ValidIssuer"];
-var validAudience = builder.Configuration["ValidAudience"];
-var issuerSigningKey = builder.Configuration["JwtSecretKey"];
-// Add services to the container.
-
-AddServices();
-ConfigureSwagger();
-AddDbContexts();
-AddAuthentication();
-AddIdentity();
-AddCors();
-
-var app = builder.Build();
-if (app.Environment.IsDevelopment())
+namespace PrimaryPixels;
+public partial class Program
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-using var scope = app.Services.CreateScope();
-var authenticationSeeder = scope.ServiceProvider.GetRequiredService<AuthenticationSeeder>();
-authenticationSeeder.AddRoles();
-
-app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
-app.UseCors("AllowFrontend");
-app.Run();
-
-
-void AddServices()
-{
-    builder.Services.AddControllers();
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
-    builder.Services.AddScoped<IRepository<Headphone>, ProductRepository<Headphone>>();
-    builder.Services.AddScoped<IRepository<Phone>, ProductRepository<Phone>>();
-    builder.Services.AddScoped<IRepository<Computer>, ProductRepository<Computer>>();
-    builder.Services.AddScoped<IRepository<Order>, OrderRepository>();
-    builder.Services.AddScoped<IRepository<OrderDetails>, OrderDetailsRepository>();
-    builder.Services.AddScoped<IRepository<ShoppingCartItem>, ShoppingCartItemRepository>();
-    builder.Services.AddScoped<IProductRepository, ProductsRepository>();
-    builder.Services.AddScoped<IOrderService, OrderService>();
-    builder.Services.AddScoped<IAuthService, AuthService>();
-    builder.Services.AddScoped<ITokenService, TokenService>();
-    builder.Services.AddScoped<AuthenticationSeeder>();
-    builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
-  
-}
-
-
-void ConfigureSwagger()
-{
-    builder.Services.AddSwaggerGen(option =>
+    public static void Main(string[] args)
     {
-        option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
-        option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+
+        var builder = WebApplication.CreateBuilder(args);
+        DotEnv.Load();
+        builder.Configuration.AddEnvironmentVariables();
+
+        var connectionString = builder.Configuration["ConnectionString"];
+        var validIssuer = builder.Configuration["ValidIssuer"];
+        var validAudience = builder.Configuration["ValidAudience"];
+        var issuerSigningKey = builder.Configuration["JwtSecretKey"];
+        // Add services to the container.
+
+        AddServices(builder);
+        ConfigureSwagger(builder);
+        AddDbContexts(builder, connectionString);
+        AddAuthentication(builder, validIssuer, validAudience, issuerSigningKey);
+        AddIdentity(builder);
+        AddCors(builder);
+
+        var app = builder.Build();
+        if (app.Environment.IsDevelopment())
         {
-            In = ParameterLocation.Header,
-            Description = "Please enter a valid token",
-            Name = "Authorization",
-            Type = SecuritySchemeType.Http,
-            BearerFormat = "JWT",
-            Scheme = "Bearer"
-        });
-        option.AddSecurityRequirement(new OpenApiSecurityRequirement
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        using var scope = app.Services.CreateScope();
+        var authenticationSeeder = scope.ServiceProvider.GetRequiredService<AuthenticationSeeder>();
+        authenticationSeeder.AddRoles();
+
+        app.UseHttpsRedirection();
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.MapControllers();
+        app.UseCors("AllowFrontend");
+        app.Run();
+    }
+
+    private static void AddServices(WebApplicationBuilder builder)
+    {
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+        builder.Services.AddScoped<IRepository<Headphone>, ProductRepository<Headphone>>();
+        builder.Services.AddScoped<IRepository<Phone>, ProductRepository<Phone>>();
+        builder.Services.AddScoped<IRepository<Computer>, ProductRepository<Computer>>();
+        builder.Services.AddScoped<IRepository<Order>, OrderRepository>();
+        builder.Services.AddScoped<IRepository<OrderDetails>, OrderDetailsRepository>();
+        builder.Services.AddScoped<IRepository<ShoppingCartItem>, ShoppingCartItemRepository>();
+        builder.Services.AddScoped<IProductRepository, ProductsRepository>();
+        builder.Services.AddScoped<IOrderService, OrderService>();
+        builder.Services.AddScoped<IAuthService, AuthService>();
+        builder.Services.AddScoped<ITokenService, TokenService>();
+        builder.Services.AddScoped<AuthenticationSeeder>();
+        builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
+    }
+
+
+    private static void ConfigureSwagger(WebApplicationBuilder builder)
+    {
+        builder.Services.AddSwaggerGen(option =>
         {
+            option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+            option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Please enter a valid token",
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                BearerFormat = "JWT",
+                Scheme = "Bearer"
+            });
+            option.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
             {
                 new OpenApiSecurityScheme
                 {
@@ -96,74 +102,75 @@ void ConfigureSwagger()
                         Id="Bearer"
                     }
                 },
-                new string[]{}
+                Array.Empty<string>()
             }
+            });
         });
-    });
-}
+    }
 
-void AddDbContexts()
-{
-    builder.Services.AddDbContext<PrimaryPixelsContext>(options =>
+    private static void AddDbContexts(WebApplicationBuilder builder, string? connectionString)
     {
-        options.UseSqlServer(connectionString);
-    });
-
-    builder.Services.AddDbContext<UsersContext>(options =>
-    {
-        options.UseSqlServer(connectionString);
-
-    });
-}
-
-void AddAuthentication()
-{
-    builder.Services
-        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options =>
+        builder.Services.AddDbContext<PrimaryPixelsContext>(options =>
         {
-            options.TokenValidationParameters = new TokenValidationParameters()
+            options.UseSqlServer(connectionString);
+        });
+
+        builder.Services.AddDbContext<UsersContext>(options =>
+        {
+            options.UseSqlServer(connectionString);
+
+        });
+    }
+
+    private static void AddAuthentication(WebApplicationBuilder builder, string? validIssuer, string? validAudience, string? issuerSigningKey)
+    {
+        builder.Services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
             {
-                ClockSkew = TimeSpan.Zero,
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = validIssuer,
-                ValidAudience = validAudience,
-                IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(issuerSigningKey)
-                ),
-            };
-        });
-}
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ClockSkew = TimeSpan.Zero,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = validIssuer,
+                    ValidAudience = validAudience,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(issuerSigningKey ?? "")
+                    ),
+                };
+            });
+    }
 
-void AddIdentity()
-{
-    builder.Services
-        .AddIdentityCore<IdentityUser>(options =>
-        {
-            options.SignIn.RequireConfirmedAccount = false;
-            options.User.RequireUniqueEmail = true;
-            options.Password.RequireDigit = true;
-            options.Password.RequiredLength = 8;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequireUppercase = true;
-            options.Password.RequireLowercase = true;
-        })
-        .AddRoles<IdentityRole>()
-        .AddEntityFrameworkStores<UsersContext>();
-}
-
-void AddCors()
-{
-    builder.Services.AddCors(options =>
+    private static void AddIdentity(WebApplicationBuilder builder)
     {
-        options.AddPolicy("AllowFrontend",
-            builder => builder
-                .WithOrigins("http://localhost:5000")
-                .AllowAnyHeader()
-                .AllowAnyMethod());
-    });
+        builder.Services
+            .AddIdentityCore<IdentityUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<UsersContext>();
+    }
 
+    private static void AddCors(WebApplicationBuilder builder)
+    {
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowFrontend",
+                builder => builder
+                    .WithOrigins("http://localhost:5000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
+        });
+
+    }
 }

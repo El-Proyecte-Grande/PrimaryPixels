@@ -31,7 +31,7 @@ namespace PrimaryPixelsIntegrationTest
                 if (usersDbContextDescriptor != null)
                     services.Remove(usersDbContextDescriptor);
 
-// Remove any database-related services that might be registered by other providers
+                // Remove any database-related services that might be registered by other providers
                 var dbProviderServices = services.Where(service => service.ImplementationType?.FullName?.Contains("SqlServer") == true).ToList();
                 foreach (var service in dbProviderServices)
                 {

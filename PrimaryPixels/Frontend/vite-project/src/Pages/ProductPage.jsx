@@ -47,6 +47,7 @@ export default function ProductPage() {
                 <div className="right-section">
                     <div className="product-name-div">
                         <p className="product-name"> {product.name} </p>
+
                     </div>
                     <div className="product-details-div">
                         {Object.entries(product).map(([key, value]) => (
@@ -62,7 +63,9 @@ export default function ProductPage() {
                     </div>
                     <div className="product-order-infos">
                         <div className="product-price">
-                            {product.price && <p className="price"> {formatHUF(product.price)} </p>}
+                            {product.price && <p className="price"> {formatHUF(product.price)} </p>
+                
+
                         </div>
                         <div className="add-to-cart-div">
                             <button className="add-to-cart-buttonn" onClick={(e) => AddToCart()}> ADD TO CART </button>

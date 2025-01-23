@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimaryPixels.Models.ShoppingCartItem;
 using PrimaryPixels.Services.Repositories;
@@ -7,7 +8,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ShoppingCartItemController : ControllerBase, IController<ShoppingCartItem>
+    public class ShoppingCartItemController : ControllerBase
     {
         protected IRepository<ShoppingCartItem> _repository;
         protected ILogger<ShoppingCartItemController> _logger;
@@ -19,11 +20,21 @@ namespace PrimaryPixels.Controllers.DerivedControllers
         [HttpPost(""), Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Add([FromBody] ShoppingCartItem entity)
+        public async Task<IActionResult> Add([FromBody] ShoppingCartItemDTO entity)
         {
             try
             {
-                int idOfAddedEntity = await _repository.Add(entity);
+                // Get the user ID from claims.
+                var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                            if (string.IsNullOrEmpty(userId))
+                            {
+                                return BadRequest("UserId not found.");
+                            }
+                // create the real shoppingCartItem instance.
+                ShoppingCartItem shoppingCartItem = new()
+                    { ProductId = entity.ProductId, UserId = userId, Quantity = 1 };
+                // try to add the new shopping cart item to the DB
+                int idOfAddedEntity = await _repository.Add(shoppingCartItem);
                 _logger.LogInformation($"{typeof(ShoppingCartItem).Name} with id {idOfAddedEntity} successfully added!");
                 return Ok(idOfAddedEntity);
             }

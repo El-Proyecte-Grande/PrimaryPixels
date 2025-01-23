@@ -10,4 +10,5 @@ public class Order
     public string City { get; init; }
     public string Address { get; init; }
     public int Price { get; init; }
+    public string Name { get; set; }
 }

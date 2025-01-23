@@ -169,3 +169,8 @@ void AddCors()
     });
 
 }
+
+public partial class Program
+{
+            
+}

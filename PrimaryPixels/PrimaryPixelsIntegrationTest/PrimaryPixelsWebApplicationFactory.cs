@@ -15,8 +15,6 @@ namespace PrimaryPixelsIntegrationTest
 {
     public class PrimaryPixelsWebApplicationFactory : WebApplicationFactory<Program>
     {
-        private readonly string _dbName = Guid.NewGuid().ToString();
-
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services =>
@@ -24,20 +22,31 @@ namespace PrimaryPixelsIntegrationTest
                 //Get the previous DbContextOptions registrations 
                 var primaryPixelsDbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<PrimaryPixelsContext>));
                 var usersDbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<UsersContext>));
-
+                if (usersDbContextDescriptor == null) throw new Exception("Couldn't find registered UserDB");
+                if (primaryPixelsDbContextDescriptor == null) throw new Exception("Couldn't find registered SolarDB");
                 //Remove the previous DbContextOptions registrations
-                services.Remove(primaryPixelsDbContextDescriptor);
-                services.Remove(usersDbContextDescriptor);
+                if (primaryPixelsDbContextDescriptor != null)
+                    services.Remove(primaryPixelsDbContextDescriptor);
+
+                if (usersDbContextDescriptor != null)
+                    services.Remove(usersDbContextDescriptor);
+
+// Remove any database-related services that might be registered by other providers
+                var dbProviderServices = services.Where(service => service.ImplementationType?.FullName?.Contains("SqlServer") == true).ToList();
+                foreach (var service in dbProviderServices)
+                {
+                    services.Remove(service);
+                }
 
                 //Add new DbContextOptions for our two contexts, this time with inmemory db 
                 services.AddDbContext<PrimaryPixelsContext>(options =>
                 {
-                    options.UseInMemoryDatabase(_dbName);
+                    options.UseInMemoryDatabase("PrimaryPixelsDB");
                 });
 
                 services.AddDbContext<UsersContext>(options =>
                 {
-                    options.UseInMemoryDatabase(_dbName);
+                    options.UseInMemoryDatabase("UsersDB");
                 });
 
                 //We will need to initialize our in memory databases. 

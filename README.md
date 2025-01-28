@@ -53,10 +53,15 @@ Make sure you have the following installed:
 ## Start the App
 
 ### Using Docker
+
 1, Build docker compose: docker compose build
+
 2, Run DB: docker compose up db
+
 3, Open backend folder, use migrations: cd PrimaryPixels --> dotnet ef database update --context "PrimaryPixelsContext"     2, dotnet ef database update --context "UsersContext"
+
 4, Step back, run docker compose: cd ..  --> docker compose up
+
 5, Access the app: Open your browser, navigate to http://localhost:4000.
 
 

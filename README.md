@@ -16,7 +16,7 @@ Administrators have access to a secure interface to manage products and inventor
 ## Built With
 
 - **Backend**: [ASP.NET Core](https://dotnet.microsoft.com/en-us/apps/aspnet) (with Identity Framework and Entity Framework)
-- **Frontend**: [![React.js][React.js]](https://reactjs.org/)
+- **Frontend**: [React.js](https://reactjs.org/)
 - **Containerization**: [Docker](https://www.docker.com/) and Docker Compose
 
 ---
@@ -44,9 +44,12 @@ Administrators have access to a secure interface to manage products and inventor
 ## Prerequisites
 
 Make sure you have the following installed:
-1. [Docker](https://www.docker.com/)
-2. [Node.js](https://nodejs.org/)
-3. [.NET 8 SDK](https://dotnet.microsoft.com/)
+
+[![Docker][Docker]](https://www.docker.com/)
+
+[![Node.js][Node.js]](https://nodejs.org/)
+
+[![.NET 8 SDK][.NET]](https://dotnet.microsoft.com/)
 
 ---
 
@@ -57,15 +60,15 @@ Make sure you have the following installed:
 
 ### Using Docker
 
-1. Build docker compose: docker compose build
+1. Build docker compose: `docker compose build`
 
-2. Run DB: docker compose up db
+2. Run DB: `docker compose up db`
 
-3. Open backend folder, use migrations: cd PrimaryPixels --> dotnet ef database update --context "PrimaryPixelsContext"     2, dotnet ef database update --context "UsersContext"
+3. Open backend folder, use migrations: `cd PrimaryPixels` --> `dotnet ef database update --context "PrimaryPixelsContext"`, `dotnet ef database update --context "UsersContext"`
 
 4. Create Frontend .env file, in frontend/vite-project folder, according to the .env.sample Should contain the backend URL
 
-5. Step back, run docker compose: cd ..  --> docker compose up
+5. Step back, run docker compose: `cd ..`  --> `docker compose up`
 
 6. Access the app: Open your browser, navigate to http://localhost:4000.
 
@@ -73,30 +76,40 @@ Make sure you have the following installed:
 ### With Terminal
 
 1. Start the database using Docker:
-   
+
+  ```sh
     docker-compose up -d db
-   
+  ```
+  
 2. Navigate to the backend directory and use migrations:
 
- cd PrimaryPixels
- dotnet ef database update --context "PrimaryPixelsContext"
- dotnet ef database update --context "UsersContext"
+  ```sh
+    cd PrimaryPixels
+    dotnet ef database update --context "PrimaryPixelsContext"
+    dotnet ef database update --context "UsersContext"
+  ```
  
 3. start the backend server:
 
- dotnet run,
- remember the server URL
+  ```sh
+    dotnet run
+  ```
+  - remember the server URL
  
 4. Navigate to the frontend directory and create .env according to the .env.sample
 
- cd ..
- cd frontend/vite-project
- .ENV file should contain the backend URL.
+  ```sh
+    cd ..
+    cd frontend/vite-project
+  ```
+ - .ENV file should contain the backend URL.
  
 5. Install npm and start the server
 
- npm install
- npm run dev
+  ```sh
+    npm install
+    npm run dev
+  ```
  
 6. Access the app: Open your browser, navigate to http://localhost:4000.
 
@@ -108,6 +121,11 @@ Make sure you have the following installed:
 - **Gőgös Dániel**  
   [GitHub Profile](https://github.com/GogosDani)
 
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 
-   
+<!--Links for logos! -->
+[Docker]: https://img.shields.io/badge/Docker-blue?style=plastic&logo=docker&logoColor=darkblue
+[Node.js]: https://img.shields.io/badge/Node.js-black?style=plastic&logo=nodedotjs&logoColor=green
+[.NET]: https://img.shields.io/badge/.NET_8_SDK-darkblue?style=plastic&logo=dotnet&logoColor=white&labelColor=purple
+
+
+

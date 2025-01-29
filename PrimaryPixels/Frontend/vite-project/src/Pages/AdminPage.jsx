@@ -33,10 +33,6 @@ export default function AdminPage() {
             })
     }
 
-    useEffect(() => {
-        console.log(product);
-    }, [product])
-
     return (
         <>
             <Navbar />

@@ -163,7 +163,7 @@ void AddCors()
     {
         options.AddPolicy("AllowFrontend",
             builder => builder
-                .WithOrigins("http://localhost:5000")
+                .WithOrigins("http://localhost:4000")
                 .AllowAnyHeader()
                 .AllowAnyMethod());
     });

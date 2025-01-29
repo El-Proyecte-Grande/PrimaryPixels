@@ -14,7 +14,6 @@ function HomePage() {
     ));
     const location = useLocation();
 
-    console.log(location.token);
     useEffect(() => {
         setIsLoggedIn(localStorage.getItem("token") === null ? false : true);
 

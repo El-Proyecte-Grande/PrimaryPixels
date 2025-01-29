@@ -52,34 +52,53 @@ Make sure you have the following installed:
 
 ## Start the App
 
+0.: Prepare dotenv file If you're running the app using Docker, go to the main folder. Copy the .env.sample file and rename it to .env. If you're running the app without Docker, go to the PrimaryPixels folder. Copy the .env.sample file and rename it to .env. These .env files contain the necessary environment variables for the app to function properly.
+
+
 ### Using Docker
 
-1, Build docker compose: docker compose build
+1. Build docker compose: docker compose build
 
-2, Run DB: docker compose up db
+2. Run DB: docker compose up db
 
-3, Open backend folder, use migrations: cd PrimaryPixels --> dotnet ef database update --context "PrimaryPixelsContext"     2, dotnet ef database update --context "UsersContext"
+3. Open backend folder, use migrations: cd PrimaryPixels --> dotnet ef database update --context "PrimaryPixelsContext"     2, dotnet ef database update --context "UsersContext"
 
-4, Step back, run docker compose: cd ..  --> docker compose up
+4. Create Frontend .env file, in frontend/vite-project folder, according to the .env.sample Should contain the backend URL
 
-5, Access the app: Open your browser, navigate to http://localhost:4000.
+5. Step back, run docker compose: cd ..  --> docker compose up
+
+6. Access the app: Open your browser, navigate to http://localhost:4000.
 
 
-### Without Docker
+### With Terminal
 
 1. Start the database using Docker:
-           docker-compose up -d db
    
-2, Navigate to the backend directory and start the backend server:
+    docker-compose up -d db
+   
+2. Navigate to the backend directory and use migrations:
 
-        cd PrimaryPixels/PrimaryPixels
-        dotnet run
+ cd PrimaryPixels
+ dotnet ef database update --context "PrimaryPixelsContext"
+ dotnet ef database update --context "UsersContext"
+ 
+3. start the backend server:
 
-3, Navigate to the frontend directory and start the React app:
-        cd frontend/vite-project
-        npm install
-        npm start
+ dotnet run
+ remember the server URL
+ 
+4. Navigate to the frontend directory and create .env according to the .env.sample
 
+ cd ..
+ cd frontend/vite-project
+ .ENV file should contain the backend URL.
+ 
+5. Install npm and start the server
+
+ npm install
+ npm run dev
+ 
+6. Access the app: Open your browser, navigate to http://localhost:4000.
 
 ## Contributors
 

@@ -84,7 +84,7 @@ Make sure you have the following installed:
  
 3. start the backend server:
 
- dotnet run
+ dotnet run,
  remember the server URL
  
 4. Navigate to the frontend directory and create .env according to the .env.sample

@@ -16,7 +16,7 @@ Administrators have access to a secure interface to manage products and inventor
 ## Built With
 
 - **Backend**: [ASP.NET Core](https://dotnet.microsoft.com/en-us/apps/aspnet) (with Identity Framework and Entity Framework)
-- **Frontend**: [React.js](https://reactjs.org/)
+- **Frontend**: [![React.js][React.js]](https://reactjs.org/)
 - **Containerization**: [Docker](https://www.docker.com/) and Docker Compose
 
 ---
@@ -107,4 +107,7 @@ Make sure you have the following installed:
 
 - **Gőgös Dániel**  
   [GitHub Profile](https://github.com/GogosDani)
+
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+
    

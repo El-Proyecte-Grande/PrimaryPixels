@@ -61,4 +61,38 @@ public class AddProductsTester
         var response = await _client.SendAsync(request);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
+
+    [Fact]
+    public async Task AddProductWithUserToken()
+    {
+        string token = _tokenCreator.GenerateJwtToken();
+        var request = new HttpRequestMessage(HttpMethod.Post, "/api/Phone");
+        request.Headers.Add("Authorization", $"Bearer {token}");
+        Phone phone = new()
+        {
+            Availability = true, CardIndependency = true, Cpu = "i3-1301", Image = "", InternalMemory = 16, Price = 100,
+            Name = "Phone", Ram = 8,
+        };
+        var json = JsonSerializer.Serialize(phone);
+        var jsonContent = new StringContent(json, Encoding.UTF8, "application/json");
+        request.Content = jsonContent;
+        var response = await _client.SendAsync(request);
+        Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task AddProductWithoutLogin()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Post, "/api/Phone");
+        Phone phone = new()
+        {
+            Availability = true, CardIndependency = true, Cpu = "i3-1301", Image = "", InternalMemory = 16, Price = 100,
+            Name = "Phone", Ram = 8,
+        };
+        var json = JsonSerializer.Serialize(phone);
+        var jsonContent = new StringContent(json, Encoding.UTF8, "application/json");
+        request.Content = jsonContent;
+        var response = await _client.SendAsync(request);
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
 }

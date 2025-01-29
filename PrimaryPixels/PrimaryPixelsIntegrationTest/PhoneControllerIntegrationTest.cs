@@ -13,7 +13,6 @@ namespace PrimaryPixelsIntegrationTest
         private readonly ITestOutputHelper _output;
         private readonly PrimaryPixelsWebApplicationFactory _app;
         private readonly HttpClient _client;
-        private readonly ITokenService _tokenService;
 
         public PhoneControllerIntegrationTest(ITestOutputHelper output)
         {
@@ -42,7 +41,7 @@ namespace PrimaryPixelsIntegrationTest
         }
         
         [Fact]
-        public async Task PhoneControllerIntegrationTestGetAllasd()
+        public async Task PhoneControllerIntegrationTestGetByWrongId()
         {
             var response = await _client.GetAsync("/api/Phone/5");
             Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);

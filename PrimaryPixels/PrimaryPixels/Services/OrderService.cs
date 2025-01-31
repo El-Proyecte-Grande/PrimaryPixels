@@ -65,8 +65,15 @@ public class OrderService : IOrderService
         return price;
     }
 
-    public async Task<IEnumerable<Order>> GetOrdersByUserId(string id){
-        return await _orderRepository.GetOrdersByUserId(id);
+    public async Task<IEnumerable<OrderDetails>> GetOrdersByUserId(string id)
+    {
+        // Get every order by userId
+        var orders = await _orderRepository.GetOrdersByUserId(id);
+        // Get every corresponding orderDetails for these orders, run them in parallel.
+        var orderDetailsTasks = orders
+            .Select(order => _orderDetailsRepository.GetProductsForOrder(order.Id));
+        var orderDetailsLists = await Task.WhenAll(orderDetailsTasks);
+        // return every orderDetails for this user in a collection.
+        return orderDetailsLists.SelectMany(details => details);
     }
-    
 } 

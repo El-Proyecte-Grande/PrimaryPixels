@@ -84,6 +84,11 @@ public class PrimaryPixelsContext : DbContext
                 new Phone { Id = 15, Name = "HONOR AZC", Price = 105000, Availability = true, TotalSold = 8, CardIndependency = true, Cpu = "Exynos 3434", InternalMemory = 128, Ram = 16, Image = "https://s13emagst.akamaized.net/products/57643/57642529/images/res_77d22d24346a96ca4e3f4e7a9eeea779.jpg?width=720&height=720&hash=61507AB28D44CE94F541B937B7FB239C"}
                 );
         });
-
+    
+        modelBuilder.Entity<OrderDetails>()
+            .HasOne(od => od.Product)
+            .WithMany() 
+            .HasForeignKey(od => od.ProductId)
+            .IsRequired(false);
     }
 }

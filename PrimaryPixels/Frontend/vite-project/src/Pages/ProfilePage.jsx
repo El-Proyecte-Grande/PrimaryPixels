@@ -35,7 +35,9 @@ export default function ProfilePage() {
     }, [])
 
 
-
+    useEffect(() => {
+        console.log(orders);
+    }, [orders])
 
     return (
         <>
@@ -49,8 +51,6 @@ export default function ProfilePage() {
                     <div className="orders">
                         {orders.map(o => <div key={o.id} className="order">
                             <div className="order-info"> #{o.id} </div>
-                            <div className="order-info"> {o.orderDate} </div>
-                            <div className="order-info"> {formatHUF(o.price)}</div>
                         </div>)}
                     </div>
                 )}

@@ -1,3 +1,4 @@
+using PrimaryPixels.DTO;
 using PrimaryPixels.Models.Order;
 
 namespace PrimaryPixels.Services;
@@ -5,5 +6,5 @@ namespace PrimaryPixels.Services;
 public interface IOrderService
 {
     Task<int>CreateOrder(OrderDTO orderDto, string userId);
-    public Task<IEnumerable<OrderDetails>> GetOrdersByUserId(string id);
+    public Task<IEnumerable<OrderDetailsResponseDTO>> GetOrdersByUserId(string id);
 }

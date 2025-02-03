@@ -1,3 +1,4 @@
+using PrimaryPixels.DTO;
 using PrimaryPixels.Models.Order;
 using PrimaryPixels.Services.Repositories;
 
@@ -65,15 +66,35 @@ public class OrderService : IOrderService
         return price;
     }
 
-    public async Task<IEnumerable<OrderDetails>> GetOrdersByUserId(string id)
+    
+    public async Task<IEnumerable<OrderDetailsResponseDTO>> GetOrdersByUserId(string id)
     {
-        // Get every order by userId
+        // Get orders by userId
         var orders = await _orderRepository.GetOrdersByUserId(id);
-        // Get every corresponding orderDetails for these orders, run them in parallel.
-        var orderDetailsTasks = orders
-            .Select(order => _orderDetailsRepository.GetProductsForOrder(order.Id));
-        var orderDetailsLists = await Task.WhenAll(orderDetailsTasks);
-        // return every orderDetails for this user in a collection.
-        return orderDetailsLists.SelectMany(details => details);
+        var orderDetailsResponse = new List<OrderDetailsResponseDTO>();
+        // Get every corresponding orderDetail for these orders and create the OrderDetailResponseDTOs
+        foreach (var order in orders)
+        {
+            var orderDetailsForOrder = await _orderDetailsRepository.GetProductsForOrder(order.Id);
+            // Create every orderDetailsDTO, including a ProductDTO instead of Product
+            var orderDetailsDTOsForOrder = orderDetailsForOrder.Select(od =>
+            {
+               return new OrderDetailsResponseDTO()
+                {
+                    Quantity = od.Quantity,
+                    UnitPrice = od.UnitPrice,
+                    OrderId = od.OrderId,
+                    Product = new ProductDTO()
+                    {
+                        Image = od.Product.Image,
+                        Price = od.Product.Price,
+                        Name = od.Product.Name
+                    }
+                };
+            });
+            // Push every orderDetailsDTO to this collection
+            orderDetailsResponse.AddRange(orderDetailsDTOsForOrder); 
+        }
+        return orderDetailsResponse;
     }
 } 

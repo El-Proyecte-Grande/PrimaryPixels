@@ -67,28 +67,7 @@ export default function ProfilePage() {
                 )}
                 {page == "orders" && (
                     <div className="orders">
-                        {orders.map(o => <div key={o.id} className="order">
-                            <p className="order-id">ORDER: #{o.id} </p>
-                            <div className="order-products">
-                                {o.items.map((item, index) =>
-                                    <div className="order-product" key={index}>
-                                        <div className="image-div">
-                                            <img className="product-image" src={item.product.image} />
-                                        </div>
-                                        <div className="product-details">
-                                            <div className="upper-side">
-                                                <p className="item-name"> {item.product.name} </p>
-                                            </div>
-                                            <div className="bottom-side">
-                                                <p> {item.quantity}X  </p>
-                                                <p className="total-price"> {formatHUF(item.totalPrice)} </p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                )}
-                            </div>
-                        </div>)}
+                        
                     </div>
                 )}
             </div>

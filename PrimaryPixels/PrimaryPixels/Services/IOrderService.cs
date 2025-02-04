@@ -6,5 +6,5 @@ namespace PrimaryPixels.Services;
 public interface IOrderService
 {
     Task<int>CreateOrder(OrderDTO orderDto, string userId);
-    public Task<IEnumerable<OrderDetailsResponseDTO>> GetOrdersByUserId(string id);
+    Task<IEnumerable<OrderResponseDTO>> GetOrdersByUserId(string userId);
 }

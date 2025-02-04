@@ -39,6 +39,12 @@ public class OrderService : IOrderService
         return orderId;
     }
 
+    public async Task<IEnumerable<OrderResponseDTO>> GetOrdersByUserId(string userId)
+    {
+        var orders = await _orderRepository.GetOrdersByUserId(userId);
+        return orders.Select(o => new OrderResponseDTO() { Id = o.Id, OrderDate = o.OrderDate, Price = o.Price, City = o.City, Address = o.Address});
+    }
+
     // Create the real orderDetails
     private async IAsyncEnumerable<OrderDetails> CreateOrderDetails(List<OrderDetailsDTO> orderDetailsDtos)
     {
@@ -66,36 +72,4 @@ public class OrderService : IOrderService
         return price;
     }
 
-    
-    public async Task<IEnumerable<OrderDetailsResponseDTO>> GetOrdersByUserId(string id)
-    {
-        // Get orders by userId
-        var orders = await _orderRepository.GetOrdersByUserId(id);
-        var orderDetailsResponse = new List<OrderDetailsResponseDTO>();
-        // Get every corresponding orderDetail for these orders and create the OrderDetailResponseDTOs
-        foreach (var order in orders)
-        {
-            var orderDetailsForOrder = await _orderDetailsRepository.GetProductsForOrder(order.Id);
-            // Create every orderDetailsDTO, including a ProductDTO instead of Product
-            var orderDetailsDTOsForOrder = orderDetailsForOrder.Select(od =>
-            {
-               return new OrderDetailsResponseDTO()
-                {
-                    Quantity = od.Quantity,
-                    UnitPrice = od.UnitPrice,
-                    OrderId = od.OrderId,
-                    OrderDate = order.OrderDate,
-                    Product = new ProductDTO()
-                    {
-                        Image = od.Product.Image,
-                        Price = od.Product.Price,
-                        Name = od.Product.Name
-                    }
-                };
-            });
-            // Push every orderDetailsDTO to this collection
-            orderDetailsResponse.AddRange(orderDetailsDTOsForOrder); 
-        }
-        return orderDetailsResponse;
-    }
 } 

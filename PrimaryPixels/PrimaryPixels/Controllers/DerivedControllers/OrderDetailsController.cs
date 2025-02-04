@@ -104,7 +104,7 @@ public class OrderDetailsController : ControllerBase, IController<OrderDetails>
         }
     }
 
-    [HttpGet("order/{orderId}")]
+    [HttpGet("Order/{orderId}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderDetails[]))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetProductForOrderDetails(int orderId)

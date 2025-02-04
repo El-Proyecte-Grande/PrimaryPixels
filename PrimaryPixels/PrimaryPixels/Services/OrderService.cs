@@ -84,6 +84,7 @@ public class OrderService : IOrderService
                     Quantity = od.Quantity,
                     UnitPrice = od.UnitPrice,
                     OrderId = od.OrderId,
+                    OrderDate = order.OrderDate,
                     Product = new ProductDTO()
                     {
                         Image = od.Product.Image,

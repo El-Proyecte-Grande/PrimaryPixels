@@ -28,7 +28,8 @@ export default function ProfilePage() {
         async function getOrders() {
             const response = await apiWithAuth.get("/api/Order/User");
             if (response.status == 200) {
-                setOrders(response.data);
+                const groupedOrders = groupOrders(response.data);
+                setOrders(convertObjectToArray(groupedOrders));
             }
         }
         getOrders()
@@ -38,6 +39,23 @@ export default function ProfilePage() {
     useEffect(() => {
         console.log(orders);
     }, [orders])
+
+    // group orderDetails by orderId
+    function groupOrders(orders) {
+        return orders.reduce((acc, curr) => {
+            if (!acc[curr.orderId]) {
+                acc[curr.orderId] = [];
+            }
+            acc[curr.orderId].push(curr);
+            return acc;
+        }, {})
+    }
+
+    // Convert the orders object -grouped by orderId- to an array.
+    function convertObjectToArray(groupedOrders) {
+        return Object.entries(groupedOrders)
+            .map(([orderId, items]) => ({ id: Number(orderId), items }))
+    }
 
     return (
         <>
@@ -50,7 +68,26 @@ export default function ProfilePage() {
                 {page == "orders" && (
                     <div className="orders">
                         {orders.map(o => <div key={o.id} className="order">
-                            <div className="order-info"> #{o.id} </div>
+                            <p className="order-id">ORDER: #{o.id} </p>
+                            <div className="order-products">
+                                {o.items.map((item, index) =>
+                                    <div className="order-product" key={index}>
+                                        <div className="image-div">
+                                            <img className="product-image" src={item.product.image} />
+                                        </div>
+                                        <div className="product-details">
+                                            <div className="upper-side">
+                                                <p className="item-name"> {item.product.name} </p>
+                                            </div>
+                                            <div className="bottom-side">
+                                                <p> {item.quantity}X  </p>
+                                                <p className="total-price"> {formatHUF(item.totalPrice)} </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                )}
+                            </div>
                         </div>)}
                     </div>
                 )}

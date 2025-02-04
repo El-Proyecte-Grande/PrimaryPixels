@@ -28,34 +28,12 @@ export default function ProfilePage() {
         async function getOrders() {
             const response = await apiWithAuth.get("/api/Order/User");
             if (response.status == 200) {
-                const groupedOrders = groupOrders(response.data);
-                setOrders(convertObjectToArray(groupedOrders));
+                setOrders(response.data);
             }
         }
         getOrders()
     }, [])
 
-
-    useEffect(() => {
-        console.log(orders);
-    }, [orders])
-
-    // group orderDetails by orderId
-    function groupOrders(orders) {
-        return orders.reduce((acc, curr) => {
-            if (!acc[curr.orderId]) {
-                acc[curr.orderId] = [];
-            }
-            acc[curr.orderId].push(curr);
-            return acc;
-        }, {})
-    }
-
-    // Convert the orders object -grouped by orderId- to an array.
-    function convertObjectToArray(groupedOrders) {
-        return Object.entries(groupedOrders)
-            .map(([orderId, items]) => ({ id: Number(orderId), items }))
-    }
 
     return (
         <>
@@ -66,9 +44,32 @@ export default function ProfilePage() {
                     <h2> PROFILE </h2>
                 )}
                 {page == "orders" && (
-                    <div className="orders">
-                        
-                    </div>
+                    <table className="orders">
+                        <thead className="orders-table-head">
+                            <tr className="orders-table-row">
+                                <th> ID </th>
+                                <th> DATE </th>
+                                <th> PRICE </th>
+                                <th> CITY </th>
+                                <th> ADDRESS </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody className="orders-table-body">
+                            {orders.map((o) =>
+                                <tr className="order" key={o.id}>
+                                    <td> {o.id} </td>
+                                    <td> {o.orderDate} </td>
+                                    <td> {formatHUF(o.price)} </td>
+                                    <td> {o.city} </td>
+                                    <td> {o.address} </td>
+                                    <td>
+                                        <button className="view-order-button" onClick={() => navigate(`/orderdetails/${o.id}`)}> View </button>
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
                 )}
             </div>
         </>

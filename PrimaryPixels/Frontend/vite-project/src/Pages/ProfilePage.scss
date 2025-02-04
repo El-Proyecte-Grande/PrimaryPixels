@@ -18,3 +18,16 @@
 
 // styles for orders page
 
+.orders {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.orders-table-head th,
+.orders-table-body td {
+    text-align: center;
+    width: 16.6%;
+    padding: 10px;
+    font-family: 'Times New Roman', Times, serif;
+}

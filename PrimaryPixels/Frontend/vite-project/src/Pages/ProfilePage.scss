@@ -1,6 +1,4 @@
 .profile-page {
-    display: flex;
-    flex-direction: row;
     position: absolute;
     top: 5rem;
     height: fit-content;
@@ -15,6 +13,32 @@
     border-radius: 10px;
 }
 
+.profile {
+    width: 100%;
+    display: grid;
+}
+
+.profile-page-image {
+    height: 15rem;
+    border-radius: 150px;
+    border: solid lightgray 1px;
+    justify-self: center;
+    margin-bottom: 1rem;
+}
+
+.pwd-reset-button {
+    width: 10rem;
+    background-color: rgb(92, 2, 2);
+    color: white;
+}
+
+.user-info {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+    margin: 0.5rem;
+}
 
 // styles for orders page
 

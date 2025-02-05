@@ -41,7 +41,16 @@ export default function ProfilePage() {
             <ProfileSideBar setPage={setPage} />
             <div className="profile-page">
                 {page == "profile" && (
-                    <h2> PROFILE </h2>
+                    <div className="profile">
+                        <img className="profile-page-image" src="../../public/user.png"></img>
+                        <p className="user-info"> Email</p>
+                        <p className="user-info"> Nickname</p>
+                        <div className="profile-password">
+                            <p className="user-info"> Password</p>
+                            <button className="pwd-reset-button"> RESET PASSWOWRD </button>
+                        </div>
+
+                    </div>
                 )}
                 {page == "orders" && (
                     <table className="orders">

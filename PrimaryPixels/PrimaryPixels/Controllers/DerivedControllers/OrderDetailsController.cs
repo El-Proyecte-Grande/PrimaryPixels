@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PrimaryPixels.DTO;
 using PrimaryPixels.Models.Order;
 using PrimaryPixels.Services.Repositories;
 
@@ -112,8 +113,16 @@ public class OrderDetailsController : ControllerBase, IController<OrderDetails>
         try
         {
             OrderDetailsRepository repository = _repository as OrderDetailsRepository;
+            // get orderDetails
             var orderProducts = await repository.GetProductsForOrder(orderId);
-            return Ok(orderProducts);
+            // convert orderDetails to orderDetailsResponses with ProductDTO
+            var returnData = orderProducts.Select(od => new OrderDetailsResponse()
+            {
+                Quantity = od.Quantity,
+                UnitPrice = od.UnitPrice,
+                Product = new ProductDTO(){Image = od.Product.Image, Name = od.Product.Name}
+            });
+            return Ok(returnData);
         }
         catch (Exception ex)
         {

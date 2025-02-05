@@ -14,8 +14,13 @@ public class UserRepository : IUserRepository
     }
     public async Task<UserResponse> GetUserById(string id)
     {
-        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
-        return new UserResponse() { Email = user.Email, Username = user.UserName };
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+        {
+            throw new InvalidOperationException("Couldn't find user with this id");
+        }
+
+        return new UserResponse(user.UserName, user.Email);
     }
 
     public async Task<bool> ChangePasswordAsync(string newPassword, string userId)
@@ -25,10 +30,8 @@ public class UserRepository : IUserRepository
         {
             return false;
         }
-
         var result = await _userManager.ChangePasswordAsync(user, user.PasswordHash, newPassword);
-        if (result.Succeeded)return true;
-        return false;
+        return result.Succeeded;
     }
     
 }

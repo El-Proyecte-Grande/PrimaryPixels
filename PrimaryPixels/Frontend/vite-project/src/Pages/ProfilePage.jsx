@@ -13,6 +13,7 @@ export default function ProfilePage() {
     const navigate = useNavigate();
     const [page, setPage] = useState("profile");
     const [orders, setOrders] = useState([]);
+    const [userData, setUserData] = useState({});
 
     // If we are not logged in or if we want to search for other user's cart, it redirect us to the home page.
     useEffect(() => {
@@ -34,6 +35,18 @@ export default function ProfilePage() {
         getOrders()
     }, [])
 
+    useEffect(() => {
+        async function getUserInfos() {
+            const response = await apiWithAuth.get("/api/User");
+            if (response.status == 200) {
+                setUserData(response.data);
+            }
+            else {
+                console.error("Couldn't fetch user's data!");
+            }
+        }
+        getUserInfos();
+    }, [])
 
     return (
         <>
@@ -43,10 +56,10 @@ export default function ProfilePage() {
                 {page == "profile" && (
                     <div className="profile">
                         <img className="profile-page-image" src="../../public/user.png"></img>
-                        <p className="user-info"> Email</p>
-                        <p className="user-info"> Nickname</p>
+                        <p className="user-info"> Email: {userData.email}</p>
+                        <p className="user-info"> Nickname: {userData.username}</p>
                         <div className="profile-password">
-                            <p className="user-info"> Password</p>
+                            <p className="user-info"> Password: **********</p>
                             <button className="pwd-reset-button"> RESET PASSWOWRD </button>
                         </div>
 

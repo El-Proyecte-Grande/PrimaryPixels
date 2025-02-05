@@ -1,7 +1,9 @@
 namespace PrimaryPixels.DTO;
 
-public class UserResponse
+public record UserResponse(
+    string Username,
+    string Email
+)
 {
-    public string Username { get; init; }
-    public string Email { get; init; }
+    
 }

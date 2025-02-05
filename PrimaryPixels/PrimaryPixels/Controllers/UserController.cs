@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
+using PrimaryPixels.DTO;
 using PrimaryPixels.Services.Repositories;
 
 namespace PrimaryPixels.Controllers;
@@ -15,14 +16,14 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetUserInfos()
+    public async Task<ActionResult<UserResponse>> GetUserInfos()
     {
         var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (string.IsNullOrEmpty(userId))
         {
             return BadRequest("UserId not found.");
         }
-        var userInfos = _repository.GetUserById(userId);
+        var userInfos = await _repository.GetUserById(userId);
         return Ok(userInfos);
     }
 

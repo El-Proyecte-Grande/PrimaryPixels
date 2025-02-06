@@ -28,14 +28,14 @@ public class UserController : ControllerBase
     }
 
     [HttpPatch]
-    public async Task<IActionResult> ChangeUserPassword(string newPassword)
+    public async Task<IActionResult> ChangeUserPassword([FromBody] ChangePasswordRequest model)
     {
         var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (string.IsNullOrEmpty(userId))
         {
             return BadRequest("UserId not found.");
         }
-        var success = await _repository.ChangePasswordAsync(newPassword, userId);
+         var success = await _repository.ChangePasswordAsync(model.CurrentPassword, model.NewPassword, userId);
         if (!success)
         {
             return BadRequest("Failed to change password.");

@@ -55,3 +55,25 @@
     padding: 10px;
     font-family: 'Times New Roman', Times, serif;
 }
+
+.success-popup {
+    position: fixed;
+    bottom: 3px;
+    right: 3px;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 8rem;
+}
+
+
+
+.success-text {
+    color: green;
+    font-size: 1rem;
+    font-weight: bold;
+}

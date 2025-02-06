@@ -23,14 +23,14 @@ public class UserRepository : IUserRepository
         return new UserResponse(user.UserName, user.Email);
     }
 
-    public async Task<bool> ChangePasswordAsync(string newPassword, string userId)
+    public async Task<bool> ChangePasswordAsync(string currentPassword, string newPassword, string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
         {
             return false;
         }
-        var result = await _userManager.ChangePasswordAsync(user, user.PasswordHash, newPassword);
+        var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
         return result.Succeeded;
     }
     

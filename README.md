@@ -62,32 +62,17 @@ Make sure you have the following installed:
 
 1. Build docker compose: `docker compose build`
 
-2. Run DB: `docker compose up db`
+2. Create Frontend .env file, in frontend/vite-project folder, according to the .env.sample Should contain the backend URL
 
-3. Open backend folder, use migrations: `cd PrimaryPixels` --> `dotnet ef database update --context "PrimaryPixelsContext"`, `dotnet ef database update --context "UsersContext"`
+3. Step back, run docker compose: `cd ..`  --> `docker compose up`
 
-4. Create Frontend .env file, in frontend/vite-project folder, according to the .env.sample Should contain the backend URL
-
-5. Step back, run docker compose: `cd ..`  --> `docker compose up`
-
-6. Access the app: Open your browser, navigate to http://localhost:4000.
+4. Access the app: Open your browser, navigate to http://localhost:4000.
 
 
 ### With Terminal
 
-1. Start the database using Docker:
-
-  ```sh
-    docker-compose up -d db
-  ```
+1. Start the database
   
-2. Navigate to the backend directory and use migrations:
-
-  ```sh
-    cd PrimaryPixels
-    dotnet ef database update --context "PrimaryPixelsContext"
-    dotnet ef database update --context "UsersContext"
-  ```
  
 3. start the backend server:
 

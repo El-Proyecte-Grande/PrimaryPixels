@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrimaryPixels.Models.Order;
@@ -9,9 +10,9 @@ namespace PrimaryPixels.Controllers.DerivedControllers;
 [ApiController]
 public class OrderDetailsController : ControllerBase, IController<OrderDetails>
 {
-    protected IRepository<OrderDetails> _repository;
+    protected IOrderDetailsRepository _repository;
     protected ILogger<OrderDetailsController> _logger;
-    public OrderDetailsController(ILogger<OrderDetailsController> logger, IRepository<OrderDetails> repository)
+    public OrderDetailsController(ILogger<OrderDetailsController> logger, IOrderDetailsRepository repository)
     {
         _logger = logger;
         _repository = repository;
@@ -111,8 +112,7 @@ public class OrderDetailsController : ControllerBase, IController<OrderDetails>
     {
         try
         {
-            OrderDetailsRepository repository = _repository as OrderDetailsRepository;
-            var orderProducts = await repository.GetProductsForOrder(orderId);
+            var orderProducts = await _repository.GetProductsForOrder(orderId);
             return Ok(orderProducts);
         }
         catch (Exception ex)
@@ -121,4 +121,6 @@ public class OrderDetailsController : ControllerBase, IController<OrderDetails>
             return BadRequest();
         }
     }
+
+    
 }

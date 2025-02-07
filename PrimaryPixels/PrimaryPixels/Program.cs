@@ -62,9 +62,8 @@ void AddServices()
     builder.Services.AddScoped<IRepository<Computer>, ProductRepository<Computer>>();
     builder.Services.AddScoped<IOrderRepository, OrderRepository>();
     builder.Services.AddScoped<IRepository<Order>, OrderRepository>();
-    builder.Services.AddScoped<IRepository<OrderDetails>, OrderDetailsRepository>();
     builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
-    builder.Services.AddScoped<IRepository<ShoppingCartItem>, ShoppingCartItemRepository>();
+    builder.Services.AddScoped<IShoppingCartItemRepository, ShoppingCartItemRepository>();
     builder.Services.AddScoped<IProductRepository, ProductsRepository>();
     builder.Services.AddScoped<IOrderService, OrderService>();
     builder.Services.AddScoped<IAuthService, AuthService>();

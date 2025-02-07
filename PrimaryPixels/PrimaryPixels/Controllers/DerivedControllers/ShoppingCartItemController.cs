@@ -125,7 +125,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers
             }
         }
 
-        [HttpGet("/api/ShoppingCartItem/user/{userId}")]
+        [HttpGet("/api/ShoppingCartItem/user/{userId}"), Authorize]
         public async Task<IActionResult> GetProductForOrder(string userId)
         {
             try
@@ -141,7 +141,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers
             }
         }
 
-        [HttpDelete("user")]
+        [HttpDelete("user"), Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> DeleteShoppingCartItemsByUserId()

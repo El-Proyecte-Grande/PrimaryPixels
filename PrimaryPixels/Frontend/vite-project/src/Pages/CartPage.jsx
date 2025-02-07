@@ -86,10 +86,15 @@ export default function CartPage() {
             console.error("Failed to submit order");
             return;
         }
+        // Delete items from users shoppingcart when the order submit was successful.
+        const deleteRequest = apiWithAuth.delete("/api/shoppingCartItem/user");
+        if (response.status !== 200) {
+            console.error("Failed to delete products from cart!");
+            return;
+        }
         const orderId = response.data;
         navigate(`/order/success/${orderId}`);
     }
-
 
 
     return (

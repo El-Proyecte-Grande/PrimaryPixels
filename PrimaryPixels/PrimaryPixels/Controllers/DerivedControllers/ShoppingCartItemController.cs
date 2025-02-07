@@ -10,13 +10,16 @@ namespace PrimaryPixels.Controllers.DerivedControllers
     [ApiController]
     public class ShoppingCartItemController : ControllerBase
     {
-        protected IRepository<ShoppingCartItem> _repository;
+        protected IShoppingCartItemRepository _repository;
         protected ILogger<ShoppingCartItemController> _logger;
-        public ShoppingCartItemController(ILogger<ShoppingCartItemController> logger, IRepository<ShoppingCartItem> repository)
+
+        public ShoppingCartItemController(ILogger<ShoppingCartItemController> logger,
+            IShoppingCartItemRepository repository)
         {
             _logger = logger;
             _repository = repository;
         }
+
         [HttpPost(""), Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -26,16 +29,18 @@ namespace PrimaryPixels.Controllers.DerivedControllers
             {
                 // Get the user ID from claims.
                 var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                            if (string.IsNullOrEmpty(userId))
-                            {
-                                return BadRequest("UserId not found.");
-                            }
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest("UserId not found.");
+                }
+
                 // create the real shoppingCartItem instance.
                 ShoppingCartItem shoppingCartItem = new()
                     { ProductId = entity.ProductId, UserId = userId, Quantity = 1 };
                 // try to add the new shopping cart item to the DB
                 int idOfAddedEntity = await _repository.Add(shoppingCartItem);
-                _logger.LogInformation($"{typeof(ShoppingCartItem).Name} with id {idOfAddedEntity} successfully added!");
+                _logger.LogInformation(
+                    $"{typeof(ShoppingCartItem).Name} with id {idOfAddedEntity} successfully added!");
                 return Ok(idOfAddedEntity);
             }
             catch (Exception ex)
@@ -44,6 +49,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers
                 return BadRequest();
             }
         }
+
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -62,6 +68,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers
             }
 
         }
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShoppingCartItem[]))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -80,6 +87,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers
             }
 
         }
+
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShoppingCartItem))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -97,6 +105,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers
                 return NotFound();
             }
         }
+
         [HttpPut, Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -105,7 +114,8 @@ namespace PrimaryPixels.Controllers.DerivedControllers
             try
             {
                 int idOfUpdatedEntity = await _repository.Update(entity);
-                _logger.LogInformation($"{typeof(ShoppingCartItem).Name} with id {idOfUpdatedEntity} successfully updated!");
+                _logger.LogInformation(
+                    $"{typeof(ShoppingCartItem).Name} with id {idOfUpdatedEntity} successfully updated!");
                 return Ok(idOfUpdatedEntity);
             }
             catch (Exception ex)
@@ -114,21 +124,48 @@ namespace PrimaryPixels.Controllers.DerivedControllers
                 return BadRequest();
             }
         }
-        
-        [HttpGet("/api/ShoppingCartItem/user/{userId}")]
-                public async Task<IActionResult> GetProductForOrder(string userId)
+
+        [HttpGet("/api/ShoppingCartItem/user/{userId}"), Authorize]
+        public async Task<IActionResult> GetProductForOrder(string userId)
+        {
+            try
+            {
+                ShoppingCartItemRepository repository = _repository as ShoppingCartItemRepository;
+                var cartProducts = await repository.GetByUserId(userId);
+                return Ok(cartProducts);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("user"), Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteShoppingCartItemsByUserId()
+        {
+            try
+            {
+                var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId))
                 {
-                    try
-                    {
-                        ShoppingCartItemRepository repository = _repository as ShoppingCartItemRepository;
-                        var cartProducts = await repository.GetByUserId(userId);
-                        return Ok(cartProducts);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, ex.Message);
-                        return BadRequest();
-                    }
+                    return BadRequest("UserId not found.");
                 }
+
+                var succeed = await _repository.DeleteByUserId(userId);
+                if (succeed) return Ok();
+                return StatusCode(StatusCodes.Status500InternalServerError, "Couldn't delete cart items.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return BadRequest(new
+                    { Message = "An error occurred while deleting order details.", Details = ex.Message });
+            }
+        }
     }
+
+
 }

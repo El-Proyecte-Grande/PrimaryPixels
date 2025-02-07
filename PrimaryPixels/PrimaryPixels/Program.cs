@@ -22,6 +22,7 @@ var connectionString = builder.Configuration["ConnectionString"];
 var validIssuer = builder.Configuration["ValidIssuer"];
 var validAudience = builder.Configuration["ValidAudience"];
 var issuerSigningKey = builder.Configuration["JwtSecretKey"];
+var frontendUrl = builder.Configuration["FrontendUrl"];
 // Add services to the container.
 
 AddServices();
@@ -32,6 +33,7 @@ AddIdentity();
 AddCors();
 
 var app = builder.Build();
+Migration();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -60,16 +62,15 @@ void AddServices()
     builder.Services.AddScoped<IRepository<Computer>, ProductRepository<Computer>>();
     builder.Services.AddScoped<IOrderRepository, OrderRepository>();
     builder.Services.AddScoped<IRepository<Order>, OrderRepository>();
-    builder.Services.AddScoped<IRepository<OrderDetails>, OrderDetailsRepository>();
     builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
-    builder.Services.AddScoped<IRepository<ShoppingCartItem>, ShoppingCartItemRepository>();
+    builder.Services.AddScoped<IShoppingCartItemRepository, ShoppingCartItemRepository>();
     builder.Services.AddScoped<IProductRepository, ProductsRepository>();
     builder.Services.AddScoped<IOrderService, OrderService>();
     builder.Services.AddScoped<IAuthService, AuthService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddScoped<AuthenticationSeeder>();
     builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
-  
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
 }
 
 
@@ -163,12 +164,30 @@ void AddCors()
     {
         options.AddPolicy("AllowFrontend",
             builder => builder
-                .WithOrigins("http://localhost:4000")
+                .WithOrigins(frontendUrl)
                 .AllowAnyHeader()
                 .AllowAnyMethod());
     });
 
 }
+
+void Migration()
+         {
+             using (var scope = app.Services.CreateScope())
+             {
+                 var primaryDb = scope.ServiceProvider.GetRequiredService<PrimaryPixelsContext>();
+                 var usersDb = scope.ServiceProvider.GetRequiredService<UsersContext>();
+                 // GetPendingMigrations: Checks the Migration history table and compare it with the project's migrations
+                 if (primaryDb.Database.GetPendingMigrations().Any())
+                 {
+                     primaryDb.Database.Migrate();
+                 }
+                 if (usersDb.Database.GetPendingMigrations().Any())
+                 {
+                     usersDb.Database.Migrate();
+                 }
+             }
+         }
 
 public partial class Program
 {

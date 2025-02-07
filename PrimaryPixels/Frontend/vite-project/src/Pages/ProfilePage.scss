@@ -1,6 +1,4 @@
 .profile-page {
-    display: flex;
-    flex-direction: row;
     position: absolute;
     top: 5rem;
     height: fit-content;
@@ -15,19 +13,67 @@
     border-radius: 10px;
 }
 
-.orders {
-    display: flex;
-    flex-direction: column;
+.profile {
+    width: 100%;
+    display: grid;
 }
 
-.order {
-    display: flex;
-
+.profile-page-image {
+    height: 15rem;
+    border-radius: 150px;
+    border: solid lightgray 1px;
+    justify-self: center;
+    margin-bottom: 1rem;
 }
 
-.order-info {
-    color: black;
+.pwd-reset-button {
+    width: 10rem;
+    background-color: rgb(92, 2, 2);
+    color: white;
+}
+
+.user-info {
     font-family: 'Times New Roman', Times, serif;
-    font-size: 2rem;
-    margin: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+    margin: 0.5rem;
+}
+
+// styles for orders page
+
+.orders {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.orders-table-head th,
+.orders-table-body td {
+    text-align: center;
+    width: 16.6%;
+    padding: 10px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.success-popup {
+    position: fixed;
+    bottom: 3px;
+    right: 3px;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 8rem;
+}
+
+
+
+.success-text {
+    color: green;
+    font-size: 1rem;
+    font-weight: bold;
 }

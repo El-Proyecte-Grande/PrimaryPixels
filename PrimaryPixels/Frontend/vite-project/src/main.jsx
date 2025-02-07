@@ -10,6 +10,7 @@ import OrderedPage from "./Pages/OrderedPage"
 import RegistrationPage from "./Pages/RegistrationPage";
 import AdminPage from "./Pages/AdminPage";
 import ProfilePage from "./Pages/ProfilePage";
+import OrderDetails from "./Pages/OrderDetails"
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
   {
     path: "/profile/:userId",
     element: <ProfilePage />
+  },
+  {
+    path: "/orderdetails/:orderId",
+    element: <OrderDetails />
   }
 ]);
 

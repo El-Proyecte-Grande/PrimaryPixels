@@ -1,3 +1,4 @@
+using PrimaryPixels.DTO;
 using PrimaryPixels.Models.Order;
 using PrimaryPixels.Services.Repositories;
 
@@ -38,6 +39,12 @@ public class OrderService : IOrderService
         return orderId;
     }
 
+    public async Task<IEnumerable<OrderResponseDTO>> GetOrdersByUserId(string userId)
+    {
+        var orders = await _orderRepository.GetOrdersByUserId(userId);
+        return orders.Select(o => new OrderResponseDTO() { Id = o.Id, OrderDate = o.OrderDate, Price = o.Price, City = o.City, Address = o.Address});
+    }
+
     // Create the real orderDetails
     private async IAsyncEnumerable<OrderDetails> CreateOrderDetails(List<OrderDetailsDTO> orderDetailsDtos)
     {
@@ -65,8 +72,4 @@ public class OrderService : IOrderService
         return price;
     }
 
-    public async Task<IEnumerable<Order>> GetOrdersByUserId(string id){
-        return await _orderRepository.GetOrdersByUserId(id);
-    }
-    
 } 

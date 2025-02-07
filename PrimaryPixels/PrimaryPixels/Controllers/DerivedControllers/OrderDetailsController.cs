@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PrimaryPixels.DTO;
 using PrimaryPixels.Models.Order;
 using PrimaryPixels.Services.Repositories;
 
@@ -105,15 +106,24 @@ public class OrderDetailsController : ControllerBase, IController<OrderDetails>
         }
     }
 
-    [HttpGet("order/{orderId}")]
+    [HttpGet("Order/{orderId}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderDetails[]))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetProductForOrderDetails(int orderId)
     {
         try
         {
-            var orderProducts = await _repository.GetProductsForOrder(orderId);
-            return Ok(orderProducts);
+            OrderDetailsRepository repository = _repository as OrderDetailsRepository;
+            // get orderDetails
+            var orderProducts = await repository.GetProductsForOrder(orderId);
+            // convert orderDetails to orderDetailsResponses with ProductDTO
+            var returnData = orderProducts.Select(od => new OrderDetailsResponse()
+            {
+                Quantity = od.Quantity,
+                UnitPrice = od.UnitPrice,
+                Product = new ProductDTO(){Image = od.Product.Image, Name = od.Product.Name}
+            });
+            return Ok(returnData);
         }
         catch (Exception ex)
         {

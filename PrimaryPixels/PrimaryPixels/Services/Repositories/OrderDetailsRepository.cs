@@ -50,6 +50,9 @@ public class OrderDetailsRepository :  IOrderDetailsRepository
 
     public async Task<IEnumerable<OrderDetails>> GetProductsForOrder(int orderId)
     {
-        return await _context.OrderDetails.Where(o => o.OrderId == orderId).ToListAsync();
+        return await _context.OrderDetails
+            .Where(o => o.OrderId == orderId)
+            .Include(o => o.Product)
+            .ToListAsync();
     }
 }

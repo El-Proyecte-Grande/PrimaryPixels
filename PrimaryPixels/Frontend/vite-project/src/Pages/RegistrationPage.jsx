@@ -26,7 +26,22 @@ export default function RegistrationPage() {
                 password: userData.password,
                 email: userData.email
             });
-            if (response.status == 201) navigate("/");
+            if (response.status == 201) {
+                // if registration was successful, login automatically and navigate
+                const loginResponse = await api.post("/Auth/login", {
+                    email: userData.email,
+                    password: userData.password
+                },
+                    {
+                        headers: { "Content-Type": "application/json" }
+                    }
+                );
+                if (loginResponse.status == 200) {
+                    const data = await loginResponse.data
+                    localStorage.setItem('token', data.token);
+                    navigate("/");
+                }
+            }
         } catch (error) {
             if (error.response && error.response.data) {
                 const firstError = Object.values(error.response.data)

@@ -89,14 +89,16 @@ function Navbar() {
         <StyledNav>
             <img id="logo" src="/primary-pixels-logo.png" onClick={(e) => navigate("/")} />
             <div className='search-div'>
-                <input type="search" id="searchbar" onChange={(e) => setQuery(e.target.value)} />
+                <input type="search" id="searchbar" onChange={(e) => setQuery(e.target.value)} placeholder='Enter product name here' />
                 {searchedProducts.length > 0 &&
-                    searchedProducts.map((p, i) =>
-                        <div key={i} className='search-product-div'>
-                            <img src={p.image} className='search-product-img'></img>
-                            <p className='search-product-name'> {p.name} </p>
-                        </div>
-                    )
+                    <div className='search-products-div'>
+                        {searchedProducts.map((p, i) =>
+                            <div key={i} className='search-product-div'>
+                                <img src={p.image} className='search-product-img'></img>
+                                <p className='search-product-name'> {p.name} </p>
+                            </div>
+                        )}
+                    </div>
                 }
             </div>
             <div className='auth-buttons'>

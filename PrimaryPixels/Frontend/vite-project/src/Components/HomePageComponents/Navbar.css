@@ -32,12 +32,16 @@
     height: 2rem;
 }
 
+.search-products-div {
+    border: solid 1px black;
+}
+
 .search-product-div {
     height: 2rem;
     display: flex;
     flex-direction: row;
     column-gap: 1rem;
-    background-color: gray;
+    color: black;
 }
 
 .search-product-img {

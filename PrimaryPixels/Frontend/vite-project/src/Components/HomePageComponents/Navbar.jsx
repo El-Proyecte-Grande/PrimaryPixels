@@ -92,8 +92,8 @@ function Navbar() {
                 <input type="search" id="searchbar" onChange={(e) => setQuery(e.target.value)} placeholder='Enter product name here' />
                 {searchedProducts.length > 0 &&
                     <div className='search-products-div'>
-                        {searchedProducts.map((p, i) =>
-                            <div key={i} className='search-product-div'>
+                        {searchedProducts.map((p) =>
+                            <div key={p.id} className='search-product-div' onClick={() => navigate(`/product/${p.id}`)}>
                                 <img src={p.image} className='search-product-img'></img>
                                 <p className='search-product-name'> {p.name} </p>
                             </div>

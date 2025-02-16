@@ -81,7 +81,7 @@ public class ProductController : ControllerBase
             }
 
             var products = await _repository.Search(word);
-            var productDtos = products.Select(p => new ProductDTO() { Image = p.Image, Name = p.Name });
+            var productDtos = products.Select(p => new ProductDTO() { Image = p.Image, Name = p.Name, Id = p.Id });
             return Ok(productDtos);
         }
         catch (Exception ex)

@@ -21,7 +21,7 @@ export default function ProductPage() {
             setProduct(data)
         }
         fetchProduct();
-    }, [])
+    }, [id])
 
     async function AddToCart() {
         const response = await apiWithAuth.post("/api/ShoppingCartItem",

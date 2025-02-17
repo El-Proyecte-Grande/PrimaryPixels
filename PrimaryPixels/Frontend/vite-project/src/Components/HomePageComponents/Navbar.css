@@ -5,10 +5,8 @@
 }
 
 #searchbar {
-    margin-left: 5vw;
-    margin-right: 10vw;
-    height: 50%;
-    width: 30%;
+    height: 100%;
+    width: 100%;
     font-size: 0.9em;
 }
 
@@ -26,4 +24,31 @@
     position: relative;
     top: 2px;
     cursor: pointer;
+}
+
+.search-div {
+    width: 30%;
+    margin-left: 5rem;
+    height: 2rem;
+}
+
+.search-products-div {
+    border: solid 1px black;
+}
+
+.search-product-div {
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    column-gap: 1rem;
+    color: black;
+    cursor: pointer;
+}
+
+.search-product-img {
+    height: 2rem;
+}
+
+.search-product-name {
+    margin: 0;
 }

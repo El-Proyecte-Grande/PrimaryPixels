@@ -29,4 +29,10 @@ public class ProductsRepository : IProductRepository
         if(products.ToArray().Length == 0) throw new KeyNotFoundException();
         return products;
     }
+
+    public async Task<IEnumerable<Product>> Search(string word)
+    {
+        var products = await _context.Products.Where(p => p.Name.Contains(word)).Take(5).ToListAsync();
+        return products;
+    }
 }

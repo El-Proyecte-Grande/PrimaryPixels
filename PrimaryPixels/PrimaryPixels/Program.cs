@@ -178,13 +178,19 @@ void Migration()
                  var primaryDb = scope.ServiceProvider.GetRequiredService<PrimaryPixelsContext>();
                  var usersDb = scope.ServiceProvider.GetRequiredService<UsersContext>();
                  // GetPendingMigrations: Checks the Migration history table and compare it with the project's migrations
-                 if (primaryDb.Database.GetPendingMigrations().Any())
+                 if (primaryDb.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
                  {
-                     primaryDb.Database.Migrate();
+                     if (primaryDb.Database.GetPendingMigrations().Any())
+                     {
+                         primaryDb.Database.Migrate();
+                     }
                  }
-                 if (usersDb.Database.GetPendingMigrations().Any())
+                 if (usersDb.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
                  {
-                     usersDb.Database.Migrate();
+                     if (usersDb.Database.GetPendingMigrations().Any())
+                     {
+                         usersDb.Database.Migrate();
+                     }
                  }
              }
          }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { api } from "../Axios/api"
+import Navbar from "../Components/HomePageComponents/Navbar"
 
 export default function ResetPassword() {
 
@@ -8,7 +9,14 @@ export default function ResetPassword() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [success, setSuccess] = useState(false);
-    const { token } = useParams();
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get("token");
+    const email = searchParams.get("email");
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (email === null || token === null) navigate("/");
+    }, [])
 
     async function handleChange(e) {
         e.preventDefault();
@@ -33,8 +41,7 @@ export default function ResetPassword() {
                     }
                 });
             if (response.status == 200) {
-                setErrorMessage("");
-                setSuccess(true);
+                navigate("/")
             }
         } catch (error) {
             if (error.response) {
@@ -47,19 +54,22 @@ export default function ResetPassword() {
     }
 
     return (
-        <div className="flex items-center justify-center h-screen">
-            <div className="w-[22rem] h-[27rem] border-gray-200 border-2 rounded-xl p-8">
-                <p className="text-2xl font-mono font-black border-b-2 border-gray-200 pb-4"> Change Password </p>
-                <form onSubmit={(e) => handleChange(e)} className="flex flex-col">
-                    <label htmlFor="newPassword" className="mt-8 mb-2 font-bold"> New Password</label>
-                    <input id="newPassword" onChange={(e) => setPassword(e.target.value)} className="w-full h-10 border-[#dddddd] border-2 rounded-md pl-4" placeholder="New Password" />
-                    <label htmlFor="confirmNewPassword" className="mt-4 mb-2 font-bold"> Confirm New Password</label>
-                    <input id="confirmNewPassword" onChange={(e) => setConfirmPassword(e.target.value)} className="w-full h-10 border-[#dddddd] border-2 rounded-md pl-4" placeholder="Confirm New Password" />
-                    <button type="submit" className="mt-8 border-2 bg-[#5cb85c] border-[#4cae4c] text-white w-44 h-10 font-mono flex items-center justify-center" > Change Password </button>
-                    {errorMessage != "" && <p className="mt-4 text-red-600"> {errorMessage} </p>}
-                    {success && <p className="text-green-500 mt-4"> Reset Was Successful! </p>}
-                </form>
+        <>
+            <Navbar />
+            <div className="flex items-center justify-center h-screen">
+                <div className="w-[22rem] h-[27rem] border-gray-200 border-2 rounded-xl p-8">
+                    <p className="text-2xl font-mono font-black border-b-2 border-gray-200 pb-4"> Change Password </p>
+                    <form onSubmit={(e) => handleChange(e)} className="flex flex-col">
+                        <label htmlFor="newPassword" className="mt-8 mb-2 font-bold"> New Password</label>
+                        <input id="newPassword" type="password" onChange={(e) => setPassword(e.target.value)} className="w-full h-10 border-[#dddddd] border-2 rounded-md pl-4" placeholder="New Password" />
+                        <label htmlFor="confirmNewPassword" className="mt-4 mb-2 font-bold"> Confirm New Password</label>
+                        <input id="confirmNewPassword" type="password" onChange={(e) => setConfirmPassword(e.target.value)} className="w-full h-10 border-[#dddddd] border-2 rounded-md pl-4" placeholder="Confirm New Password" />
+                        <button type="submit" className="mt-8 border-2 bg-[#5cb85c] border-[#4cae4c] text-white w-44 h-10 font-mono flex items-center justify-center" > Change Password </button>
+                        {errorMessage != "" && <p className="mt-4 text-red-600"> {errorMessage} </p>}
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
+
     )
 }

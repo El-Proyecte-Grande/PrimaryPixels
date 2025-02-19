@@ -24,12 +24,14 @@
 .auth-buttons {
     position: absolute;
     right: 3rem;
+    display: flex;
+    flex-direction: row;
 }
 
 .profile-logo {
     height: 1.2rem;
     position: relative;
-    top: 2px;
+    top: 10px;
     cursor: pointer;
 }
 

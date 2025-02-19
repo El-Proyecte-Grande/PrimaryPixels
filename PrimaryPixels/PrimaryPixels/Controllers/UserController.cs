@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -64,7 +65,7 @@ public class UserController : ControllerBase
             }
 
             var token = await _repository.GetPasswordResetToken(request.Email);
-            string resetLink = $"{_configuration["FrontendUrl"]}/reset/password/token/{token}";
+            string resetLink = $"{_configuration["FrontendUrl"]}/reset/password/new?email={Uri.EscapeDataString(request.Email)}&token={token}";
             await _emailSender.SendEmailAsync(
                 request.Email,
                 "Password Reset",

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using PrimaryPixels.DTO;
+using PrimaryPixels.Exceptions;
 using PrimaryPixels.Services.Authentication;
 using PrimaryPixels.Services.Repositories;
 using ForgotPasswordRequest = PrimaryPixels.DTO.ForgotPasswordRequest;
@@ -63,16 +64,20 @@ public class UserController : ControllerBase
             }
 
             var token = await _repository.GetPasswordResetToken(request.Email);
-            string resetLink = $"{_configuration["FrontendUrl"]}/ResetPassword?token={token}";
+            string resetLink = $"{_configuration["FrontendUrl"]}/resetPassword?token={token}";
             await _emailSender.SendEmailAsync(
                 request.Email,
                 "Password Reset",
                 $"Please reset your password by clicking <a href='{resetLink}'>here</a>.");
             return Ok("Password reset link sent to your email.");
         }
+        catch (EmailNotFoundException)
+        {
+            return NotFound("User with this email was not found");
+        }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            return StatusCode(500, "An unexpected error occurred: " + ex.Message);
         }
     }
 

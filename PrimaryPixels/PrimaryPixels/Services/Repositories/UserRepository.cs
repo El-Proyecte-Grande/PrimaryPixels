@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PrimaryPixels.Data;
 using PrimaryPixels.DTO;
+using PrimaryPixels.Exceptions;
 
 namespace PrimaryPixels.Services.Repositories;
 
@@ -37,7 +38,7 @@ public class UserRepository : IUserRepository
     public async Task<string> GetPasswordResetToken(string email)
     {
         IdentityUser? user = await _userManager.FindByEmailAsync(email);
-        if(user == null) throw new InvalidOperationException("Couldn't find user with this email");
+        if(user == null) throw new EmailNotFoundException("Couldn't find user with this email");
         return await _userManager.GeneratePasswordResetTokenAsync(user);
     }
 
@@ -46,7 +47,7 @@ public class UserRepository : IUserRepository
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)
         {
-            throw new InvalidOperationException("Couldn't find user with this email");
+            throw new EmailNotFoundException("Couldn't find user with this email");
         }
         var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
         return result.Succeeded;

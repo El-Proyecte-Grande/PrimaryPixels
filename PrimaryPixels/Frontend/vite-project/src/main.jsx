@@ -11,7 +11,8 @@ import RegistrationPage from "./Pages/RegistrationPage";
 import AdminPage from "./Pages/AdminPage";
 import ProfilePage from "./Pages/ProfilePage";
 import OrderDetails from "./Pages/OrderDetails"
-import ResetPassowrd from "./Pages/ResetPassword";
+import ResetPasswordRequest from "./Pages/ResetPasswordRequest";
+import ResetPassword from "./Pages/ResetPassword";
 
 const router = createBrowserRouter([
   {
@@ -52,7 +53,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/reset/password",
-    element: <ResetPassowrd />
+    element: <ResetPasswordRequest />
+  },
+  {
+    path: "/reset/password/token/:token",
+    element: <ResetPassword />
   }
 ]);
 

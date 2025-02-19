@@ -64,7 +64,7 @@ public class UserController : ControllerBase
             }
 
             var token = await _repository.GetPasswordResetToken(request.Email);
-            string resetLink = $"{_configuration["FrontendUrl"]}/resetPassword?token={token}";
+            string resetLink = $"{_configuration["FrontendUrl"]}/reset/password/token/{token}";
             await _emailSender.SendEmailAsync(
                 request.Email,
                 "Password Reset",

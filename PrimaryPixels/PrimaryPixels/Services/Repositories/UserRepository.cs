@@ -39,7 +39,8 @@ public class UserRepository : IUserRepository
     {
         IdentityUser? user = await _userManager.FindByEmailAsync(email);
         if(user == null) throw new EmailNotFoundException("Couldn't find user with this email");
-        return await _userManager.GeneratePasswordResetTokenAsync(user);
+        var token =  await _userManager.GeneratePasswordResetTokenAsync(user);
+        return Uri.EscapeDataString(token);
     }
 
     public async Task<bool> ResetPassword(string email, string token, string newPassword)
@@ -49,7 +50,8 @@ public class UserRepository : IUserRepository
         {
             throw new EmailNotFoundException("Couldn't find user with this email");
         }
-        var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+        var decodedToken = Uri.UnescapeDataString(token);
+        var result = await _userManager.ResetPasswordAsync(user, decodedToken, newPassword);
         return result.Succeeded;
     }
 }

@@ -8,6 +8,13 @@
     height: 100%;
     width: 100%;
     font-size: 0.9em;
+    border: solid 1px black;
+    padding-left: 1rem;
+    border-radius: 6px;
+}
+
+#searchbar:focus {
+    outline: none;
 }
 
 #input-message {

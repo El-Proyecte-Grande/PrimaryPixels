@@ -11,6 +11,7 @@ Administrators have access to a secure interface to manage products and inventor
 - **Add to Cart**: Add, remove, or adjust product quantities in the cart.
 - **Submit Order**: Provide a delivery address and submit orders seamlessly.
 - **Admin Panel**: A dedicated interface for administrators to add and manage products.
+- **Forgot Password Email Sender**: Users can request a password reset email from the login page.
 
 
 ## Built With

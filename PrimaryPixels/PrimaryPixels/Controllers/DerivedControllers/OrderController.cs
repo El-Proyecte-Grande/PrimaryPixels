@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PrimaryPixels.Exceptions;
 using PrimaryPixels.Models.Order;
 using PrimaryPixels.Models.Products;
 using PrimaryPixels.Services;
@@ -45,7 +46,7 @@ public class OrderController : ControllerBase
         }
     }
     
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}"),Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
@@ -56,14 +57,18 @@ public class OrderController : ControllerBase
             _logger.LogInformation($"{typeof(Order).Name} successfully deleted!");
             return Ok(deletedEntityId);
         }
+        catch (OrderNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return NotFound();
+            return BadRequest();
         }
 
     }
-    [HttpGet]
+    [HttpGet, Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Order[]))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetAll()
@@ -81,7 +86,7 @@ public class OrderController : ControllerBase
         }
 
     }
-    [HttpGet("{id}")]
+    [HttpGet("{id}"),Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Order))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(int id)
@@ -116,7 +121,7 @@ public class OrderController : ControllerBase
         }
     }
 
-    [HttpGet("/api/Order/User")]
+    [HttpGet("/api/Order/User"), Authorize]
     public async Task<IActionResult> GetOrdersByUserId()
     {
         try

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore.InMemory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using PrimaryPixels.Data;
 using PrimaryPixels;
 
@@ -15,6 +16,7 @@ namespace PrimaryPixelsIntegrationTest
 {
     public class PrimaryPixelsWebApplicationFactory : WebApplicationFactory<Program>
     {
+        public IServiceScope Scope { get; private set; }
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services =>
@@ -64,6 +66,12 @@ namespace PrimaryPixelsIntegrationTest
 
                 //Here we could do more initializing if we wished (e.g. adding admin user)
             });
+        }
+        protected override IHost CreateHost(IHostBuilder builder)
+        {
+            var host = base.CreateHost(builder);
+            Scope = host.Services.CreateScope();
+            return host;
         }
     }
 }

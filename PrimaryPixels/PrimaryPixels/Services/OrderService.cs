@@ -1,4 +1,6 @@
+using PrimaryPixels.Contracts;
 using PrimaryPixels.DTO;
+using PrimaryPixels.Exceptions;
 using PrimaryPixels.Models.Order;
 using PrimaryPixels.Services.Repositories;
 
@@ -9,11 +11,13 @@ public class OrderService : IOrderService
     protected IOrderRepository _orderRepository;
     protected IProductRepository _productRepository;
     protected IOrderDetailsRepository _orderDetailsRepository;
-    public OrderService(IOrderRepository repository, IProductRepository productRepository, IOrderDetailsRepository orderDetailsResRepository)
+    protected IPaymentService _paymentService;
+    public OrderService(IOrderRepository repository, IProductRepository productRepository, IOrderDetailsRepository orderDetailsResRepository, IPaymentService paymentService)
     {
         _orderRepository = repository;
         _productRepository = productRepository;
         _orderDetailsRepository = orderDetailsResRepository;
+        _paymentService = paymentService;
     }
 
     public async Task<int> CreateOrder(OrderDTO orderDto, string userId)
@@ -28,6 +32,16 @@ public class OrderService : IOrderService
             UserId = userId, Address = orderDto.Address, City = orderDto.City, FirstName = orderDto.FirstName,
             LastName = orderDto.LastName, OrderDate = DateOnly.FromDateTime(DateTime.Now), Price = price
         };
+        var paymentRequest = new PaymentRequest()
+        {
+            Amount = price,
+            Token = orderDto.PaymentToken,
+            Currency = "HUF"
+        };
+        if (!await _paymentService.IsPaymentSuccessful(paymentRequest))
+        {
+            throw new PaymentException("Payment is not successful!!");
+        }
         // POST the real order instance 
         int orderId = await _orderRepository.Add(order);
         // Add orderId to every orderDetails

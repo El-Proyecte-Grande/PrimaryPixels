@@ -73,6 +73,7 @@ void AddServices()
     builder.Services.AddScoped<AuthenticationSeeder>();
     builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
     builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IPaymentService, PaymentService>();
 }
 
 

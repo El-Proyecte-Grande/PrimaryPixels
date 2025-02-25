@@ -7,4 +7,5 @@ public class OrderDTO
     public string Address { get; init; }
     public string City { get; init; }
     public List<OrderDetailsDTO> OrderProducts { get; init; }
+    public string? PaymentToken { get; init; }
 }

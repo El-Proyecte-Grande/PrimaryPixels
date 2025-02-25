@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom";
 import "./OrderedPage.scss";
 import Navbar from "../Components/HomePageComponents/Navbar"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Loading from "../Components/LoadingComponent/Loading";
+import { apiWithAuth } from "../Axios/api";
 
 export default function OrderedPage() {
 
@@ -10,12 +12,35 @@ export default function OrderedPage() {
 
         localStorage.getItem("token") === null ? false : true
     ));
-    return (<>
-        <Navbar isLoggedIn={isLoggedIn} />
-        <div className="ordered-page">
-            <h1> The order was submitted successfully </h1>
-            <h1> ORDER NUMBER: {orderId}</h1>
-        </div>
+    const [isLoading, setIsLoading] = useState(true);
+
+    // useEffect(() => {
+    //     async function GetOrderId(){
+    //         try {
+    //             const response = await apiWithAuth.post("/api/Order",);
+    //             const orderId = await response.data;
+    //             setIsLoading(false);
+    //         } catch (error) {
+    //             console.error(error.message);
+    //         }
+            
+    //     }
+    //     GetOrderId();
+    // }, []);
+
+    return (
+    <>
+        {isLoading ?
+        <Loading></Loading> : (
+            <>
+                <Navbar isLoggedIn={isLoggedIn} />
+                <div className="ordered-page">
+                    <h1> The order was submitted successfully </h1>
+                    <h1> ORDER NUMBER: {orderId}</h1>
+                </div>
+            </>
+            )
+        }
     </>
 
     )

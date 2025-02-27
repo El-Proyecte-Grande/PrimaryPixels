@@ -40,6 +40,7 @@ public class PaymentController : ControllerBase
                 return Unauthorized("User not authenticated properly");
             }
             if (order.UserId != userId)  return Forbid();
+            if (order.PaymentStatus == PaymentStatus.Paid) return BadRequest("Order is already paid!");
             var options = new PaymentIntentCreateOptions()
             {
                 Amount = order.Price,

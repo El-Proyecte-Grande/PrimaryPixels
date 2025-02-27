@@ -1,18 +1,15 @@
 import { useParams, useNavigate } from "react-router-dom";
 import "./OrderedPage.scss";
 import Navbar from "../Components/HomePageComponents/Navbar"
-import { useEffect, useState } from "react";
-import { apiWithAuth } from "../Axios/api";
+import { useState } from "react";
 
 export default function OrderedPage() {
 
     const { orderId } = useParams();
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(() => (
-
         localStorage.getItem("token") === null ? false : true
     ));
-
 
     return (
         <>
@@ -22,6 +19,5 @@ export default function OrderedPage() {
                 <h1> ORDER NUMBER: {orderId}</h1>
             </div>
         </>
-
     )
 }

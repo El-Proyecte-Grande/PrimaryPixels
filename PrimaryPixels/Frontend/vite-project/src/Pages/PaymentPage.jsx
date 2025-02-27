@@ -63,7 +63,7 @@ export default function PaymentPage({ orderInfo }) {
           <Loading />
         ) : (
           <Elements stripe={stripePromise} options={{ clientSecret: `${clientSecret}` }}>
-            <CheckoutForm orderId={orderId} clientSecret={clientSecret} />
+            <CheckoutForm orderId={orderId} />
           </Elements>
         )
       }

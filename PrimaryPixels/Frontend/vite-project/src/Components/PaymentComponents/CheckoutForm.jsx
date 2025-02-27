@@ -1,9 +1,19 @@
-import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
+import { useEffect, useState } from 'react';
 import { apiWithAuth } from '../../Axios/api';
+import { useNavigate } from 'react-router-dom';
+const stripeKey = import.meta.env.VITE_STRIPE_KEY;
 
-const CheckoutForm = ({ orderInfo }) => {
-  const stripe = useStripe();
-  const elements = useElements();
+
+const CheckoutForm = ({ orderId, clientSecret }) => {
+  const navigate = useNavigate();
+  const stripe = Stripe(stripeKey);
+  const elements = stripe.elements();
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    const cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+  }, [])
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -11,49 +21,36 @@ const CheckoutForm = ({ orderInfo }) => {
     if (!stripe || !elements) {
       return;
     }
+    try {
+      const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement('card'),
+        }
+      });
 
-    const getOrderId = async () => {
-
-      const response = await apiWithAuth.post("/api/order",
-        JSON.stringify(orderInfo),
-        {
-          headers: {
-            "Content-Type": "application/json"
-          },
-        })
-      if (response.status !== 200) {
-        console.error("Failed to submit order");
-        return;
+      if (error) {
+        setErrorMessage(error.message || "Payment failed. Please try again.");
+      } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+        await apiWithAuth.post("/api/payments/success", { orderId: orderId }, {
+          headers: { "Content-Type": "application/json" }
+        });
+        navigate(`/order/success/${orderId}`);
       }
-      // Delete items from users shoppingcart when the order submit was successful.
-      const deleteRequest = apiWithAuth.delete("/api/shoppingCartItem/user");
-      if (response.status !== 200) {
-        console.error("Failed to delete products from cart!");
-        return;
-      }
-      const orderId = response.data;
-      return orderId;
-    }
 
-    const result = await stripe.confirmPayment({
-      //`Elements` instance that was used to create the Payment Element
-      elements,
-      confirmParams: {
-        return_url: `${window.location.origin}/order/success/${await getOrderId()}`,
-      },
-    });
+    } catch (err) {
+      setErrorMessage("An error occurred during payment processing. Please try again.");
+      console.error(err);
+    };
+  }
 
-
-    if (result.error) {
-      console.log(result.error.message);
-    } else {
-    }
-  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <PaymentElement />
-      <button disabled={!stripe}>Submit</button>
+    <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4 pt-52">
+      <div id="card-element" className="w-full max-w-md p-2 border border-gray-300 rounded bg-white">
+
+      </div>
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
+      <button disabled={!stripe} className="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
     </form>
   )
 };

@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom";
 import "./OrderedPage.scss";
 import Navbar from "../Components/HomePageComponents/Navbar"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Loading from "../Components/LoadingComponent/Loading";
+import { apiWithAuth } from "../Axios/api";
 
 export default function OrderedPage() {
 
@@ -10,7 +12,9 @@ export default function OrderedPage() {
 
         localStorage.getItem("token") === null ? false : true
     ));
-    return (<>
+
+    return (
+    <>
         <Navbar isLoggedIn={isLoggedIn} />
         <div className="ordered-page">
             <h1> The order was submitted successfully </h1>

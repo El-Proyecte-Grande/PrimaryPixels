@@ -4,6 +4,9 @@ import { jwtDecode } from "jwt-decode";
 import './CartPage.scss';
 import { apiWithAuth } from "../Axios/api";
 import Navbar from "../Components/HomePageComponents/Navbar";
+import PaymentPage from "./PaymentPage";
+
+
 export default function CartPage() {
 
     const { userId } = useParams();
@@ -14,6 +17,8 @@ export default function CartPage() {
 
         localStorage.getItem("token") === null ? false : true
     ));
+    const [isPaymentInProgress, setIsPaymentInProgress] = useState(false);
+    const [orderId, setOrderId] = useState();
 
     // If we are not logged in or if we want to search for other user's cart, it redirect us to the home page.
     useEffect(() => {
@@ -65,41 +70,28 @@ export default function CartPage() {
     }
 
 
-    // when the user clicks on the "ORDER" button
-    async function submitOrder(e) {
+    // when the user clicks on the "PAY" button
+    async function submitHandler(e) {
         e.preventDefault();
-        const updatedOrderInfo = {
+        
+        setOrderInfo({
             ...orderInfo,
             orderProducts: productsInCart.map(p => ({
                 productId: p.productId,
                 quantity: p.quantity,
-            })),
-        };
-        const response = await apiWithAuth.post("/api/order",
-            JSON.stringify(updatedOrderInfo),
-            {
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            })
-        if (response.status !== 200) {
-            console.error("Failed to submit order");
-            return;
-        }
-        // Delete items from users shoppingcart when the order submit was successful.
-        const deleteRequest = apiWithAuth.delete("/api/shoppingCartItem/user");
-        if (response.status !== 200) {
-            console.error("Failed to delete products from cart!");
-            return;
-        }
-        const orderId = response.data;
-        navigate(`/order/success/${orderId}`);
+            }))
+        });
+        setIsPaymentInProgress(true);
     }
+
+    
 
 
     return (
         <>
             <Navbar isLoggedIn={isLoggedIn} />
+            { isPaymentInProgress ?
+            <PaymentPage orderInfo={orderInfo}/> : (
             <div className="page-div">
                 <table className="left-section-cart">
                     <thead>
@@ -120,7 +112,7 @@ export default function CartPage() {
                     </tbody>
                 </table>
                 <div className="right-section-cart">
-                    <form className="form-div" onSubmit={(e) => submitOrder(e)}>
+                    <form className="form-div" onSubmit={(e) => submitHandler(e)}>
                         <input className="order-input" type="text" placeholder="First Name"
                             onChange={e => setOrderInfo(prev => ({ ...prev, firstName: e.target.value }))} />
                         <input className="order-input" type="text" placeholder="Last Name"
@@ -131,16 +123,16 @@ export default function CartPage() {
                             onChange={e => setOrderInfo(prev => ({ ...prev, postcode: e.target.value }))} />
                         <input className="order-input" type="text" placeholder="Address"
                             onChange={e => setOrderInfo(prev => ({ ...prev, address: e.target.value }))} />
-                        <button type="submit" className="order-button" href="/">ORDER</button>
+                        <button type="submit" className="order-button" href="/">Pay</button>
                     </form>
                     <div className="infos-div">
                         <p className="price"> Total Price: {productsInCart.reduce((sum, product) => sum + product.totalPrice, 0)} HUF</p>
                     </div>
                 </div>
             </div >
+
+            )}
         </>
 
     )
 }
-
-

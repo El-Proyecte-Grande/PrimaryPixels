@@ -1,7 +1,14 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using PrimaryPixels.DTO;
+using PrimaryPixels.Exceptions;
+using PrimaryPixels.Services.Authentication;
 using PrimaryPixels.Services.Repositories;
+using ForgotPasswordRequest = PrimaryPixels.DTO.ForgotPasswordRequest;
+using ResetPasswordRequest = PrimaryPixels.DTO.ResetPasswordRequest;
 
 namespace PrimaryPixels.Controllers;
 
@@ -10,9 +17,13 @@ namespace PrimaryPixels.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserRepository _repository;
-    public UserController(IUserRepository repository)
+    private readonly IEmailSender _emailSender;
+    private readonly IConfiguration _configuration;
+    public UserController(IUserRepository repository, IEmailSender emailSender, IConfiguration configuration)
     {
         _repository = repository;
+        _emailSender = emailSender;
+        _configuration = configuration;
     }
 
     [HttpGet]
@@ -41,5 +52,52 @@ public class UserController : ControllerBase
             return BadRequest("Failed to change password.");
         }
         return Ok("Password changed successfully.");
+    }
+
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(request.Email))
+            {
+                return BadRequest("Email cannot be empty");
+            }
+
+            var token = await _repository.GetPasswordResetToken(request.Email);
+            string resetLink = $"{_configuration["FrontendUrl"]}/reset/password/new?email={Uri.EscapeDataString(request.Email)}&token={token}";
+            await _emailSender.SendEmailAsync(
+                request.Email,
+                "Password Reset",
+                $"Please reset your password by clicking <a href='{resetLink}'>here</a>.");
+            return Ok("Password reset link sent to your email.");
+        }
+        catch (EmailNotFoundException)
+        {
+            return NotFound("User with this email was not found");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "An unexpected error occurred: " + ex.Message);
+        }
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(request.Token) || string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.NewPassword))
+            {
+                return BadRequest("Invalid request.");
+            }
+            var succeed = await _repository.ResetPassword(request.Email, request.Token, request.NewPassword);
+            if(!succeed) return BadRequest("Error occured while resetting password.");
+            return Ok("Password reset successfully.");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

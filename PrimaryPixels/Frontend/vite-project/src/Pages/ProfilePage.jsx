@@ -114,7 +114,6 @@ export default function ProfilePage() {
                         <p className="user-info"> Email: {userData.email}</p>
                         <p className="user-info"> Nickname: {userData.username}</p>
                         <div className="profile-password">
-                            <p className="user-info"> Password: **********</p>
                             <button className="pwd-reset-button" onClick={() => setResetPwd(prev => !prev)}> RESET PASSWOWRD </button>
                         </div>
                     </div>

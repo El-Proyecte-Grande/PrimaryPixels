@@ -1,4 +1,6 @@
+using PrimaryPixels.Contracts;
 using PrimaryPixels.DTO;
+using PrimaryPixels.Exceptions;
 using PrimaryPixels.Models.Order;
 using PrimaryPixels.Services.Repositories;
 

@@ -1,7 +1,9 @@
-﻿namespace PrimaryPixels.Contracts
+﻿using PrimaryPixels.Models.Order;
+
+namespace PrimaryPixels.Contracts
 {
     public class PaymentRequest
     {
-        public long Amount { get; set; }
+        public int OrderId { get; init; }
     }
 }

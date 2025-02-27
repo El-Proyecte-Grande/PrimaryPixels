@@ -27,6 +27,6 @@ services:
     healthcheck:
       test: [ "CMD", "bash", "-c", "echo > /dev/tcp/localhost/1433" ]
       interval: 30s
-      retries: 5
-      start_period: 30s
-      timeout: 10s
+      retries: 10
+      start_period: 60s
+      timeout: 20s

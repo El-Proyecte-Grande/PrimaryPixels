@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrimaryPixels.Data;
 
@@ -11,9 +12,11 @@ using PrimaryPixels.Data;
 namespace PrimaryPixels.Migrations
 {
     [DbContext(typeof(PrimaryPixelsContext))]
-    partial class PrimaryPixelsContextModelSnapshot : ModelSnapshot
+    [Migration("20250226124001_PaymentStatus in orders")]
+    partial class PaymentStatusinorders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,9 +51,6 @@ namespace PrimaryPixels.Migrations
 
                     b.Property<DateOnly>("OrderDate")
                         .HasColumnType("date");
-
-                    b.Property<string>("PaymentIntentId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PaymentStatus")
                         .HasColumnType("int");

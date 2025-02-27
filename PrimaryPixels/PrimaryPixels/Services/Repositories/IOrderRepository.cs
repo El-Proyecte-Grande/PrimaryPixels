@@ -5,5 +5,7 @@ namespace PrimaryPixels.Services.Repositories;
 public interface IOrderRepository
 {
     public Task<IEnumerable<Order>> GetOrdersByUserId(string userId);
-    public abstract Task<int> Add(Order entity);
+    public Task<int> Add(Order entity);
+    public Task<Order> GetById(int id);
+    public Task<int> Update(Order order);
 }

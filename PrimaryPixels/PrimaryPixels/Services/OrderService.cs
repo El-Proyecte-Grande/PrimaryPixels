@@ -28,7 +28,7 @@ public class OrderService : IOrderService
         var order = new Order()
         {
             UserId = userId, Address = orderDto.Address, City = orderDto.City, FirstName = orderDto.FirstName,
-            LastName = orderDto.LastName, OrderDate = DateOnly.FromDateTime(DateTime.Now), Price = price
+            LastName = orderDto.LastName, OrderDate = DateOnly.FromDateTime(DateTime.Now), Price = price, PaymentStatus = PaymentStatus.Pending
         };
         // POST the real order instance 
         int orderId = await _orderRepository.Add(order);

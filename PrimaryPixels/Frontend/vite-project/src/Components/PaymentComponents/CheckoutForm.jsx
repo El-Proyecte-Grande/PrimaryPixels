@@ -1,9 +1,15 @@
-import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
+import { useState } from 'react';
 import { apiWithAuth } from '../../Axios/api';
+import { useNavigate } from 'react-router-dom';
+import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
 
-const CheckoutForm = ({ orderInfo }) => {
+
+const CheckoutForm = ({ orderId }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -11,49 +17,27 @@ const CheckoutForm = ({ orderInfo }) => {
     if (!stripe || !elements) {
       return;
     }
-
-    const getOrderId = async () => {
-
-      const response = await apiWithAuth.post("/api/order",
-        JSON.stringify(orderInfo),
-        {
-          headers: {
-            "Content-Type": "application/json"
-          },
-        })
-      if (response.status !== 200) {
-        console.error("Failed to submit order");
-        return;
-      }
-      // Delete items from users shoppingcart when the order submit was successful.
-      const deleteRequest = apiWithAuth.delete("/api/shoppingCartItem/user");
-      if (response.status !== 200) {
-        console.error("Failed to delete products from cart!");
-        return;
-      }
-      const orderId = response.data;
-      return orderId;
-    }
-
     const result = await stripe.confirmPayment({
-      //`Elements` instance that was used to create the Payment Element
       elements,
-      confirmParams: {
-        return_url: `${window.location.origin}/order/success/${await getOrderId()}`,
-      },
+      redirect: "if_required"
     });
 
-
     if (result.error) {
+      setErrorMessage(result.error.message);
       console.log(result.error.message);
     } else {
+      await apiWithAuth.post("/api/payments/success", { orderId: orderId }, {
+        headers: { "Content-Type": "application/json" }
+      });
+      navigate(`/order/success/${orderId}`);
     }
-  };
+  }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4 pt-52">
       <PaymentElement />
-      <button disabled={!stripe}>Submit</button>
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
+      <button disabled={!stripe} className="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
     </form>
   )
 };

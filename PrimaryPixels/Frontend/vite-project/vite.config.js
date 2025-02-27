@@ -14,4 +14,8 @@ export default defineConfig({
     host: true,
     origin: "http://0.0.0.0:4000",
   },
+  build: {
+    outDir: '../Server/dist',
+    emptyOutDir: true, // also necessary
+  }
 });

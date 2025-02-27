@@ -100,12 +100,18 @@ Make sure you have the following installed:
 
 ## Contributors
 
-- **Domokos Marcell**  
+### Application development
+
+- **Marcell Dániel Domokos**  
   [GitHub Profile](https://github.com/domokosmarcell)
 
-- **Gőgös Dániel**  
+- **Dániel Gőgös**  
   [GitHub Profile](https://github.com/GogosDani)
 
+### DevOps
+
+- **Ádám Majoros-Geréby**
+  [GitHub Profile](https://github.com/majorosgereby/)
 
 <!--Links for logos! -->
 [Docker]: https://img.shields.io/badge/Docker-blue?style=plastic&logo=docker&logoColor=darkblue

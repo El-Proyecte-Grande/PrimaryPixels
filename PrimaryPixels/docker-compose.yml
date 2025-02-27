@@ -1,13 +1,13 @@
 services:
   frontend:
     build:
-      context: Frontend/vite-project
+      context: Frontend/Server
     ports:
       - 4000:4000
 
   backend:
     build:
-      context: PrimaryPixels
+      context: PrimaryPixels/
     env_file:
       - .env
     ports:
@@ -25,10 +25,8 @@ services:
       - 1434:1433
     # Check if the DB server is available
     healthcheck:
-      test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/1433"]
+      test: [ "CMD", "bash", "-c", "echo > /dev/tcp/localhost/1433" ]
       interval: 30s
-      retries: 5
-      start_period: 30s
-      timeout: 10s
-    
-   
+      retries: 10
+      start_period: 60s
+      timeout: 20s

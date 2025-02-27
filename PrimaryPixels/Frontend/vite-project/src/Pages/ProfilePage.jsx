@@ -110,7 +110,7 @@ export default function ProfilePage() {
             <div className="profile-page">
                 {page == "profile" && (
                     <div className="profile">
-                        <img className="profile-page-image" src="../../public/user.png"></img>
+                        <img className="profile-page-image" src="/user.png"></img>
                         <p className="user-info"> Email: {userData.email}</p>
                         <p className="user-info"> Nickname: {userData.username}</p>
                         <div className="profile-password">

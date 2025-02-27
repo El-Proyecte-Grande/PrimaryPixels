@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { debounce } from "lodash";
 import { api } from "../../Axios/api"
 
+
 const StyledNav = styled.nav`
     width: 99.7%;
     height: 12vh;
@@ -105,7 +106,7 @@ function Navbar() {
                 {isLoggedIn ? <StyledButton onClick={() => navigate(`/cart/${getUserId()}`)}>Cart</StyledButton> : ""}
                 <StyledButton onClick={() => { !isLoggedIn ? navigate("/login") : localStorage.removeItem("token"); setIsLoggedIn(false) }}>{!isLoggedIn ? "Login" : "Logout"}</StyledButton>
                 {!isLoggedIn ? <StyledButton onClick={() => navigate("/register")}>Register</StyledButton> : ""}
-                {isLoggedIn && <img src="../../../public/user.png" className='profile-logo' onClick={() => navigate(`/profile/${getUserId()}`)} />}
+                {isLoggedIn && <img id="profile" src="/user.png" className='profile-logo' onClick={() => navigate(`/profile/${getUserId()}`)} />}
             </div>
         </StyledNav>
     );

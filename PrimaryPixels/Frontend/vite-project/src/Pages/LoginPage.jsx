@@ -50,6 +50,7 @@ function LoginPage() {
                             <label className="registration-label" htmlFor="password-input"> Password</label>
                             <input className="registration-input" type="password" id="password-input" onChange={(e) => setUserData(prev => ({ ...prev, password: e.target.value }))} />
                             <button className="sign-up-button"> Sign in </button>
+                            <p className='mt-10 cursor-pointer' onClick={() => navigate("/reset/password")}> Forgot Password? </p>
                         </form>
                     </div>
                 </div>

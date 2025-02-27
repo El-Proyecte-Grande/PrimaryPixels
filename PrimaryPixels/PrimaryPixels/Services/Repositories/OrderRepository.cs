@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PrimaryPixels.Data;
+using PrimaryPixels.Exceptions;
 using PrimaryPixels.Models.Order;
 
 namespace PrimaryPixels.Services.Repositories;
@@ -40,7 +41,7 @@ public class OrderRepository : Repository<Order>, IOrderRepository
     public async override Task<int> DeleteById(int id)
     {
         var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == id);
-        if(order == null) throw new KeyNotFoundException();
+        if (order == null) throw new OrderNotFoundException("Couldn't find order with this id!");
         _context.Orders.Remove(order);
         await _context.SaveChangesAsync();
         return id;

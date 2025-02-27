@@ -2,6 +2,7 @@ using System.Text;
 using dotenv.net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -54,6 +55,7 @@ app.Run();
 
 void AddServices()
 {
+    builder.Services.AddTransient<IEmailSender, EmailSender>();
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
@@ -155,7 +157,8 @@ void AddIdentity()
             options.Password.RequireLowercase = true;
         })
         .AddRoles<IdentityRole>()
-        .AddEntityFrameworkStores<UsersContext>();
+        .AddEntityFrameworkStores<UsersContext>()
+        .AddDefaultTokenProviders();
 }
 
 void AddCors()
@@ -178,13 +181,19 @@ void Migration()
                  var primaryDb = scope.ServiceProvider.GetRequiredService<PrimaryPixelsContext>();
                  var usersDb = scope.ServiceProvider.GetRequiredService<UsersContext>();
                  // GetPendingMigrations: Checks the Migration history table and compare it with the project's migrations
-                 if (primaryDb.Database.GetPendingMigrations().Any())
+                 if (primaryDb.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
                  {
-                     primaryDb.Database.Migrate();
+                     if (primaryDb.Database.GetPendingMigrations().Any())
+                     {
+                         primaryDb.Database.Migrate();
+                     }
                  }
-                 if (usersDb.Database.GetPendingMigrations().Any())
+                 if (usersDb.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
                  {
-                     usersDb.Database.Migrate();
+                     if (usersDb.Database.GetPendingMigrations().Any())
+                     {
+                         usersDb.Database.Migrate();
+                     }
                  }
              }
          }

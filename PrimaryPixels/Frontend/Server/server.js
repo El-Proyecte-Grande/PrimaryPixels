@@ -1,4 +1,5 @@
 import express from "express";
+import morgan from "morgan";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
@@ -11,6 +12,9 @@ const __dirname = dirname(__filename);
 
 // Serve static files from the React app
 app.use(express.static(join(__dirname, "dist"))); // Assuming 'dist' is where your build files are located
+
+// Use morgan middleware to log requests
+app.use(morgan('combined'));
 
 // The "catchall" handler: for any request that doesn't match one above, send back index.html.
 app.get("*", (req, res) => {

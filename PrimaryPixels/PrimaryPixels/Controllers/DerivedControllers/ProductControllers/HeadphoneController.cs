@@ -16,7 +16,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers.ProductControllers
             _logger = logger;
             _repository = repository;
         }
-        [HttpPost(""), Authorize]
+        [HttpPost(""), Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Add([FromBody] Headphone entity)
@@ -33,7 +33,7 @@ namespace PrimaryPixels.Controllers.DerivedControllers.ProductControllers
                 return BadRequest();
             }
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)

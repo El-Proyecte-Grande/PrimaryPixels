@@ -11,17 +11,18 @@ using PrimaryPixels.Models.Order;
 using PrimaryPixels.Services.Repositories;
 using PrimaryPixels.Models;
 using PrimaryPixels.Models.ShoppingCartItem;
+using PrimaryPixels.Services;
 using PrimaryPixels.Services.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
-
 DotEnv.Load();
 builder.Configuration.AddEnvironmentVariables();
 
 var connectionString = builder.Configuration["ConnectionString"];
-var validIssuer = builder.Configuration["TokenValidation:ValidIssuer"];
-var validAudience = builder.Configuration["TokenValidation:ValidAudience"];
-var issuerSigningKey = builder.Configuration["TokenValidation:IssuerSigningKey"];
+var validIssuer = builder.Configuration["ValidIssuer"];
+var validAudience = builder.Configuration["ValidAudience"];
+var issuerSigningKey = builder.Configuration["JwtSecretKey"];
+var frontendUrl = builder.Configuration["FrontendUrl"];
 // Add services to the container.
 
 AddServices();
@@ -59,15 +60,17 @@ void AddServices()
     builder.Services.AddScoped<IRepository<Headphone>, ProductRepository<Headphone>>();
     builder.Services.AddScoped<IRepository<Phone>, ProductRepository<Phone>>();
     builder.Services.AddScoped<IRepository<Computer>, ProductRepository<Computer>>();
+    builder.Services.AddScoped<IOrderRepository, OrderRepository>();
     builder.Services.AddScoped<IRepository<Order>, OrderRepository>();
-    builder.Services.AddScoped<IRepository<OrderDetails>, OrderDetailsRepository>();
-    builder.Services.AddScoped<IRepository<ShoppingCartItem>, ShoppingCartItemRepository>();
+    builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
+    builder.Services.AddScoped<IShoppingCartItemRepository, ShoppingCartItemRepository>();
     builder.Services.AddScoped<IProductRepository, ProductsRepository>();
+    builder.Services.AddScoped<IOrderService, OrderService>();
     builder.Services.AddScoped<IAuthService, AuthService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddScoped<AuthenticationSeeder>();
     builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
-  
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
 }
 
 
@@ -161,7 +164,7 @@ void AddCors()
     {
         options.AddPolicy("AllowFrontend",
             builder => builder
-                .WithOrigins("http://localhost:5000")
+                .WithOrigins(frontendUrl)
                 .AllowAnyHeader()
                 .AllowAnyMethod());
     });
@@ -169,13 +172,24 @@ void AddCors()
 }
 
 void Migration()
+         {
+             using (var scope = app.Services.CreateScope())
+             {
+                 var primaryDb = scope.ServiceProvider.GetRequiredService<PrimaryPixelsContext>();
+                 var usersDb = scope.ServiceProvider.GetRequiredService<UsersContext>();
+                 // GetPendingMigrations: Checks the Migration history table and compare it with the project's migrations
+                 if (primaryDb.Database.GetPendingMigrations().Any())
+                 {
+                     primaryDb.Database.Migrate();
+                 }
+                 if (usersDb.Database.GetPendingMigrations().Any())
+                 {
+                     usersDb.Database.Migrate();
+                 }
+             }
+         }
+
+public partial class Program
 {
-    using (var scope = app.Services.CreateScope())
-    {
-        Console.WriteLine("----------------------------" + connectionString);
-        var primaryDb = scope.ServiceProvider.GetRequiredService<PrimaryPixelsContext>();
-        var usersDb = scope.ServiceProvider.GetRequiredService<UsersContext>();
-        primaryDb.Database.Migrate();
-        usersDb.Database.Migrate();
-    }
+            
 }

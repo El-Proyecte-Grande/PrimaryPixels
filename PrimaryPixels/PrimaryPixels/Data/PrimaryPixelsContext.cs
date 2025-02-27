@@ -8,14 +8,24 @@ namespace PrimaryPixels.Data;
 
 public class PrimaryPixelsContext : DbContext
 {
-    public PrimaryPixelsContext(DbContextOptions<PrimaryPixelsContext> options) : base(options)
+    private IConfiguration _configuration;
+    public PrimaryPixelsContext(DbContextOptions<PrimaryPixelsContext> options, IConfiguration configuration) : base(options)
     {
+        _configuration = configuration;
     }
     public DbSet<Product> Products { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderDetails> OrderDetails { get; set; }
     public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
-    
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer(_configuration["ConnectionString"]);
+        }
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Product>(entity =>
@@ -33,8 +43,11 @@ public class PrimaryPixelsContext : DbContext
             entity.Property(c => c.Ram).HasColumnName("Ram");
             entity.Property(c => c.InternalMemory).HasColumnName("InternalMemory");
             entity.HasData(
-                new Computer { Id = 2, Name = "Gaming PC 3510", Price = 100000, Availability = true, TotalSold = 0, DvdPlayer = false, Cpu = "I3-6100", InternalMemory = 512, Ram = 8, Image="https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_98587778/mobile_786_587_png/X-X-GAMER-I3228-Gamer-PC-%28Core-i5-16GB-480-GB-SSD---2-TB-HDD-RX6750XT-12GB-NoOS%29"},
-                new Computer { Id = 3, Name = "Gaming PC 5000", Price = 5000000, Availability = true, TotalSold = 0, DvdPlayer = false, Cpu = "I5-8100", InternalMemory = 1024, Ram = 16, Image="https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_143744896/mobile_786_587_png/SHARKGAMING-RGBeast-R900-SGRGBR900-33-4090-Gamer-PC-%28Ryzen9-32GB-2x1024-GB-SSD-Win11H%29"}
+                new Computer { Id = 1, Name = "Gaming PC 3510", Price = 100000, Availability = true, TotalSold = 0, DvdPlayer = false, Cpu = "I3-6100", InternalMemory = 512, Ram = 8, Image="https://s13emagst.akamaized.net/products/71331/71330955/images/res_b75e8c737204f265c382468aca168f75.jpg?width=720&height=720&hash=90CF69FDA4FFA74B09714BE0BBA2A69A"},
+                new Computer { Id = 2, Name = "Gaming PC 5000", Price = 5000000, Availability = true, TotalSold = 0, DvdPlayer = false, Cpu = "I5-8100", InternalMemory = 1024, Ram = 16, Image="https://s13emagst.akamaized.net/products/16684/16683989/images/res_45eee4b6571e6820111f638716cf3bf5.jpg?width=720&height=720&hash=1823932085ED244C3F414C27A78312AC"},
+                new Computer { Id = 3, Name = "Gamer PC A-I5642", Price = 800000, Availability = true, TotalSold = 3, DvdPlayer = true, Cpu = "i9-14911KF", InternalMemory = 2048, Ram = 16, Image = "https://s13emagst.akamaized.net/products/15188/15187279/images/res_44116bf82dc775127335f7aba3509421.jpg?width=720&height=720&hash=4F2A3C176CD289E8513E4E136C00D283"},
+                new Computer { Id = 4, Name = "Gamer PC A-I7689", Price = 1000000, Availability = false, TotalSold = 5, DvdPlayer = true, Cpu = "i9-45500KJ", InternalMemory = 2048, Ram = 32, Image = "https://s13emagst.akamaized.net/products/15188/15187279/images/res_44116bf82dc775127335f7aba3509421.jpg?width=720&height=720&hash=4F2A3C176CD289E8513E4E136C00D283"},
+                new Computer { Id = 5, Name = "Gamer PC C-I4567", Price = 1300000, Availability = true, TotalSold = 11, DvdPlayer = false, Cpu = "I6-2300", InternalMemory = 1024, Ram = 32, Image = "https://s13emagst.akamaized.net/products/16684/16683989/images/res_45eee4b6571e6820111f638716cf3bf5.jpg?width=720&height=720&hash=1823932085ED244C3F414C27A78312AC"} 
                 );
         });
 
@@ -49,7 +62,11 @@ public class PrimaryPixelsContext : DbContext
         {
             entity.Property(h => h.Wireless).HasColumnName("Wireless");
             entity.HasData(
-                new Headphone { Id = 1, Name = "Ultra pro max Headphone 2000", Price = 500, Availability = true, TotalSold = 0, Wireless = false, Image="https://cdn.lifehack.org/wp-content/uploads/2014/12/28.jpg"}
+                new Headphone { Id = 6, Name = "Ultra pro HP 5000", Price = 500, Availability = true, TotalSold = 0, Wireless = false, Image="https://s13emagst.akamaized.net/products/78736/78735363/images/res_42c4ab07b083c382ac958c5abde97ccd.jpg?width=720&height=720&hash=AF0FC648A7C459193BB006D07F758597"},
+                new Headphone { Id = 7, Name = "DAH6789WH Bluetooth", Price = 20000, Availability = true, TotalSold = 1, Wireless = true, Image = "https://s13emagst.akamaized.net/products/46154/46153291/images/res_3d60cf092b7bb976cb438aeb4788d04f.jpg?width=720&height=720&hash=27C95317E6A8947487149076F5F52C1E"},
+                new Headphone { Id = 8, Name = "Kids Headphone 3000", Price = 2000, Availability = false, TotalSold = 1, Wireless = false, Image = "https://s13emagst.akamaized.net/products/78736/78735363/images/res_42c4ab07b083c382ac958c5abde97ccd.jpg?width=720&height=720&hash=AF0FC648A7C459193BB006D07F758597"},
+                new Headphone { Id = 9, Name = "Ultra wireless GP", Price = 3000, Availability = true, TotalSold = 9, Wireless = true, Image = "https://s13emagst.akamaized.net/products/34948/34947038/images/res_6aff00e29067abeb44a4172c9518a711.jpg?width=720&height=720&hash=150D280D7245265AAEAB81328D899B73"},
+                new Headphone { Id = 10, Name = "Ultra Stereo BT 30", Price = 15000, Availability = true, TotalSold = 0, Wireless = true, Image = "https://s13emagst.akamaized.net/products/46154/46153291/images/res_3d60cf092b7bb976cb438aeb4788d04f.jpg?width=720&height=720&hash=27C95317E6A8947487149076F5F52C1E"}
                 );
         });
 
@@ -60,40 +77,18 @@ public class PrimaryPixelsContext : DbContext
             entity.Property(d => d.Ram).HasColumnName("Ram");
             entity.Property(d => d.InternalMemory).HasColumnName("InternalMemory");
             entity.HasData(
-                new Phone { Id = 6, Name = "Redmi A24", Price = 100000, Availability = true, TotalSold = 0, CardIndependency  = true, Cpu = "Dimensity 9400", InternalMemory = 128, Ram = 4, Image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSELHPTLjLUf8sBWPzXg7bTDdG1nClBF5Kc4A&s"},
-                new Phone { Id = 7, Name = "iPhone 19", Price = 5000000, Availability = true, TotalSold = 0, CardIndependency  = false, Cpu = "Dimensity 11000", InternalMemory = 512, Ram = 16, Image="https://www.tecnosell.com/media/catalog/product/cache/60c31028333b516fd0f8945d994bb7aa/b/l/blu1_2_7_1.jpg"},
-                new Phone { Id = 8, Name = "Redmi A29", Price = 600000, Availability = true, TotalSold = 0, CardIndependency  = true, Cpu = "Dimensity 9800", InternalMemory = 256, Ram = 8, Image="https://cdn.tmobile.com/content/dam/t-mobile/en-p/cell-phones/apple/Apple-iPhone-15-Plus/Pink/Apple-iPhone-15-Plus-Pink-thumbnail.png"}
+                new Phone { Id = 11, Name = "Redmi A24", Price = 100000, Availability = true, TotalSold = 0, CardIndependency  = true, Cpu = "Dimensity 9400", InternalMemory = 128, Ram = 4, Image="https://s13emagst.akamaized.net/products/49762/49761516/images/res_a3c8676c0043ba09f646d836b7fc37bb.jpg?width=720&height=720&hash=30109537CDA74ED1D82D5D87E13E5BE1"},
+                new Phone { Id = 12, Name = "iPhone 19", Price = 5000000, Availability = true, TotalSold = 0, CardIndependency  = false, Cpu = "Dimensity 11000", InternalMemory = 512, Ram = 16, Image="https://s13emagst.akamaized.net/products/62470/62469084/images/res_119d9158060ffab289ace1eb4fb5f285.jpg?width=720&height=720&hash=2025575EAA3830851B708B6666E37773"},
+                new Phone { Id = 13, Name = "Redmi A29", Price = 600000, Availability = true, TotalSold = 0, CardIndependency  = true, Cpu = "Dimensity 9800", InternalMemory = 256, Ram = 8, Image="https://s13emagst.akamaized.net/products/57643/57642529/images/res_77d22d24346a96ca4e3f4e7a9eeea779.jpg?width=720&height=720&hash=61507AB28D44CE94F541B937B7FB239C"},
+                new Phone { Id = 14, Name = "Samsung Galaxy E100", Price = 260000, Availability = false, TotalSold = 2, CardIndependency = false, Cpu = "Exynos 4520", InternalMemory = 256, Ram = 8, Image = "https://s13emagst.akamaized.net/products/62470/62469084/images/res_119d9158060ffab289ace1eb4fb5f285.jpg?width=720&height=720&hash=2025575EAA3830851B708B6666E37773"},
+                new Phone { Id = 15, Name = "HONOR AZC", Price = 105000, Availability = true, TotalSold = 8, CardIndependency = true, Cpu = "Exynos 3434", InternalMemory = 128, Ram = 16, Image = "https://s13emagst.akamaized.net/products/57643/57642529/images/res_77d22d24346a96ca4e3f4e7a9eeea779.jpg?width=720&height=720&hash=61507AB28D44CE94F541B937B7FB239C"}
                 );
         });
-
-       
-        // modelBuilder.Entity<Order>(entity =>
-        // {
-        //     entity.HasData(
-        //         new Order{Address = "Kis Mihály street 6", City = "Túrkeve", UserId = 1, OrderDate = new DateOnly(2024,11,26), Id = 1},
-        //         new Order{Address = "Charles street 14", City = "London", UserId = 2, OrderDate = new DateOnly(2024,10,1), Id = 2}
-        //     );
-        // });
-
-        // modelBuilder.Entity<OrderDetails>(entity =>
-        // {
-        //     entity.HasData(
-        //         new OrderDetails{Id = 1, OrderId = 1, ProductId = 1, Quantity = 3, UnitPrice = 50000},
-        //         new OrderDetails{Id = 2, OrderId = 1, ProductId = 3, Quantity = 5, UnitPrice = 750000},
-        //         new OrderDetails{Id = 3, OrderId = 2, ProductId = 1, Quantity = 1, UnitPrice = 154000},
-        //         new OrderDetails{Id = 4, OrderId = 2, ProductId = 5, Quantity = 3, UnitPrice = 1000000},
-        //         new OrderDetails{Id = 5, OrderId = 2, ProductId = 6, Quantity = 1, UnitPrice = 50000}
-        //     );
-        // });
-        //
-        // modelBuilder.Entity<ShoppingCartItem>(entity =>
-        // {
-        //     entity.HasData(
-        //         new ShoppingCartItem() { Id = 1, ProductId = 4, Quantity = 2, UserId = 3 },
-        //         new ShoppingCartItem() { Id = 2, ProductId = 2, Quantity = 4, UserId = 1 },
-        //         new ShoppingCartItem() { Id = 3, ProductId = 2, Quantity = 1, UserId = 2 },
-        //         new ShoppingCartItem() { Id = 4, ProductId = 3, Quantity = 2, UserId = 2 }
-        //     );
-        // });
+    
+        modelBuilder.Entity<OrderDetails>()
+            .HasOne(od => od.Product)
+            .WithMany() 
+            .HasForeignKey(od => od.ProductId)
+            .IsRequired(false);
     }
 }

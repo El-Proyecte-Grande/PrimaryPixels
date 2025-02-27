@@ -12,8 +12,8 @@ using PrimaryPixels.Data;
 namespace PrimaryPixels.Migrations
 {
     [DbContext(typeof(PrimaryPixelsContext))]
-    [Migration("20250107092043_change userId's to varchar type")]
-    partial class changeuserIdstovarchartype
+    [Migration("20250122104106_Nullable product for shoppingCartItem")]
+    partial class NullableproductforshoppingCartItem
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,8 +41,19 @@ namespace PrimaryPixels.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateOnly>("OrderDate")
                         .HasColumnType("date");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -131,11 +142,9 @@ namespace PrimaryPixels.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("UnitPrice")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -177,13 +186,53 @@ namespace PrimaryPixels.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 6,
                             Availability = true,
                             Image = "https://cdn.lifehack.org/wp-content/uploads/2014/12/28.jpg",
                             Name = "Ultra pro max Headphone 2000",
                             Price = 500,
                             TotalSold = 0,
                             Wireless = false
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Availability = true,
+                            Image = "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_135532150?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402",
+                            Name = "DAH6789WH Bluetooth Headphone",
+                            Price = 20000,
+                            TotalSold = 1,
+                            Wireless = true
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Availability = false,
+                            Image = "https://assets.mmsrg.com/isr/166325/c1/-/pixelboxx-mss-81231790?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402",
+                            Name = "Kids Headphone 3000",
+                            Price = 2000,
+                            TotalSold = 1,
+                            Wireless = false
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Availability = true,
+                            Image = "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_77379180?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402",
+                            Name = "Ultra wireless Headphone",
+                            Price = 3000,
+                            TotalSold = 9,
+                            Wireless = true
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Availability = true,
+                            Image = "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_140559725?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402",
+                            Name = "Ultra Stereo BT Headset 300",
+                            Price = 15000,
+                            TotalSold = 0,
+                            Wireless = true
                         });
                 });
 
@@ -200,7 +249,7 @@ namespace PrimaryPixels.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 2,
+                            Id = 1,
                             Availability = true,
                             Image = "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_98587778/mobile_786_587_png/X-X-GAMER-I3228-Gamer-PC-%28Core-i5-16GB-480-GB-SSD---2-TB-HDD-RX6750XT-12GB-NoOS%29",
                             Name = "Gaming PC 3510",
@@ -213,7 +262,7 @@ namespace PrimaryPixels.Migrations
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 2,
                             Availability = true,
                             Image = "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_143744896/mobile_786_587_png/SHARKGAMING-RGBeast-R900-SGRGBR900-33-4090-Gamer-PC-%28Ryzen9-32GB-2x1024-GB-SSD-Win11H%29",
                             Name = "Gaming PC 5000",
@@ -222,6 +271,45 @@ namespace PrimaryPixels.Migrations
                             Cpu = "I5-8100",
                             InternalMemory = 1024,
                             Ram = 16,
+                            DvdPlayer = false
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Availability = true,
+                            Image = "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_146904591?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402",
+                            Name = "Gamer PC A-I5642",
+                            Price = 800000,
+                            TotalSold = 3,
+                            Cpu = "i9-14911KF",
+                            InternalMemory = 2048,
+                            Ram = 16,
+                            DvdPlayer = true
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Availability = false,
+                            Image = "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_98587780?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402",
+                            Name = "Gamer PC A-I7689",
+                            Price = 1000000,
+                            TotalSold = 5,
+                            Cpu = "i9-45500KJ",
+                            InternalMemory = 2048,
+                            Ram = 32,
+                            DvdPlayer = true
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Availability = true,
+                            Image = "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_138935428?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402",
+                            Name = "Gamer PC C-I4567",
+                            Price = 1300000,
+                            TotalSold = 11,
+                            Cpu = "I6-2300",
+                            InternalMemory = 1024,
+                            Ram = 32,
                             DvdPlayer = false
                         });
                 });
@@ -239,7 +327,7 @@ namespace PrimaryPixels.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 6,
+                            Id = 11,
                             Availability = true,
                             Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSELHPTLjLUf8sBWPzXg7bTDdG1nClBF5Kc4A&s",
                             Name = "Redmi A24",
@@ -252,7 +340,7 @@ namespace PrimaryPixels.Migrations
                         },
                         new
                         {
-                            Id = 7,
+                            Id = 12,
                             Availability = true,
                             Image = "https://www.tecnosell.com/media/catalog/product/cache/60c31028333b516fd0f8945d994bb7aa/b/l/blu1_2_7_1.jpg",
                             Name = "iPhone 19",
@@ -265,7 +353,7 @@ namespace PrimaryPixels.Migrations
                         },
                         new
                         {
-                            Id = 8,
+                            Id = 13,
                             Availability = true,
                             Image = "https://cdn.tmobile.com/content/dam/t-mobile/en-p/cell-phones/apple/Apple-iPhone-15-Plus/Pink/Apple-iPhone-15-Plus-Pink-thumbnail.png",
                             Name = "Redmi A29",
@@ -274,6 +362,32 @@ namespace PrimaryPixels.Migrations
                             Cpu = "Dimensity 9800",
                             InternalMemory = 256,
                             Ram = 8,
+                            CardIndependency = true
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Availability = false,
+                            Image = "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_137998148?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402",
+                            Name = "Samsung Galaxy E100",
+                            Price = 260000,
+                            TotalSold = 2,
+                            Cpu = "Exynos 4520",
+                            InternalMemory = 256,
+                            Ram = 8,
+                            CardIndependency = false
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Availability = true,
+                            Image = "https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_144574340?x=536&y=402&format=jpg&quality=80&sp=yes&strip=yes&trim&ex=536&ey=402&align=center&resizesource&unsharp=1.5x1+0.7+0.02&cox=0&coy=0&cdx=536&cdy=402",
+                            Name = "HONOR AZC",
+                            Price = 105000,
+                            TotalSold = 8,
+                            Cpu = "Exynos 3434",
+                            InternalMemory = 128,
+                            Ram = 16,
                             CardIndependency = true
                         });
                 });

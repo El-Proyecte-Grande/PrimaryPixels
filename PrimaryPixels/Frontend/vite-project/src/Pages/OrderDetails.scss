@@ -1,0 +1,26 @@
+.orders-details-table-head th,
+.orders-details-table-body td {
+    text-align: center;
+    width: 16.6%;
+    padding: 10px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.order-details-image {
+    height: 3rem;
+}
+
+.order-details {
+    border-bottom: solid 1px lightgray;
+}
+
+.total-price {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.order-number {
+    justify-self: center;
+    font-size: 3rem;
+    color: black;
+}

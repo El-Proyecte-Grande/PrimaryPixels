@@ -1,5 +1,7 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PrimaryPixels.DTO;
 using PrimaryPixels.Models.Order;
 using PrimaryPixels.Services.Repositories;
 
@@ -9,9 +11,9 @@ namespace PrimaryPixels.Controllers.DerivedControllers;
 [ApiController]
 public class OrderDetailsController : ControllerBase, IController<OrderDetails>
 {
-    protected IRepository<OrderDetails> _repository;
+    protected IOrderDetailsRepository _repository;
     protected ILogger<OrderDetailsController> _logger;
-    public OrderDetailsController(ILogger<OrderDetailsController> logger, IRepository<OrderDetails> repository)
+    public OrderDetailsController(ILogger<OrderDetailsController> logger, IOrderDetailsRepository repository)
     {
         _logger = logger;
         _repository = repository;
@@ -104,7 +106,7 @@ public class OrderDetailsController : ControllerBase, IController<OrderDetails>
         }
     }
 
-    [HttpGet("order/{orderId}")]
+    [HttpGet("Order/{orderId}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderDetails[]))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetProductForOrderDetails(int orderId)
@@ -112,8 +114,16 @@ public class OrderDetailsController : ControllerBase, IController<OrderDetails>
         try
         {
             OrderDetailsRepository repository = _repository as OrderDetailsRepository;
+            // get orderDetails
             var orderProducts = await repository.GetProductsForOrder(orderId);
-            return Ok(orderProducts);
+            // convert orderDetails to orderDetailsResponses with ProductDTO
+            var returnData = orderProducts.Select(od => new OrderDetailsResponse()
+            {
+                Quantity = od.Quantity,
+                UnitPrice = od.UnitPrice,
+                Product = new ProductDTO(){Image = od.Product.Image, Name = od.Product.Name}
+            });
+            return Ok(returnData);
         }
         catch (Exception ex)
         {
@@ -121,4 +131,6 @@ public class OrderDetailsController : ControllerBase, IController<OrderDetails>
             return BadRequest();
         }
     }
+
+    
 }

@@ -1,16 +1,54 @@
 #logo {
-    width: 10vw;
-    height: 12vh;
+    border-radius: 50%;
+    height: 4rem;
+    padding-left: 1rem;
 }
+
 #searchbar {
-    margin-top: 4vh;
-    margin-left: 5vw;
-    margin-right: 10vw;
-    margin-bottom: auto;
-    height: 50%;
-    width: 30%;
+    height: 100%;
+    width: 100%;
     font-size: 0.9em;
 }
-#input-message{
-    margin-left: 3vw;
+
+#input-message {
+    margin-left: 2.8vw;
+}
+
+.auth-buttons {
+    position: absolute;
+    right: 3rem;
+}
+
+.profile-logo {
+    height: 1.2rem;
+    position: relative;
+    top: 2px;
+    cursor: pointer;
+}
+
+.search-div {
+    width: 30%;
+    margin-left: 5rem;
+    height: 2rem;
+}
+
+.search-products-div {
+    border: solid 1px black;
+}
+
+.search-product-div {
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    column-gap: 1rem;
+    color: black;
+    cursor: pointer;
+}
+
+.search-product-img {
+    height: 2rem;
+}
+
+.search-product-name {
+    margin: 0;
 }

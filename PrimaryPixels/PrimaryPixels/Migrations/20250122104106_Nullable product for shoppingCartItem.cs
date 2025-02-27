@@ -5,7 +5,7 @@
 namespace PrimaryPixels.Migrations
 {
     /// <inheritdoc />
-    public partial class DeleteerroronshoppingcartItem : Migration
+    public partial class NullableproductforshoppingCartItem : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

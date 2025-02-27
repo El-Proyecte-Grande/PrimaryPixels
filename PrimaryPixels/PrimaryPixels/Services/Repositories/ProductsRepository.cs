@@ -23,4 +23,16 @@ public class ProductsRepository : IProductRepository
         if(product == null) throw new KeyNotFoundException();
         return product;
     }
+
+    public async Task<IEnumerable<Product>> GetPopular(){
+        var products = await _context.Products.OrderByDescending(o => o.TotalSold).Take(9).ToListAsync();
+        if(products.ToArray().Length == 0) throw new KeyNotFoundException();
+        return products;
+    }
+
+    public async Task<IEnumerable<Product>> Search(string word)
+    {
+        var products = await _context.Products.Where(p => p.Name.Contains(word)).Take(5).ToListAsync();
+        return products;
+    }
 }

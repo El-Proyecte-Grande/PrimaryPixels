@@ -4,40 +4,40 @@ using PrimaryPixels.Models.Order;
 
 namespace PrimaryPixels.Services.Repositories;
 
-public class OrderRepository : Repository<Order>
+public class OrderRepository : Repository<Order>, IOrderRepository
 {
     private readonly PrimaryPixelsContext _context;
     public OrderRepository(PrimaryPixelsContext context)
     {
         _context = context;
     }
-    public override async  Task<IEnumerable<Order>> GetAll()
+    public async override  Task<IEnumerable<Order>> GetAll()
     {
         return await _context.Orders.ToArrayAsync();
     }
 
-    public override async Task<Order> GetById(int id)
+    public async override Task<Order> GetById(int id)
     {
         var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == id);
         if(order == null) throw new KeyNotFoundException();
         return order;
     }
 
-    public override async Task<int> Add(Order entity)
+    public async override Task<int> Add(Order entity)
     {
-        _context.Orders.Add(entity);
+        await _context.Orders.AddAsync(entity);
         await _context.SaveChangesAsync();
         return entity.Id;
     }
 
-    public override async Task<int> Update(Order entity)
+    public async override Task<int> Update(Order entity)
     {
         _context.Orders.Update(entity);
         await _context.SaveChangesAsync();
         return entity.Id;
     }
 
-    public override async Task<int> DeleteById(int id)
+    public async override Task<int> DeleteById(int id)
     {
         var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == id);
         if(order == null) throw new KeyNotFoundException();
@@ -45,4 +45,10 @@ public class OrderRepository : Repository<Order>
         await _context.SaveChangesAsync();
         return id;
     }
+
+    public async Task<IEnumerable<Order>> GetOrdersByUserId(string userId)
+    {
+        return await _context.Orders.Where(o => o.UserId == userId).ToListAsync();
+    }
+
 }

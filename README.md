@@ -110,7 +110,7 @@ Make sure you have the following installed:
 
 ### DevOps
 
-- **Ádám Majoros-Geréby**
+- **Ádám Majoros-Geréby**  
   [GitHub Profile](https://github.com/majorosgereby/)
 
 <!--Links for logos! -->

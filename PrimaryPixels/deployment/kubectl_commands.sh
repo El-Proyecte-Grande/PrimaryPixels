@@ -8,6 +8,9 @@ kubectl apply -f namespace-db.yaml
 kubectl apply -f deployment-frontend.yaml
 kubectl apply -f deployment-backend.yaml
 
-# apply services
+# Apply services
 kubectl apply -f service-backend.yaml
 kubectl apply -f service-frontend.yaml
+
+# Apply ingress
+kubectl apply -f ingress.yaml

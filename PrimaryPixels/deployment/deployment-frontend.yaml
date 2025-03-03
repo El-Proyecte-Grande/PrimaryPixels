@@ -16,7 +16,7 @@ spec:
       labels:
         app: pp-fr-app
         tier: frontend
-    spec:
+    spec: 
       containers:
       - name: primary-pixels-frontend
         image: 794038210581.dkr.ecr.eu-west-2.amazonaws.com/primarypixels/frontend

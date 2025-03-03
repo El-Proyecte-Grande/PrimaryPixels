@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: primary-pixels-backend
+  namespace: primary-pixels-app
+  labels:
+    app: pp-bck-sr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pp-bck-app
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: pp-bck-app
+        tier: backend
+    spec: 
+      containers:
+      - name: primary-pixels-backend
+        image: 794038210581.dkr.ecr.eu-west-2.amazonaws.com/primarypixels/backend
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080

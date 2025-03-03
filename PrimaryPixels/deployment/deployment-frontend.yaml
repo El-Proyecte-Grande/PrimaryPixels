@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: primary-pixels-frontend
+  namespace: primary-pixels-app
+  labels:
+    app: pp-fr-sr
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pp-fr-app
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: pp-fr-app
+        tier: frontend
+    spec:
+      containers:
+      - name: primary-pixels-frontend
+        image: 794038210581.dkr.ecr.eu-west-2.amazonaws.com/primarypixels/frontend
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 4000

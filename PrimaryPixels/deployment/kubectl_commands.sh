@@ -13,4 +13,4 @@ kubectl apply -f service-backend.yaml
 kubectl apply -f service-frontend.yaml
 
 # Apply ingress
-kubectl apply -f ingress.yaml
+# kubectl apply -f ingress.yaml

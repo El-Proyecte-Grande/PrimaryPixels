@@ -11,3 +11,4 @@ spec:
   - protocol: TCP
     port: 4000
     targetPort: http
+  type: LoadBalancer

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace PrimaryPixelsTest.ServiceTests
 {
-    class ProductRepositoryTest
+    [TestFixture]
+    public class UserRepositoryTest
     {
+        
     }
 }

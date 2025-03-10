@@ -13,7 +13,7 @@ using PrimaryPixels.Services;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
-namespace PrimaryPixelsTest
+namespace PrimaryPixelsTest.ControllerTests
 {
     [TestFixture]
     public class OrderControllerTest

@@ -5,7 +5,7 @@ using PrimaryPixels.Services.Repositories;
 using PrimaryPixels.Models.Products;
 using Microsoft.AspNetCore.Mvc;
 
-namespace PrimaryPixelsTest
+namespace PrimaryPixelsTest.ControllerTests
 {
     [TestFixture]
     public class PhoneControllerTest

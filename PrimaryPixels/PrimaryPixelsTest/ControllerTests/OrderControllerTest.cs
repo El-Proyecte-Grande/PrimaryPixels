@@ -12,6 +12,7 @@ using PrimaryPixels.Services.Repositories;
 using PrimaryPixels.Services;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using PrimaryPixels.Exceptions;
 
 namespace PrimaryPixelsTest.ControllerTests
 {
@@ -112,11 +113,11 @@ namespace PrimaryPixelsTest.ControllerTests
         [Test]
         public async Task DeleteMethodFailsIfRepositoryThrowsException()
         {
-            _repositoryMock.Setup(x => x.DeleteById(_order.Id)).ThrowsAsync(new Exception());
+            _repositoryMock.Setup(x => x.DeleteById(_order.Id)).ThrowsAsync(new OrderNotFoundException("Couldn't find order with this id!"));
 
             var result = await _orderController.Delete(_order.Id);
 
-            Assert.That(result, Is.InstanceOf<NotFoundResult>());
+            Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
         }
 
         [Test]

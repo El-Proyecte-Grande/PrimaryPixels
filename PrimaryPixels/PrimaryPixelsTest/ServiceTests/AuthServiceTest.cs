@@ -29,6 +29,25 @@ namespace PrimaryPixelsTest.ServiceTests
             _authService = new(_userManagerMock.Object, _mockTokenService.Object);
         }
 
+        [Test]
+        public async Task RegisterAsyncReturnsFalseAuthResultBecauseUserCreationWasNotSuccessful()
+        {
+            string userName = "Joe";
+            string email = "joe@joe.com";
+            string password = "werZT!!56";
+            string role = "User";
+            IdentityUser invalidIdentityUser = new() { UserName = userName, Email = email};
+            IdentityError[] errors = [new() { Code = "DuplicateUserName", Description = "The username is already taken." }, new(){ Code = "DuplicateEmail", Description = "The email is already registered." }];
+            _userManagerMock.Setup(x => x.CreateAsync(invalidIdentityUser, password)).ReturnsAsync(IdentityResult.Failed(errors));
+
+            var result = await _authService.RegisterAsync(userName, email, password, role);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Success, Is.False);
+                Assert.That(result.ErrorMessages["DuplicateUserName"], Is.EqualTo("The username is already taken."));
+            });
+        }
 
     }
 }

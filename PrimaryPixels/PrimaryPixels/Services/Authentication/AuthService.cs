@@ -22,7 +22,12 @@ public class AuthService : IAuthService
             return FailedRegistration(result, username, email);
         }
 
-        await _userManager.AddToRoleAsync(user, role);
+        var resultOfAddingToRole = await _userManager.AddToRoleAsync(user, role);
+
+        if (!resultOfAddingToRole.Succeeded)
+        {
+            return FailedRegistration(resultOfAddingToRole, username, email);
+        }
         return new AuthResult(true, username, email, "");
     }
 

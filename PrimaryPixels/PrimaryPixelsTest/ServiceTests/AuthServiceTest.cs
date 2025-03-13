@@ -92,5 +92,62 @@ namespace PrimaryPixelsTest.ServiceTests
 
         }
 
+        [Test]
+        public async Task LoginAsyncReturnsFalseAuthResultBecauseEmailIsNotValid()
+        {
+            string invalidEmail = "jack@j.com";
+            string password = "werZT!!56";
+            _userManagerMock.Setup(x => x.FindByEmailAsync(invalidEmail)).ReturnsAsync((IdentityUser)null);
+
+            var result = await _authService.LoginAsync(invalidEmail, password);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Success, Is.False);
+                Assert.That(result.ErrorMessages["Bad credentials"], Is.EqualTo("Invalid email"));
+            });
+        }
+
+        [Test]
+        public async Task LoginAsyncReturnsFalseAuthResultBecausePasswordIsNotValid()
+        {
+            string email = "jack@jack.com";
+            string invalidPassword = "werZT";
+            IdentityUser user = new() { UserName = "Jack", Email = email };
+            _userManagerMock.Setup(x => x.FindByEmailAsync(email)).ReturnsAsync(user);
+            _userManagerMock.Setup(x => x.CheckPasswordAsync(user, invalidPassword)).ReturnsAsync(false);
+
+            var result = await _authService.LoginAsync(email, invalidPassword);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Success, Is.False);
+                Assert.That(result.ErrorMessages["Bad credentials"], Is.EqualTo("Invalid password"));
+            });
+        }
+
+        [Test]
+        public async Task LoginAsyncReturnsTrueAuthResultIfEverythingIsOk()
+        {
+            string email = "jack@jack.com";
+            string password = "werZT!!56";
+            string token = It.IsAny<string>();
+            IdentityUser user = new() { UserName = "Jack", Email = email };
+            _userManagerMock.Setup(x => x.FindByEmailAsync(email)).ReturnsAsync(user);
+            _userManagerMock.Setup(x => x.CheckPasswordAsync(user, password)).ReturnsAsync(true);
+            _userManagerMock.Setup(x => x.GetRolesAsync(user)).ReturnsAsync(["User"]);
+            _mockTokenService.Setup(x => x.CreateToken(user, "User")).Returns(token);
+
+            var result = await _authService.LoginAsync(email, password);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Success, Is.True);
+                Assert.That(result.Username, Is.EqualTo(user.UserName));
+                Assert.That(result.Email, Is.EqualTo(user.Email));
+                Assert.That(result.Token, Is.EqualTo(token));
+            });
+        }
+
     }
 }

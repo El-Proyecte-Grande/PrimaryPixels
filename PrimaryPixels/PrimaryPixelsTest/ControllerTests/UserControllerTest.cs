@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using PrimaryPixels.Controllers;
 using PrimaryPixels.DTO;
+using PrimaryPixels.Exceptions;
 using PrimaryPixels.Services.Repositories;
 
 namespace PrimaryPixelsTest.ControllerTests
@@ -105,6 +106,49 @@ namespace PrimaryPixelsTest.ControllerTests
             Assert.That(result, Is.InstanceOf<OkObjectResult>()); 
             var okResult = (OkObjectResult)result;
             Assert.That(okResult.Value, Is.EqualTo("Password changed successfully."));
+        }
+
+        [Test]
+        public async Task ForgotPassword_ReturnsNotFound_WhenEmailNotExists()
+        {
+            _repositoryMock.Setup(repo => repo.GetPasswordResetToken("unknown@example.com")).ThrowsAsync(new EmailNotFoundException(""));
+
+            var result = await _controller.ForgotPassword(new ForgotPasswordRequest { Email = "unknown@example.com" });
+
+            Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+        }
+
+        [Test]
+        public async Task ForgotPassword_ReturnsOk_WhenEmailIsValid()
+        {
+            _repositoryMock.Setup(repo => repo.GetPasswordResetToken("test@example.com")).ReturnsAsync("resetToken");
+            _configurationMock.Setup(config => config["FrontendUrl"]).Returns("https://frontend.com");
+
+            var result = await _controller.ForgotPassword(new ForgotPasswordRequest { Email = "test@example.com" });
+
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+        }
+
+        [Test]
+        public async Task ResetPassword_ReturnsBadRequest_WhenFailed()
+        {
+            _repositoryMock.Setup(repo => repo.ResetPassword("test@example.com", "token123", "newPass"))
+                .ReturnsAsync(false);
+
+            var result = await _controller.ResetPassword(new ResetPasswordRequest { Email = "test@example.com", Token = "token123", NewPassword = "newPass" });
+
+            Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
+        }
+
+        [Test]
+        public async Task ResetPassword_ReturnsOk_WhenSuccessful()
+        {
+            _repositoryMock.Setup(repo => repo.ResetPassword("test@example.com", "token123", "newPass"))
+                .ReturnsAsync(true);
+
+            var result = await _controller.ResetPassword(new ResetPasswordRequest { Email = "test@example.com", Token = "token123", NewPassword = "newPass" });
+
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
         }
 
 

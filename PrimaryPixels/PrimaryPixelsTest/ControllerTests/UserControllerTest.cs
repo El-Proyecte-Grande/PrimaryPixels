@@ -67,5 +67,47 @@ namespace PrimaryPixelsTest.ControllerTests
             Assert.That(okResult.Value, Is.EqualTo(userInfo));
         }
 
+        [Test]
+        public async Task ChangeUserPassword_ReturnsBadRequest_WhenUserIdNotFound()
+        {
+            SetUserContext("");
+
+            var result = await _controller.ChangeUserPassword(new ChangePasswordRequest() { CurrentPassword = "oldPass", NewPassword = "newPass"});
+
+            Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.That(badRequestResult.Value, Is.EqualTo("UserId not found."));
+        }
+
+        [Test]
+        public async Task ChangeUserPassword_ReturnsBadRequest_WhenChangeFails()
+        {
+            var userId = "123";
+            SetUserContext(userId);
+            _repositoryMock.Setup(repo => repo.ChangePasswordAsync("oldPass", "newPass", userId)).ReturnsAsync(false);
+
+            var result = await _controller.ChangeUserPassword(new ChangePasswordRequest { CurrentPassword = "oldPass", NewPassword = "newPass" });
+
+            Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.That(badRequestResult.Value, Is.EqualTo("Failed to change password."));
+        }
+
+        [Test]
+        public async Task ChangeUserPassword_ReturnsOk_WhenPasswordChangedSuccessfully()
+        {
+            var userId = "123";
+            SetUserContext(userId);
+            _repositoryMock.Setup(repo => repo.ChangePasswordAsync("oldPass", "newPass", userId)).ReturnsAsync(true);
+
+            var result = await _controller.ChangeUserPassword(new ChangePasswordRequest { CurrentPassword = "oldPass", NewPassword = "newPass" });
+
+            Assert.That(result, Is.InstanceOf<OkObjectResult>()); 
+            var okResult = (OkObjectResult)result;
+            Assert.That(okResult.Value, Is.EqualTo("Password changed successfully."));
+        }
+
+
+
     }
 }

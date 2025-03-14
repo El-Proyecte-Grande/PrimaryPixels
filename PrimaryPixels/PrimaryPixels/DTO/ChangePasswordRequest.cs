@@ -1,3 +1,4 @@
+namespace PrimaryPixels.DTO;
 public class ChangePasswordRequest
 {
     public string CurrentPassword { get; set; }

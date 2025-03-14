@@ -109,13 +109,16 @@ namespace PrimaryPixelsTest.ControllerTests
         }
 
         [Test]
-        public async Task ForgotPassword_ReturnsNotFound_WhenEmailNotExists()
+        public async Task ForgotPassword_ReturnsNotFound_WhenEmailIsNotValid()
         {
-            _repositoryMock.Setup(repo => repo.GetPasswordResetToken("unknown@example.com")).ThrowsAsync(new EmailNotFoundException(""));
+            _repositoryMock.Setup(repo => repo.GetPasswordResetToken("unknown@example.com")).ThrowsAsync(new EmailNotFoundException("Couldn't find user with this email"));
 
             var result = await _controller.ForgotPassword(new ForgotPasswordRequest { Email = "unknown@example.com" });
 
             Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+            var notFoundResult = (NotFoundObjectResult)result;
+            Assert.That(notFoundResult.Value, Is.EqualTo("User with this email was not found"));
+
         }
 
         [Test]
@@ -125,8 +128,14 @@ namespace PrimaryPixelsTest.ControllerTests
             _configurationMock.Setup(config => config["FrontendUrl"]).Returns("https://frontend.com");
 
             var result = await _controller.ForgotPassword(new ForgotPasswordRequest { Email = "test@example.com" });
+            _emailSenderMock.Verify(x => x.SendEmailAsync(
+                "test@example.com",
+                "Password Reset",
+                $"Please reset your password by clicking <a href='{It.Is<string>(link => link.Contains(_configurationMock.Object["FrontendUrl"]))}'>here</a>."), Times.Once);
 
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var okResult = (OkObjectResult)result;
+            Assert.That(okResult.Value, Is.EqualTo("Password reset link sent to your email."));
         }
 
         [Test]
@@ -138,6 +147,8 @@ namespace PrimaryPixelsTest.ControllerTests
             var result = await _controller.ResetPassword(new ResetPasswordRequest { Email = "test@example.com", Token = "token123", NewPassword = "newPass" });
 
             Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.That(badRequestResult.Value, Is.EqualTo("Error occured while resetting password."));
         }
 
         [Test]
@@ -149,6 +160,8 @@ namespace PrimaryPixelsTest.ControllerTests
             var result = await _controller.ResetPassword(new ResetPasswordRequest { Email = "test@example.com", Token = "token123", NewPassword = "newPass" });
 
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var okResult = (OkObjectResult)result;
+            Assert.That(okResult.Value, Is.EqualTo("Password reset successfully."));
         }
 
 

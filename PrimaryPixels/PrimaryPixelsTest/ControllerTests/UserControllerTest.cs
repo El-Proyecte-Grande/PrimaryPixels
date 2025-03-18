@@ -183,6 +183,31 @@ namespace PrimaryPixelsTest.ControllerTests
         }
 
         [Test]
+        public async Task ResetPassword_ReturnsBadRequest_WhenRequestIsInvalid()
+        {
+            var request = new ResetPasswordRequest { Email = "test@example.com", NewPassword = "newPass", Token = "" };
+
+            var result = await _controller.ResetPassword(request);
+
+            Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
+            var badRequest = (BadRequestObjectResult)result;
+            Assert.That(badRequest.Value, Is.EqualTo("Invalid request."));
+        }
+
+        [Test]
+        public async Task ResetPassword_ReturnsBadRequest_WhenUserIsNotFound()
+        {
+            var request = new ResetPasswordRequest { Email = "invalid@example.com", NewPassword = "newPass", Token = "token123" };
+            _repositoryMock.Setup(repo => repo.ResetPassword(request.Email, request.Token, request.NewPassword)).ThrowsAsync(new EmailNotFoundException("Couldn't find user with this email"));
+
+            var result = await _controller.ResetPassword(request);
+
+            Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
+            var badRequest = (BadRequestObjectResult)result;
+            Assert.That(badRequest.Value, Is.EqualTo("Couldn't find user with this email"));
+        }
+
+        [Test]
         public async Task ResetPassword_ReturnsBadRequest_WhenFailed()
         {
             _repositoryMock.Setup(repo => repo.ResetPassword("test@example.com", "token123", "newPass"))

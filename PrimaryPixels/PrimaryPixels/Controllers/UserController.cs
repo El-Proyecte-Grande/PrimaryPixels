@@ -73,7 +73,7 @@ public class UserController : ControllerBase
             }
 
             var token = await _repository.GetPasswordResetToken(request.Email);
-            string resetLink = $"{_configuration["FrontendUrl"]}/reset/password/new?email={Uri.EscapeDataString(request.Email)}&token={token}";
+            string resetLink = $"{_configuration?["FrontendUrl"] ?? throw new KeyNotFoundException("FrontendUrl is missing!")}/reset/password/new?email={Uri.EscapeDataString(request.Email)}&token={token}";
             await _emailSender.SendEmailAsync(
                 request.Email,
                 "Password Reset",

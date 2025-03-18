@@ -123,6 +123,18 @@ namespace PrimaryPixelsTest.ControllerTests
         }
 
         [Test]
+        public async Task ForgotPassword_ReturnsBadRequest_WhenEmailIsEmpty()
+        {
+            var request = new ForgotPasswordRequest { Email = "" };
+
+            var result = await _controller.ForgotPassword(request);
+
+            Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
+            var badRequestResult = (BadRequestObjectResult)result;
+            Assert.That(badRequestResult.Value, Is.EqualTo("Email cannot be empty"));
+        }
+
+        [Test]
         public async Task ForgotPassword_ReturnsNotFound_WhenEmailIsNotValid()
         {
             _repositoryMock.Setup(repo => repo.GetPasswordResetToken("unknown@example.com")).ThrowsAsync(new EmailNotFoundException("Couldn't find user with this email"));
@@ -132,6 +144,24 @@ namespace PrimaryPixelsTest.ControllerTests
             Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
             var notFoundResult = (NotFoundObjectResult)result;
             Assert.That(notFoundResult.Value, Is.EqualTo("Couldn't find user with this email"));
+
+        }
+
+        [Test]
+        public async Task ForgotPassword_Returns500ObjectResult_WhenFrontendUrlIsMissing()
+        {
+            _repositoryMock.Setup(repo => repo.GetPasswordResetToken("test@example.com")).ReturnsAsync("resetToken");
+            _configurationMock.Setup(config => config["FrontendUrl"]).Returns((string)null);
+
+            var result = await _controller.ForgotPassword(new ForgotPasswordRequest { Email = "test@example.com" });
+
+            Assert.That(result, Is.InstanceOf<ObjectResult>());
+            var objectResult = (ObjectResult)result;
+            Assert.Multiple(() =>
+            {
+                Assert.That(objectResult.Value, Is.EqualTo("An unexpected error occurred: FrontendUrl is missing!"));
+                Assert.That(objectResult.StatusCode, Is.EqualTo(500));
+            });
 
         }
 

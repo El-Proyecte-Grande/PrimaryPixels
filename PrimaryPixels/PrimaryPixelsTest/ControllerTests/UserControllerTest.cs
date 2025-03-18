@@ -54,6 +54,20 @@ namespace PrimaryPixelsTest.ControllerTests
         }
 
         [Test]
+        public async Task GetUserInfos_ReturnsBadRequest_WhenUserNotFound()
+        {
+            var invalidUserId = "01jtm";
+            SetUserContext(invalidUserId);
+            _repositoryMock.Setup(repo => repo.GetUserById(invalidUserId)).ThrowsAsync(new InvalidOperationException("Couldn't find user with this id"));
+
+            var result = await _controller.GetUserInfos();
+
+            Assert.That(result.Result, Is.InstanceOf<NotFoundObjectResult>());
+            var notFoundResult = (NotFoundObjectResult)result.Result;
+            Assert.That(notFoundResult.Value, Is.EqualTo("Couldn't find user with this id"));
+        }
+
+        [Test]
         public async Task GetUserInfos_ReturnsOk_WithUserInfo()
         {
             var userId = "123";
@@ -117,7 +131,7 @@ namespace PrimaryPixelsTest.ControllerTests
 
             Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
             var notFoundResult = (NotFoundObjectResult)result;
-            Assert.That(notFoundResult.Value, Is.EqualTo("User with this email was not found"));
+            Assert.That(notFoundResult.Value, Is.EqualTo("Couldn't find user with this email"));
 
         }
 

@@ -29,13 +29,21 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<UserResponse>> GetUserInfos()
     {
-        var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (string.IsNullOrEmpty(userId))
+        try
         {
-            return BadRequest("UserId not found.");
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("UserId not found.");
+            }
+            var userInfos = await _repository.GetUserById(userId);
+        
+            return Ok(userInfos);
         }
-        var userInfos = await _repository.GetUserById(userId);
-        return Ok(userInfos);
+        catch (Exception ex)
+        {
+            return NotFound(ex.Message);
+        }
     }
 
     [HttpPatch]
@@ -72,9 +80,9 @@ public class UserController : ControllerBase
                 $"Please reset your password by clicking <a href='{resetLink}'>here</a>.");
             return Ok("Password reset link sent to your email.");
         }
-        catch (EmailNotFoundException)
+        catch (EmailNotFoundException ex)
         {
-            return NotFound("User with this email was not found");
+            return NotFound(ex.Message);
         }
         catch (Exception ex)
         {

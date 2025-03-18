@@ -31,7 +31,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public async Task RegisterAsyncReturnsFalseAuthResultBecauseUserCreationWasNotSuccessful()
+        public async Task RegisterAsync_ReturnsFalseAuthResult_BecauseUserCreationWasNotSuccessful()
         {
             string userName = "Joe";
             string email = "joe@joe.com";
@@ -51,7 +51,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public async Task RegisterAsyncReturnsFalseAuthResultBecauseAddingToRoleWasNotSuccessful()
+        public async Task RegisterAsync_ReturnsFalseAuthResult_BecauseAddingToRoleWasNotSuccessful()
         {
             string userName = "Jack";
             string email = "jack@jack.com";
@@ -72,7 +72,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public async Task RegisterAsyncReturnsTrueAuthResultIfEverythingIsOk()
+        public async Task RegisterAsync_ReturnsTrueAuthResult_IfEverythingIsOk()
         {
             string userName = "Jack";
             string email = "jack@jack.com";
@@ -93,7 +93,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public async Task LoginAsyncReturnsFalseAuthResultBecauseEmailIsNotValid()
+        public async Task LoginAsync_ReturnsFalseAuthResult_BecauseEmailIsNotValid()
         {
             string invalidEmail = "jack@j.com";
             string password = "werZT!!56";
@@ -109,7 +109,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public async Task LoginAsyncReturnsFalseAuthResultBecausePasswordIsNotValid()
+        public async Task LoginAsync_ReturnsFalseAuthResult_BecausePasswordIsNotValid()
         {
             string email = "jack@jack.com";
             string invalidPassword = "werZT";
@@ -127,7 +127,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public async Task LoginAsyncReturnsTrueAuthResultIfEverythingIsOk()
+        public async Task LoginAsync_ReturnsTrueAuthResult_IfEverythingIsOk()
         {
             string email = "jack@jack.com";
             string password = "werZT!!56";

@@ -31,7 +31,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public void GetUserByIdThrowsExceptionBecauseUserDoesNotExist()
+        public void GetUserById_ThrowsException_BecauseUserDoesNotExist()
         {
             string idToFind = "0000";
             _userManagerMock.Setup(x => x.FindByIdAsync(idToFind)).ReturnsAsync((IdentityUser)null);
@@ -43,7 +43,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public async Task GetUserByIdReturnsUserResponseSuccessfully()
+        public async Task GetUserById_ReturnsUserResponseSuccessfully()
         {
             _userManagerMock.Setup(x => x.FindByIdAsync(_identityUser.Id)).ReturnsAsync(_identityUser);
             UserResponse userResponse = new(_identityUser.UserName, _identityUser.Email);
@@ -54,7 +54,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public async Task ChangePasswordAsyncReturnsFalseIfUserCannotBeFound()
+        public async Task ChangePasswordAsync_ReturnsFalse_IfUserCannotBeFound()
         {
             string notValidId = "0123";
             string currentPassword = "00000fgH";
@@ -67,7 +67,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public async Task ChangePasswordAsyncReturnsFalseIfChangingPasswordFails()
+        public async Task ChangePasswordAsync_ReturnsFalse_IfChangingPasswordFails()
         {
             string currentPassword = "00000fgH";
             string newPassword = "Werg345!!zu78";
@@ -81,7 +81,7 @@ namespace PrimaryPixelsTest.ServiceTests
 
 
         [Test]
-        public async Task ChangePasswordAsyncReturnsTrueIfPasswordIsChanged()
+        public async Task ChangePasswordAsync_ReturnsTrue_IfPasswordIsChanged()
         {
             string currentPassword = "00000fgH";
             string newPassword = "Werg345!!zu78";
@@ -94,7 +94,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public void GetPasswordResetTokenThrowsExceptionIfUserCannotBeFound()
+        public void GetPasswordResetToken_ThrowsException_IfUserCannotBeFound()
         {
             string invalidEmail = "dummy@dummy.com";
             _userManagerMock.Setup(x => x.FindByEmailAsync(invalidEmail)).ReturnsAsync((IdentityUser)null);
@@ -105,7 +105,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public async Task GetPasswordResetTokenReturnsTokenIfEveryThingIsAlright()
+        public async Task GetPasswordResetToken_ReturnsToken_IfEveryThingIsAlright()
         {
             string validToken = "qwdwffbgfb!+%123";
             _userManagerMock.Setup(x => x.FindByEmailAsync(_identityUser.Email)).ReturnsAsync(_identityUser);
@@ -117,7 +117,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public void ResetPasswordThrowsExceptionIfUserCannotBeFound()
+        public void ResetPassword_ThrowsException_IfUserCannotBeFound()
         {
             string invalidEmail = "dummy@dummy.com";
             string encodedToken = "qwdwffbgfb%21%2B%25123";
@@ -130,7 +130,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public async Task ResetPasswordReturnsFalseIfResettingThePasswordFails()
+        public async Task ResetPassword_ReturnsFalse_IfResettingThePasswordFails()
         {
             string encodedToken = "qwdwffbgfb%21%2B%25123";
             string newPassword = "Werg345!!zu78";
@@ -143,7 +143,7 @@ namespace PrimaryPixelsTest.ServiceTests
         }
 
         [Test]
-        public async Task ResetPasswordReturnsTrueIfPasswordIsSuccessfullyResetted()
+        public async Task ResetPassword_ReturnsTrue_IfPasswordIsSuccessfullyResetted()
         {
             string encodedToken = "qwdwffbgfb%21%2B%25123";
             string newPassword = "Werg345!!zu78";

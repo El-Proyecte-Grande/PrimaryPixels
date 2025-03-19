@@ -22,7 +22,12 @@ public class AuthService : IAuthService
             return FailedRegistration(result, username, email);
         }
 
-        await _userManager.AddToRoleAsync(user, role);
+        var resultOfAddingToRole = await _userManager.AddToRoleAsync(user, role);
+
+        if (!resultOfAddingToRole.Succeeded)
+        {
+            return FailedRegistration(resultOfAddingToRole, username, email);
+        }
         return new AuthResult(true, username, email, "");
     }
 
@@ -44,7 +49,7 @@ public class AuthService : IAuthService
         var roles = await _userManager.GetRolesAsync(managedUser);
         var accessToken = _tokenService.CreateToken(managedUser, roles[0]);
 
-        return new AuthResult(true, managedUser.Email, managedUser.UserName, accessToken);
+        return new AuthResult(true, managedUser.UserName, managedUser.Email, accessToken);
     }
 
     private AuthResult FailedRegistration(IdentityResult result, string name, string email)

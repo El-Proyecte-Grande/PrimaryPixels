@@ -32,7 +32,7 @@ public class TokenService : ITokenService
         DateTime expiration) =>
         new(
             _configuration["ValidIssuer"],
-    _configuration["ValidAudience"],
+            _configuration["ValidAudience"],
             claims,
             expires: expiration,
             signingCredentials: credentials
@@ -56,7 +56,6 @@ public class TokenService : ITokenService
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            return claims;
             return claims;
         }
         catch (Exception e)

@@ -11,7 +11,7 @@ using PrimaryPixels.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace PrimaryPixelsTest
+namespace PrimaryPixelsTest.ControllerTests
 {
     [TestFixture]
     public class AuthControllerTest

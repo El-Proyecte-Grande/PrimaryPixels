@@ -8,7 +8,7 @@ const stripeKey = import.meta.env.VITE_STRIPE_KEY;
 const stripePromise = loadStripe(stripeKey);
 
 export default function PaymentPage({ orderInfo }) {
-  const [clientSecret, setClientSecret] = useState("");
+  //const [clientSecret, setClientSecret] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [orderId, setOrderId] = useState("");
 
@@ -25,7 +25,9 @@ export default function PaymentPage({ orderInfo }) {
           { headers: { "Content-Type": "application/json" } }
         );
         const clientSecretFromResponse = await intentResponse.data;
-        setClientSecret(clientSecretFromResponse)
+        console.log(clientSecretFromResponse);
+        sessionStorage.setItem("clientSecret", clientSecretFromResponse);
+        //setClientSecret(clientSecretFromResponse)
         setIsLoading(false);
       } catch (error) {
         console.error(error.message);
@@ -62,7 +64,7 @@ export default function PaymentPage({ orderInfo }) {
         isLoading ? (
           <Loading />
         ) : (
-          <Elements stripe={stripePromise} options={{ clientSecret: `${clientSecret}` }}>
+          <Elements stripe={stripePromise} options={{ clientSecret: `${sessionStorage.getItem("clientSecret")}` }}>
             <CheckoutForm orderId={orderId} />
           </Elements>
         )

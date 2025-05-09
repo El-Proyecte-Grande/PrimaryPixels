@@ -25,11 +25,13 @@ const CheckoutForm = ({ orderId }) => {
     if (result.error) {
       setErrorMessage(result.error.message);
       console.log(result.error.message);
+      sessionStorage.clear();
     } else {
       await apiWithAuth.post("/api/payments/success", { orderId: orderId }, {
         headers: { "Content-Type": "application/json" }
       });
       navigate(`/order/success/${orderId}`);
+      sessionStorage.clear();
     }
   }
 

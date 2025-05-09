@@ -17,8 +17,8 @@ export default function CartPage() {
 
         localStorage.getItem("token") === null ? false : true
     ));
-    const [isPaymentInProgress, setIsPaymentInProgress] = useState(false);
-    const [orderId, setOrderId] = useState();
+    //const [isPaymentInProgress, setIsPaymentInProgress] = useState(false);
+    sessionStorage.setItem("isPaymentInProgress", false);
 
     // If we are not logged in or if we want to search for other user's cart, it redirect us to the home page.
     useEffect(() => {
@@ -81,7 +81,8 @@ export default function CartPage() {
                 quantity: p.quantity,
             }))
         });
-        setIsPaymentInProgress(true);
+        //setIsPaymentInProgress(true);
+        sessionStorage.setItem("isPaymentInProgress", true);
     }
 
     
@@ -90,7 +91,7 @@ export default function CartPage() {
     return (
         <>
             <Navbar isLoggedIn={isLoggedIn} />
-            { isPaymentInProgress ?
+            { sessionStorage.getItem("isPaymentInProgress") ?
             <PaymentPage orderInfo={orderInfo}/> : (
             <div className="page-div">
                 <table className="left-section-cart">

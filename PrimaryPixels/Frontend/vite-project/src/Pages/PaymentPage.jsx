@@ -8,7 +8,6 @@ const stripeKey = import.meta.env.VITE_STRIPE_KEY;
 const stripePromise = loadStripe(stripeKey);
 
 export default function PaymentPage({ orderInfo }) {
-  //const [clientSecret, setClientSecret] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [orderId, setOrderId] = useState("");
 
@@ -27,7 +26,6 @@ export default function PaymentPage({ orderInfo }) {
         const clientSecretFromResponse = await intentResponse.data;
         console.log(clientSecretFromResponse);
         sessionStorage.setItem("clientSecret", clientSecretFromResponse);
-        //setClientSecret(clientSecretFromResponse)
         setIsLoading(false);
       } catch (error) {
         console.error(error.message);

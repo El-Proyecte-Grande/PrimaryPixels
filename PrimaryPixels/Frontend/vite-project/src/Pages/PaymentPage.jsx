@@ -9,18 +9,16 @@ const stripePromise = loadStripe(stripeKey);
 
 export default function PaymentPage({ orderInfo }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [orderId, setOrderId] = useState("");
 
 
   useEffect(() => {
 
     async function getPaymentIntent() {
       try {
-        const orderid = await submitOrder();
-        setOrderId(orderid);
+        sessionStorage.setItem("orderId", await submitOrder());
         const intentResponse = await apiWithAuth.post(
           "/api/Create-Payment-Intent",
-          { OrderId: orderid },
+          { OrderId: sessionStorage.getItem("orderId") },
           { headers: { "Content-Type": "application/json" } }
         );
         const clientSecretFromResponse = await intentResponse.data;
@@ -31,7 +29,12 @@ export default function PaymentPage({ orderInfo }) {
         console.error(error.message);
       }
     }
-    getPaymentIntent();
+    // Check if the user already has a client secret in session storage in case of a page refresh
+    if(!sessionStorage.getItem("clientSecret")) {
+      getPaymentIntent();
+    } else {
+      setIsLoading(false);
+    }
   }, []);
 
   async function submitOrder() {
@@ -63,7 +66,7 @@ export default function PaymentPage({ orderInfo }) {
           <Loading />
         ) : (
           <Elements stripe={stripePromise} options={{ clientSecret: `${sessionStorage.getItem("clientSecret")}` }}>
-            <CheckoutForm orderId={orderId} />
+            <CheckoutForm orderId={sessionStorage.getItem("orderId")} />
           </Elements>
         )
       }

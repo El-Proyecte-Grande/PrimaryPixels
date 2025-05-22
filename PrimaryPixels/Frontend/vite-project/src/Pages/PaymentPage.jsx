@@ -8,30 +8,33 @@ const stripeKey = import.meta.env.VITE_STRIPE_KEY;
 const stripePromise = loadStripe(stripeKey);
 
 export default function PaymentPage({ orderInfo }) {
-  const [clientSecret, setClientSecret] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [orderId, setOrderId] = useState("");
 
 
   useEffect(() => {
 
     async function getPaymentIntent() {
       try {
-        const orderid = await submitOrder();
-        setOrderId(orderid);
+        sessionStorage.setItem("orderId", await submitOrder());
         const intentResponse = await apiWithAuth.post(
           "/api/Create-Payment-Intent",
-          { OrderId: orderid },
+          { OrderId: sessionStorage.getItem("orderId") },
           { headers: { "Content-Type": "application/json" } }
         );
         const clientSecretFromResponse = await intentResponse.data;
-        setClientSecret(clientSecretFromResponse)
+        console.log(clientSecretFromResponse);
+        sessionStorage.setItem("clientSecret", clientSecretFromResponse);
         setIsLoading(false);
       } catch (error) {
         console.error(error.message);
       }
     }
-    getPaymentIntent();
+    // Check if the user already has a client secret in session storage in case of a page refresh
+    if(!sessionStorage.getItem("clientSecret")) {
+      getPaymentIntent();
+    } else {
+      setIsLoading(false);
+    }
   }, []);
 
   async function submitOrder() {
@@ -62,8 +65,8 @@ export default function PaymentPage({ orderInfo }) {
         isLoading ? (
           <Loading />
         ) : (
-          <Elements stripe={stripePromise} options={{ clientSecret: `${clientSecret}` }}>
-            <CheckoutForm orderId={orderId} />
+          <Elements stripe={stripePromise} options={{ clientSecret: `${sessionStorage.getItem("clientSecret")}` }}>
+            <CheckoutForm orderId={sessionStorage.getItem("orderId")} />
           </Elements>
         )
       }

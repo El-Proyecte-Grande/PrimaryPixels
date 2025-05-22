@@ -17,9 +17,11 @@ export default function CartPage() {
 
         localStorage.getItem("token") === null ? false : true
     ));
-    const [isPaymentInProgress, setIsPaymentInProgress] = useState(false);
-    const [orderId, setOrderId] = useState();
-
+    
+    if(sessionStorage.getItem("isPaymentInProgress") === null) {
+        sessionStorage.setItem("isPaymentInProgress", false);
+    }
+    
     // If we are not logged in or if we want to search for other user's cart, it redirect us to the home page.
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -74,6 +76,7 @@ export default function CartPage() {
     async function submitHandler(e) {
         e.preventDefault();
         
+        sessionStorage.setItem("isPaymentInProgress", true);
         setOrderInfo({
             ...orderInfo,
             orderProducts: productsInCart.map(p => ({
@@ -81,7 +84,6 @@ export default function CartPage() {
                 quantity: p.quantity,
             }))
         });
-        setIsPaymentInProgress(true);
     }
 
     
@@ -90,7 +92,7 @@ export default function CartPage() {
     return (
         <>
             <Navbar isLoggedIn={isLoggedIn} />
-            { isPaymentInProgress ?
+            { sessionStorage.getItem("isPaymentInProgress") === "true" ?
             <PaymentPage orderInfo={orderInfo}/> : (
             <div className="page-div">
                 <table className="left-section-cart">
@@ -113,15 +115,15 @@ export default function CartPage() {
                 </table>
                 <div className="right-section-cart">
                     <form className="form-div" onSubmit={(e) => submitHandler(e)}>
-                        <input className="order-input" type="text" placeholder="First Name"
+                        <input required className="order-input" type="text" placeholder="First Name"
                             onChange={e => setOrderInfo(prev => ({ ...prev, firstName: e.target.value }))} />
-                        <input className="order-input" type="text" placeholder="Last Name"
+                        <input required className="order-input" type="text" placeholder="Last Name"
                             onChange={e => setOrderInfo(prev => ({ ...prev, lastName: e.target.value }))} />
-                        <input className="order-input" type="text" placeholder="City"
+                        <input required className="order-input" type="text" placeholder="City"
                             onChange={e => setOrderInfo(prev => ({ ...prev, city: e.target.value }))} />
-                        <input className="order-input" type="text" placeholder="Postcode"
+                        <input required className="order-input" type="text" placeholder="Postcode"
                             onChange={e => setOrderInfo(prev => ({ ...prev, postcode: e.target.value }))} />
-                        <input className="order-input" type="text" placeholder="Address"
+                        <input required className="order-input" type="text" placeholder="Address"
                             onChange={e => setOrderInfo(prev => ({ ...prev, address: e.target.value }))} />
                         <button type="submit" className="order-button" href="/">Pay</button>
                     </form>

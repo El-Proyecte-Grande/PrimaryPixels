@@ -66,7 +66,7 @@ export default function PaymentPage({ orderInfo }) {
           <Loading />
         ) : (
           <Elements stripe={stripePromise} options={{ clientSecret: `${sessionStorage.getItem("clientSecret")}` }}>
-            <CheckoutForm orderId={sessionStorage.getItem("orderId")} />
+            <CheckoutForm orderId={sessionStorage.getItem("orderId")} setIsLoading={setIsLoading}/>
           </Elements>
         )
       }

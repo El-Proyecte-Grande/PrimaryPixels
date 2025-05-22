@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
 
 
-const CheckoutForm = ({ orderId }) => {
+const CheckoutForm = ({ orderId, setIsLoading }) => {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ const CheckoutForm = ({ orderId }) => {
       elements,
       redirect: "if_required"
     });
+    setIsLoading(true);
 
     if (result.error) {
       setErrorMessage(result.error.message);

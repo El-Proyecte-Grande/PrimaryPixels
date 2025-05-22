@@ -26,6 +26,7 @@ const CheckoutForm = ({ orderId, setIsLoading }) => {
     if (result.error) {
       setErrorMessage(result.error.message);
       console.log(result.error.message);
+      setIsLoading(false);
       sessionStorage.clear();
     } else {
       await apiWithAuth.post("/api/payments/success", { orderId: orderId }, {

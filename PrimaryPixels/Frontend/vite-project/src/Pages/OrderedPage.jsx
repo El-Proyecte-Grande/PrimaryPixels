@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./OrderedPage.scss";
 import Navbar from "../Components/HomePageComponents/Navbar"
 import { useState } from "react";
+import BackButton from "../Components/BackButton/BackButton";
 
 export default function OrderedPage() {
 
@@ -18,6 +19,7 @@ export default function OrderedPage() {
                 <h1> The order was submitted successfully </h1>
                 <h1> ORDER NUMBER: {orderId}</h1>
             </div>
+            <BackButton/>
         </>
     )
 }

@@ -16,10 +16,10 @@ export default function OrderedPage() {
         <>
             <Navbar isLoggedIn={isLoggedIn} />
             <div className="ordered-page">
-                <h1> The order was submitted successfully </h1>
-                <h1> ORDER NUMBER: {orderId}</h1>
+                <h2> The order was submitted successfully </h2>
+                <h2> ORDER NUMBER: {orderId}</h2>
+                <BackButton/>
             </div>
-            <BackButton/>
         </>
     )
 }
